@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { formatPositionNewestFirst } from "@/lib/format-position";
 import type { Leader } from "@/types";
 
 interface LeaderCardProps {
@@ -8,12 +9,9 @@ interface LeaderCardProps {
   onClick: (leader: Leader) => void;
 }
 
-function formatPosition(text: string): string {
-  return text.replace(/\s*\|\s*/g, "\n").replace(/;\s*/g, "\n");
-}
-
 export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
   const isTopTier = leader.tier === "top";
+  const positionText = formatPositionNewestFirst(leader.position);
 
   return (
     <button
@@ -40,7 +38,7 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
       <div className="exhibition-leader-info flex w-full shrink-0 flex-col items-center justify-center">
         <p className="exhibition-label">Đồng chí</p>
         <h3 className="exhibition-name">{leader.name}</h3>
-        <p className="exhibition-position">{formatPosition(leader.position)}</p>
+        <p className="exhibition-position">{positionText}</p>
       </div>
     </button>
   );

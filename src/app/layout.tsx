@@ -11,7 +11,7 @@ const exhibitionSerif = Cormorant_Garamond({
 
 const lato = Lato({
   subsets: ["latin", "latin-ext"],
-  weight: ["700", "900"],
+  weight: ["400", "700", "900"],
   variable: "--font-lato",
 });
 
