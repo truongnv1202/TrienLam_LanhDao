@@ -12,8 +12,8 @@ mkdir -p \
   "$APP_ROOT/public/uploads/portraits" \
   "$APP_ROOT/public/certbot" \
   "$APP_ROOT/public/videos" \
-  # Đặt video nền 16:9: public/videos/exhibition-background.mp4
   "$APP_ROOT/public/images"
+# Video nền 16:9: đặt file public/videos/exhibition-background.mp4
 
 # UID user nextjs trong container Docker
 chown -R 1001:1001 "$APP_ROOT/data" "$APP_ROOT/public/uploads" 2>/dev/null \
