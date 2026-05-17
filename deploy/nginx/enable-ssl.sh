@@ -10,6 +10,7 @@ EMAIL="${CERTBOT_EMAIL:-}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SNIPPETS_DIR="/etc/nginx/snippets"
+CONF_D_DIR="/etc/nginx/conf.d"
 SITES_AVAILABLE="/etc/nginx/sites-available"
 SITES_ENABLED="/etc/nginx/sites-enabled"
 SITE_NAME="lanhdao.gamegiaoduc.co.conf"
@@ -36,10 +37,11 @@ if ! command -v certbot >/dev/null; then
   apt-get install -y certbot
 fi
 
-mkdir -p "$APP_ROOT/public/certbot" "$SNIPPETS_DIR"
+mkdir -p "$APP_ROOT/public/certbot" "$SNIPPETS_DIR" "$CONF_D_DIR"
 chown -R 1001:1001 "$APP_ROOT/data" "$APP_ROOT/public/uploads" 2>/dev/null || true
 
 echo "==> Cài cấu hình HTTP tạm (cho ACME challenge)..."
+cp "$SCRIPT_DIR/conf.d/lanhdao-upstream.conf" "$CONF_D_DIR/lanhdao-upstream.conf"
 cp "$SCRIPT_DIR/snippets/lanhdao-proxy.conf" "$SNIPPETS_DIR/lanhdao-proxy.conf"
 cp "$SCRIPT_DIR/snippets/lanhdao-locations.conf" "$SNIPPETS_DIR/lanhdao-locations.conf"
 cp "$SCRIPT_DIR/lanhdao.gamegiaoduc.co.conf" "$SITES_AVAILABLE/$SITE_NAME"

@@ -6,6 +6,7 @@ set -euo pipefail
 APP_ROOT="/opt/TrienLam_LanhDao"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SNIPPETS_DIR="/etc/nginx/snippets"
+CONF_D_DIR="/etc/nginx/conf.d"
 SITES_AVAILABLE="/etc/nginx/sites-available"
 SITES_ENABLED="/etc/nginx/sites-enabled"
 SITE_NAME="lanhdao.gamegiaoduc.co.conf"
@@ -20,11 +21,12 @@ if [[ ! -d "$APP_ROOT" ]]; then
   exit 1
 fi
 
-mkdir -p "$SNIPPETS_DIR" "$APP_ROOT/public/certbot" "$APP_ROOT/data" "$APP_ROOT/public/uploads/portraits"
+mkdir -p "$SNIPPETS_DIR" "$CONF_D_DIR" "$APP_ROOT/public/certbot" "$APP_ROOT/data" "$APP_ROOT/public/uploads/portraits"
 
 chown -R 1001:1001 "$APP_ROOT/data" "$APP_ROOT/public/uploads" 2>/dev/null \
   || chmod -R a+rwX "$APP_ROOT/data" "$APP_ROOT/public/uploads"
 
+cp "$SCRIPT_DIR/conf.d/lanhdao-upstream.conf" "$CONF_D_DIR/lanhdao-upstream.conf"
 cp "$SCRIPT_DIR/cloudflare.conf" "$SNIPPETS_DIR/cloudflare-realip.conf"
 cp "$SCRIPT_DIR/snippets/lanhdao-proxy.conf" "$SNIPPETS_DIR/lanhdao-proxy.conf"
 cp "$SCRIPT_DIR/snippets/lanhdao-locations.conf" "$SNIPPETS_DIR/lanhdao-locations.conf"
