@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState, FormEvent } from "react";
+import { useCallback, useEffect, useState, FormEvent, ChangeEvent } from "react";
+import Image from "next/image";
 import {
   Plus,
   Save,
@@ -9,6 +10,8 @@ import {
   Loader2,
   ListPlus,
   RotateCcw,
+  Upload,
+  ImageIcon,
 } from "lucide-react";
 import type { Leader, LeaderTier, TimelineEvent } from "@/types";
 
@@ -36,10 +39,23 @@ const EMPTY_MILESTONE: TimelineEvent = {
   description: "",
 };
 
+function parseApiError(data: unknown, fallback: string): string {
+  if (
+    typeof data === "object" &&
+    data !== null &&
+    "error" in data &&
+    typeof (data as { error: string }).error === "string"
+  ) {
+    return (data as { error: string }).error;
+  }
+  return fallback;
+}
+
 export default function AdminPage() {
   const [leaders, setLeaders] = useState<Leader[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: "ok" | "err"; text: string } | null>(
     null
   );
@@ -48,6 +64,8 @@ export default function AdminPage() {
   const [timeline, setTimeline] = useState<TimelineEvent[]>([]);
   const [milestoneDraft, setMilestoneDraft] = useState<TimelineEvent>(EMPTY_MILESTONE);
   const [isEditing, setIsEditing] = useState(false);
+  const [portraitFile, setPortraitFile] = useState<File | null>(null);
+  const [portraitPreview, setPortraitPreview] = useState<string | null>(null);
 
   const fetchLeaders = useCallback(async () => {
     setLoading(true);
@@ -67,11 +85,28 @@ export default function AdminPage() {
     void fetchLeaders();
   }, [fetchLeaders]);
 
+  useEffect(() => {
+    return () => {
+      if (portraitPreview?.startsWith("blob:")) {
+        URL.revokeObjectURL(portraitPreview);
+      }
+    };
+  }, [portraitPreview]);
+
+  const clearPortraitSelection = () => {
+    if (portraitPreview?.startsWith("blob:")) {
+      URL.revokeObjectURL(portraitPreview);
+    }
+    setPortraitFile(null);
+    setPortraitPreview(null);
+  };
+
   const resetForm = () => {
     setForm(EMPTY_FORM);
     setTimeline([]);
     setMilestoneDraft(EMPTY_MILESTONE);
     setIsEditing(false);
+    clearPortraitSelection();
     setMessage(null);
   };
 
@@ -87,8 +122,47 @@ export default function AdminPage() {
     setTimeline([...leader.timeline]);
     setMilestoneDraft(EMPTY_MILESTONE);
     setIsEditing(true);
+    clearPortraitSelection();
+    setPortraitPreview(leader.portraitUrl || null);
     setMessage(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handlePortraitFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (portraitPreview?.startsWith("blob:")) {
+      URL.revokeObjectURL(portraitPreview);
+    }
+    setPortraitFile(file);
+    setPortraitPreview(URL.createObjectURL(file));
+    setMessage(null);
+  };
+
+  const uploadPortrait = async (leaderId: string): Promise<string | null> => {
+    if (!portraitFile) return form.portraitUrl.trim() || null;
+
+    const body = new FormData();
+    body.append("file", portraitFile);
+    body.append("leaderId", leaderId);
+
+    const res = await fetch("/api/leaders/upload", {
+      method: "POST",
+      body,
+    });
+    const data: unknown = await res.json();
+    if (!res.ok) {
+      throw new Error(parseApiError(data, "Tải ảnh thất bại."));
+    }
+    if (
+      typeof data === "object" &&
+      data !== null &&
+      "url" in data &&
+      typeof (data as { url: string }).url === "string"
+    ) {
+      return (data as { url: string }).url;
+    }
+    throw new Error("Phản hồi upload không hợp lệ.");
   };
 
   const addMilestone = () => {
@@ -119,6 +193,36 @@ export default function AdminPage() {
     setTimeline((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleDelete = async (leader: Leader) => {
+    const confirmed = window.confirm(
+      `Xóa "${leader.name}"? Hành động không thể hoàn tác.`
+    );
+    if (!confirmed) return;
+
+    setDeletingId(leader.id);
+    setMessage(null);
+    try {
+      const res = await fetch(
+        `/api/leaders?id=${encodeURIComponent(leader.id)}`,
+        { method: "DELETE" }
+      );
+      const data: unknown = await res.json();
+      if (!res.ok) {
+        throw new Error(parseApiError(data, "Xóa thất bại."));
+      }
+      setMessage({ type: "ok", text: `Đã xóa ${leader.name}.` });
+      if (form.id === leader.id) resetForm();
+      await fetchLeaders();
+    } catch (err) {
+      setMessage({
+        type: "err",
+        text: err instanceof Error ? err.message : "Xóa thất bại.",
+      });
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!form.name.trim() || !form.position.trim()) {
@@ -129,19 +233,27 @@ export default function AdminPage() {
     setSaving(true);
     setMessage(null);
 
-    const payload: Leader = {
-      id: form.id.trim() || `leader-${Date.now()}`,
-      name: form.name.trim(),
-      position: form.position.trim(),
-      portraitUrl:
-        form.portraitUrl.trim() ||
-        "https://placehold.co/400x520/800000/d4af37?text=Anh+chan+dung",
-      biography: form.biography.trim(),
-      tier: form.tier,
-      timeline,
-    };
+    const leaderId = form.id.trim() || `leader-${Date.now()}`;
 
     try {
+      let portraitUrl = form.portraitUrl.trim();
+      if (portraitFile) {
+        const uploaded = await uploadPortrait(leaderId);
+        if (uploaded) portraitUrl = uploaded;
+      }
+
+      const payload: Leader = {
+        id: leaderId,
+        name: form.name.trim(),
+        position: form.position.trim(),
+        portraitUrl:
+          portraitUrl ||
+          "https://placehold.co/400x520/800000/d4af37?text=Anh+chan+dung",
+        biography: form.biography.trim(),
+        tier: form.tier,
+        timeline,
+      };
+
       const res = await fetch("/api/leaders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -149,21 +261,21 @@ export default function AdminPage() {
       });
       const data: unknown = await res.json();
       if (!res.ok) {
-        const err =
-          typeof data === "object" &&
-          data !== null &&
-          "error" in data &&
-          typeof (data as { error: string }).error === "string"
-            ? (data as { error: string }).error
-            : "Lưu thất bại.";
-        throw new Error(err);
+        throw new Error(parseApiError(data, "Lưu thất bại."));
       }
+
       setMessage({
         type: "ok",
         text: isEditing ? "Cập nhật thành công." : "Thêm mới thành công.",
       });
+      clearPortraitSelection();
       await fetchLeaders();
       if (!isEditing) resetForm();
+      else if (typeof data === "object" && data !== null && "portraitUrl" in data) {
+        const saved = data as Leader;
+        setForm((f) => ({ ...f, id: saved.id, portraitUrl: saved.portraitUrl }));
+        setPortraitPreview(saved.portraitUrl);
+      }
     } catch (err) {
       setMessage({
         type: "err",
@@ -174,6 +286,8 @@ export default function AdminPage() {
     }
   };
 
+  const previewSrc = portraitPreview || form.portraitUrl || null;
+
   return (
     <div className="min-h-[calc(100vh-57px)] bg-gradient-to-b from-[#800000] via-[#6b0000] to-[#4a0000]">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
@@ -182,12 +296,11 @@ export default function AdminPage() {
             Quản trị nội dung
           </h1>
           <p className="mt-1 text-sm text-white/75">
-            Thêm mới hoặc chỉnh sửa thông tin lãnh đạo và các mốc timeline
+            Thêm, sửa, xóa lãnh đạo — upload ảnh chân dung hoặc dán URL
           </p>
         </header>
 
         <div className="grid gap-8 lg:grid-cols-2">
-          {/* Form — trái */}
           <form
             onSubmit={handleSubmit}
             className="space-y-5 rounded-xl border border-[#d4af37]/35 bg-[#5c0000]/60 p-5 shadow-lg backdrop-blur sm:p-6"
@@ -265,24 +378,60 @@ export default function AdminPage() {
               />
             </div>
 
-            <div>
+            {/* Ảnh chân dung */}
+            <fieldset className="rounded-lg border border-dashed border-[#d4af37]/40 p-4">
+              <legend className="px-2 text-sm font-semibold text-[#ffdf7a]">
+                Ảnh chân dung
+              </legend>
+
+              {previewSrc && (
+                <div className="leader-portrait-frame relative mx-auto mb-3 h-44 w-36 overflow-hidden rounded-lg border border-[#d4af37]/50">
+                  <Image
+                    src={previewSrc}
+                    alt="Xem trước ảnh"
+                    fill
+                    unoptimized={previewSrc.startsWith("blob:")}
+                    className="object-contain object-bottom"
+                    sizes="144px"
+                  />
+                </div>
+              )}
+
               <label
-                htmlFor="portraitUrl"
-                className="mb-1 block text-xs font-medium text-[#d4af37]"
+                htmlFor="portraitFile"
+                className="mb-3 flex cursor-pointer items-center justify-center gap-2 rounded-md border border-[#d4af37]/50 bg-[#800000]/60 py-2.5 text-sm text-[#ffdf7a] transition hover:bg-[#a30000]/60"
               >
-                URL ảnh chân dung
+                <Upload className="h-4 w-4" />
+                {portraitFile ? "Đổi ảnh tải lên" : "Chọn ảnh từ máy (tối đa 5MB)"}
               </label>
               <input
-                id="portraitUrl"
-                type="url"
-                value={form.portraitUrl}
-                onChange={(e) =>
-                  setForm((f) => ({ ...f, portraitUrl: e.target.value }))
-                }
-                className="w-full rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white outline-none focus:border-[#ffdf7a] focus:ring-1 focus:ring-[#ffdf7a]/50"
-                placeholder="https://..."
+                id="portraitFile"
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                className="sr-only"
+                onChange={handlePortraitFileChange}
               />
-            </div>
+
+              <p className="mb-2 text-center text-[10px] uppercase tracking-wider text-[#d4af37]/70">
+                hoặc dán URL
+              </p>
+
+              <div className="relative">
+                <ImageIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#d4af37]/60" />
+                <input
+                  id="portraitUrl"
+                  type="url"
+                  value={form.portraitUrl}
+                  onChange={(e) => {
+                    const url = e.target.value;
+                    setForm((f) => ({ ...f, portraitUrl: url }));
+                    if (!portraitFile) setPortraitPreview(url || null);
+                  }}
+                  className="w-full rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 py-2 pl-9 pr-3 text-sm text-white outline-none focus:border-[#ffdf7a]"
+                  placeholder="https://... hoặc /uploads/portraits/..."
+                />
+              </div>
+            </fieldset>
 
             <div>
               <label
@@ -322,7 +471,6 @@ export default function AdminPage() {
               </select>
             </div>
 
-            {/* Timeline động */}
             <fieldset className="rounded-lg border border-dashed border-[#d4af37]/40 p-4">
               <legend className="px-2 text-sm font-semibold text-[#ffdf7a]">
                 Mốc Timeline
@@ -345,7 +493,7 @@ export default function AdminPage() {
                   onChange={(e) =>
                     setMilestoneDraft((m) => ({ ...m, event: e.target.value }))
                   }
-                  className="rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white sm:col-span-1"
+                  className="rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white"
                 />
                 <input
                   type="text"
@@ -411,10 +559,9 @@ export default function AdminPage() {
             </button>
           </form>
 
-          {/* Danh sách — phải */}
           <section className="rounded-xl border border-[#d4af37]/35 bg-[#5c0000]/40 p-5 sm:p-6">
             <h2 className="mb-4 text-lg font-semibold text-[#ffdf7a]">
-              Danh sách lãnh đạo
+              Danh sách lãnh đạo ({leaders.length})
             </h2>
 
             {loading ? (
@@ -428,24 +575,54 @@ export default function AdminPage() {
                 {leaders.map((leader) => (
                   <li
                     key={leader.id}
-                    className="flex flex-col gap-2 rounded-lg border border-[#d4af37]/25 bg-[#4a0000]/50 p-4 sm:flex-row sm:items-center sm:justify-between"
+                    className="flex gap-3 rounded-lg border border-[#d4af37]/25 bg-[#4a0000]/50 p-3"
                   >
-                    <div>
-                      <p className="font-semibold text-[#ffdf7a]">{leader.name}</p>
-                      <p className="text-xs text-white/75">{leader.position}</p>
-                      <p className="mt-1 text-[10px] uppercase text-[#d4af37]/80">
-                        {leader.tier === "top" ? "Hàng trên" : "Hàng dưới"} ·{" "}
-                        {leader.timeline.length} mốc
-                      </p>
+                    <div className="leader-portrait-frame relative h-16 w-14 shrink-0 overflow-hidden rounded-md border border-[#d4af37]/40">
+                      <Image
+                        src={leader.portraitUrl}
+                        alt={leader.name}
+                        fill
+                        className="object-contain object-bottom"
+                        sizes="56px"
+                      />
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => handleEdit(leader)}
-                      className="flex shrink-0 items-center justify-center gap-1.5 rounded-md border border-[#d4af37]/50 px-3 py-1.5 text-sm text-[#ffdf7a] transition hover:bg-[#800000]/70"
-                    >
-                      <Pencil className="h-4 w-4" />
-                      Sửa
-                    </button>
+                    <div className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="min-w-0">
+                        <p className="truncate font-semibold text-[#ffdf7a]">
+                          {leader.name}
+                        </p>
+                        <p className="truncate text-xs text-white/75">
+                          {leader.position}
+                        </p>
+                        <p className="mt-1 text-[10px] uppercase text-[#d4af37]/80">
+                          {leader.tier === "top" ? "Hàng trên" : "Hàng dưới"} ·{" "}
+                          {leader.timeline.length} mốc
+                        </p>
+                      </div>
+                      <div className="flex shrink-0 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleEdit(leader)}
+                          className="flex items-center gap-1 rounded-md border border-[#d4af37]/50 px-2.5 py-1.5 text-xs text-[#ffdf7a] transition hover:bg-[#800000]/70"
+                        >
+                          <Pencil className="h-3.5 w-3.5" />
+                          Sửa
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => void handleDelete(leader)}
+                          disabled={deletingId === leader.id}
+                          className="flex items-center gap-1 rounded-md border border-red-400/50 px-2.5 py-1.5 text-xs text-red-200 transition hover:bg-red-900/40 disabled:opacity-50"
+                        >
+                          {deletingId === leader.id ? (
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          ) : (
+                            <Trash2 className="h-3.5 w-3.5" />
+                          )}
+                          Xóa
+                        </button>
+                      </div>
+                    </div>
                   </li>
                 ))}
               </ul>

@@ -16,4 +16,7 @@ export interface Leader {
   timeline: TimelineEvent[];
 }
 
-export type LeaderInput = Omit<Leader, "id"> & { id?: string };
+export type LeaderInput = Omit<Leader, "id" | "portraitUrl"> & {
+  id?: string;
+  portraitUrl?: string;
+};

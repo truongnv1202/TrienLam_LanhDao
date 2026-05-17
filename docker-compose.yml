@@ -1,17 +1,23 @@
+# Local:  docker compose up -d --build
+# Server: docker compose --env-file deploy/env.server -f docker-compose.yml up -d --build
+#          (mã nguồn phải nằm tại /opt/TrienLam_LanhDao)
+
 services:
   lanhdao:
     build:
-      context: .
+      context: ${APP_ROOT:-.}
       dockerfile: Dockerfile
     container_name: trienlam-lanhdao
     restart: unless-stopped
-    # Chỉ bind localhost — Nginx host proxy vào 5006
     ports:
-      - "127.0.0.1:5006:3000"
+      - "127.0.0.1:${APP_PORT:-5006}:3000"
     environment:
       NODE_ENV: production
       PORT: "3000"
       HOSTNAME: "0.0.0.0"
+    volumes:
+      - ${APP_ROOT:-.}/data:/app/data
+      - ${APP_ROOT:-.}/public/uploads:/app/public/uploads
     healthcheck:
       test: ["CMD", "curl", "-f", "http://127.0.0.1:3000/api/leaders"]
       interval: 30s

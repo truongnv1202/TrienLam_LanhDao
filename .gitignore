@@ -18,6 +18,11 @@
 # production
 /build
 
+# persisted leaders data (seed tạo lần đầu trên server)
+/data/leaders.json
+/public/uploads/portraits/*
+!/public/uploads/portraits/.gitkeep
+
 # misc
 .DS_Store
 *.pem
