@@ -188,13 +188,16 @@ body {
 }
 
 .exhibition-emblem {
-  width: clamp(3.25rem, 5.5vw, 5.25rem);
-  height: clamp(3.25rem, 5.5vw, 5.25rem);
+  width: clamp(3.25rem, 5.5vw, 5.25rem) !important;
+  height: clamp(3.25rem, 5.5vw, 5.25rem) !important;
+  /* Ảnh nền đen — hòa với nền đỏ triển lãm */
+  mix-blend-mode: screen;
 }
 
-.exhibition-star {
-  width: clamp(3.5rem, 6.2vw, 6.75rem);
-  height: clamp(3.5rem, 6.2vw, 6.75rem);
+.exhibition-flag {
+  width: clamp(3.75rem, 6.8vw, 7.25rem) !important;
+  height: clamp(3.75rem, 6.8vw, 7.25rem) !important;
+  mix-blend-mode: screen;
 }
 
 .exhibition-header-titles {
