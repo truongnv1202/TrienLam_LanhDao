@@ -27,6 +27,7 @@ chown -R 1001:1001 "$APP_ROOT/data" "$APP_ROOT/public/uploads" 2>/dev/null \
 
 cp "$SCRIPT_DIR/cloudflare.conf" "$SNIPPETS_DIR/cloudflare-realip.conf"
 cp "$SCRIPT_DIR/snippets/lanhdao-proxy.conf" "$SNIPPETS_DIR/lanhdao-proxy.conf"
+cp "$SCRIPT_DIR/snippets/lanhdao-locations.conf" "$SNIPPETS_DIR/lanhdao-locations.conf"
 cp "$SCRIPT_DIR/$SITE_NAME" "$SITES_AVAILABLE/$SITE_NAME"
 
 ln -sf "$SITES_AVAILABLE/$SITE_NAME" "$SITES_ENABLED/$SITE_NAME"
@@ -43,3 +44,6 @@ echo "App root: $APP_ROOT"
 echo "Kiểm tra:"
 echo "  curl -s http://127.0.0.1:5006/api/health"
 echo "  curl -I -H 'Host: lanhdao.gamegiaoduc.co' http://127.0.0.1/"
+echo ""
+echo "Bật HTTPS (443) + Cloudflare Full:"
+echo "  sudo bash $APP_ROOT/deploy/nginx/enable-ssl.sh"
