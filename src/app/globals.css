@@ -107,99 +107,104 @@ body {
   animation: modal-in 0.35s ease-out forwards;
 }
 
-.home-video-bg {
-  filter: brightness(0.92) saturate(1.05);
+/* Video nền 16:9 toàn màn hình */
+.exhibition-video-bg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.9) saturate(1.08);
 }
 
-/* —— Triển lãm: khớp ảnh mẫu —— */
-.exhibition-page {
-  background: #7a1414;
-}
-
-.exhibition-bg-base {
-  background: radial-gradient(
-    ellipse 85% 70% at 50% 42%,
-    #b82828 0%,
-    #962020 35%,
-    #721818 60%,
-    #4a0c0c 100%
-  );
-}
-
-.exhibition-bg-texture {
-  opacity: 0.35;
-  background-image:
-    repeating-linear-gradient(
-      -32deg,
-      transparent,
-      transparent 14px,
-      rgba(0, 0, 0, 0.06) 14px,
-      rgba(0, 0, 0, 0.06) 15px
-    ),
-    repeating-linear-gradient(
-      32deg,
-      transparent,
-      transparent 14px,
-      rgba(255, 255, 255, 0.03) 14px,
-      rgba(255, 255, 255, 0.03) 15px
-    );
-}
-
-.exhibition-bg-rays {
-  background: linear-gradient(
-    118deg,
-    transparent 32%,
-    rgba(255, 215, 130, 0.2) 48%,
-    rgba(255, 190, 90, 0.1) 54%,
-    transparent 70%
-  );
-}
-
-.exhibition-bg-vignette {
+.exhibition-video-overlay {
   background:
-    radial-gradient(ellipse at 50% 100%, rgba(0, 0, 0, 0.45) 0%, transparent 55%),
-    radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.25) 0%, transparent 40%);
+    radial-gradient(
+      ellipse 90% 75% at 50% 40%,
+      rgba(120, 20, 20, 0.15) 0%,
+      rgba(60, 8, 8, 0.45) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(40, 0, 0, 0.35) 0%,
+      rgba(74, 12, 12, 0.2) 45%,
+      rgba(30, 0, 0, 0.5) 100%
+    );
+  pointer-events: none;
 }
 
-.exhibition-shell {
-  --row-block-w: min(92vw, 54.5rem);
-  --row-gap-x: 0.4rem;
-  --row-gap-y: clamp(0.5rem, 1.35vh, 0.9rem);
+.exhibition-page {
+  background: #4a0c0c;
+}
+
+/* Canvas 1920×1080 — tỷ lệ khớp ảnh mẫu */
+.exhibition-viewport {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.exhibition-canvas {
+  --row-block-w: 1764px;
+  --row-gap-x: 10px;
+  --row-gap-y: 24px;
   --card-top-w: calc((var(--row-block-w) - var(--row-gap-x) * 5) / 6);
   --card-bottom-w: calc((var(--row-block-w) - var(--row-gap-x) * 6) / 7);
+  --card-top-h: 398px;
+  --card-bottom-h: 362px;
+  --info-h-top: 96px;
+  --info-h-bottom: 88px;
+
+  width: 1920px;
+  height: 1080px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 78px 28px;
+  transform-origin: center center;
 }
 
-/* Header — huy hiệu trái, cờ phải, tiêu đề giữa */
 .exhibition-header {
   position: relative;
-  height: clamp(4rem, 10.5vh, 5.75rem);
-  margin-bottom: clamp(0.15rem, 0.5vh, 0.4rem);
+  flex-shrink: 0;
+  height: 132px;
+  margin-bottom: 8px;
 }
 
 .exhibition-emblem {
   position: absolute;
   left: 0;
-  top: 0;
-  width: clamp(3.5rem, 5.8vw, 5.5rem) !important;
-  height: clamp(3.5rem, 5.8vw, 5.5rem) !important;
+  top: 4px;
+  width: 112px !important;
+  height: 112px !important;
   mix-blend-mode: screen;
 }
 
 .exhibition-flag {
   position: absolute;
   right: 0;
-  top: -0.15rem;
-  width: clamp(4rem, 7vw, 6.5rem) !important;
-  height: clamp(4rem, 7vw, 6.5rem) !important;
-  transform: rotate(12deg);
+  top: 0;
+  width: 132px !important;
+  height: 132px !important;
+  transform: rotate(14deg);
   mix-blend-mode: screen;
 }
 
 .exhibition-header-titles {
   position: absolute;
   left: 50%;
-  top: 52%;
-  width: min(78%, 44rem);
+  top: 54%;
+  width: 920px;
   transform: translate(-50%, -50%);
   text-align: center;
 }
@@ -211,31 +216,56 @@ body {
 }
 
 .exhibition-title-sub {
-  font-size: clamp(1.1rem, 2.25vw, 1.9rem);
+  font-size: 36px;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   color: #e8c547;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .exhibition-title-main {
-  margin-top: 0.15rem;
-  font-size: clamp(1.2rem, 2.65vw, 2.6rem);
+  margin-top: 4px;
+  font-size: 50px;
   font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: 0.05em;
+  line-height: 1.06;
+  letter-spacing: 0.04em;
   color: #f5d76e;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
 }
 
-/* Khối 2 hàng — cùng chiều rộng, căn giữa */
+.exhibition-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.exhibition-loading {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.exhibition-error {
+  margin: auto;
+  max-width: 640px;
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 18px;
+  color: #fecaca;
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  border-radius: 8px;
+  background: rgba(127, 29, 29, 0.5);
+}
+
 .exhibition-board {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--row-gap-y);
   width: var(--row-block-w);
-  max-width: 100%;
 }
 
 .exhibition-row {
@@ -247,115 +277,159 @@ body {
   width: var(--row-block-w);
 }
 
-.exhibition-card-top,
-.exhibition-card-bottom {
-  flex: 0 0 auto;
-  min-width: 0;
-}
-
 .exhibition-card-top {
   width: var(--card-top-w);
+  height: var(--card-top-h);
 }
 
 .exhibition-card-bottom {
   width: var(--card-bottom-w);
+  height: var(--card-bottom-h);
 }
 
 .exhibition-leader-card {
-  border: 1.5px solid rgba(232, 197, 71, 0.85);
-  border-radius: 5px;
+  border: 2px solid rgba(232, 197, 71, 0.9);
+  border-radius: 6px;
   box-shadow:
-    0 0 8px rgba(232, 197, 71, 0.28),
-    0 3px 12px rgba(0, 0, 0, 0.35);
-}
-
-.exhibition-portrait-top {
-  aspect-ratio: 4 / 4.85;
-}
-
-.exhibition-portrait-bottom {
-  aspect-ratio: 4 / 4.65;
+    0 0 10px rgba(232, 197, 71, 0.3),
+    0 4px 14px rgba(0, 0, 0, 0.35);
 }
 
 .exhibition-leader-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 6px 8px 8px;
   background: linear-gradient(180deg, #5a1212 0%, #4a0404 100%);
-  min-height: clamp(3.5rem, 9vh, 4.5rem);
-  padding-bottom: 0.35rem;
+}
+
+.exhibition-card-top .exhibition-leader-info {
+  height: var(--info-h-top);
+}
+
+.exhibition-card-bottom .exhibition-leader-info {
+  height: var(--info-h-bottom);
 }
 
 .exhibition-label {
-  font-size: clamp(7px, 0.65vw, 9px);
+  font-size: 11px;
   font-weight: 500;
   color: #e8c547;
   line-height: 1.1;
 }
 
 .exhibition-name {
-  margin-top: 1px;
-  font-size: clamp(9px, 0.85vw, 12px);
+  margin-top: 2px;
+  font-size: 15px;
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.12;
   color: #f5d76e;
 }
 
 .exhibition-card-top .exhibition-name {
-  font-size: clamp(10px, 0.92vw, 13px);
+  font-size: 16px;
 }
 
 .exhibition-position {
-  margin-top: 2px;
-  font-size: clamp(6.5px, 0.58vw, 8px);
-  line-height: 1.28;
-  color: rgba(255, 255, 255, 0.92);
+  margin-top: 3px;
+  font-size: 10px;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.93);
   display: -webkit-box;
-  -webkit-line-clamp: 6;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-align: center;
 }
 
-@media (max-width: 1100px) {
-  .exhibition-shell {
-    --row-block-w: min(94vw, 42rem);
-    --row-gap-x: 0.3rem;
-  }
+.exhibition-card-bottom .exhibition-position {
+  font-size: 9px;
+  -webkit-line-clamp: 4;
 }
 
 @media (max-width: 768px) {
-  .exhibition-page {
-    height: auto;
-    min-height: 100dvh;
-    overflow-x: hidden;
-    overflow-y: auto;
+  .exhibition-viewport {
+    align-items: flex-start;
+    overflow: auto;
   }
 
-  .exhibition-shell {
-    height: auto;
-    min-height: 100dvh;
-  }
-
-  .exhibition-board {
-    width: 100%;
-  }
-
-  .exhibition-row {
-    flex-wrap: wrap;
-    width: min(22rem, 100%);
-    --row-block-w: min(22rem, 100%);
-  }
-
-  .exhibition-card-top,
-  .exhibition-card-bottom {
-    width: calc(50% - 0.3rem) !important;
+  .exhibition-canvas {
+    transform: scale(min(calc(100vw / 1920), calc(100vh / 1080))) !important;
+    margin: 12px auto;
   }
 }
 
-/* Nền chân dung trong thẻ */
+/* Nền vân vàng–đen: một ảnh chung, căn liền mạch theo từng hàng trong khối thẻ */
+.exhibition-board {
+  --portrait-bg: url("/images/leader-portrait-bg.png");
+}
+
 .leader-portrait-frame {
-  background-color: #2a1810;
-  background-image:
-    linear-gradient(180deg, rgba(80, 50, 30, 0.5) 0%, rgba(30, 18, 10, 0.8) 100%),
-    url("/images/leader-portrait-bg.png");
-  background-size: cover;
-  background-position: center;
+  background-color: #1a1208;
+  background-image: var(--portrait-bg);
   background-repeat: no-repeat;
+  background-position-y: center;
+}
+
+/* Hàng trên — 6 thẻ dùng chung một lớp nền ngang */
+.exhibition-row-top .leader-portrait-frame {
+  background-size: var(--row-block-w) auto;
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(1) .leader-portrait-frame {
+  background-position-x: 0;
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(2) .leader-portrait-frame {
+  background-position-x: calc(-1 * (var(--card-top-w) + var(--row-gap-x)));
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(3) .leader-portrait-frame {
+  background-position-x: calc(-2 * (var(--card-top-w) + var(--row-gap-x)));
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(4) .leader-portrait-frame {
+  background-position-x: calc(-3 * (var(--card-top-w) + var(--row-gap-x)));
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(5) .leader-portrait-frame {
+  background-position-x: calc(-4 * (var(--card-top-w) + var(--row-gap-x)));
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(6) .leader-portrait-frame {
+  background-position-x: calc(-5 * (var(--card-top-w) + var(--row-gap-x)));
+}
+
+/* Hàng dưới — 7 thẻ */
+.exhibition-row-bottom .leader-portrait-frame {
+  background-size: var(--row-block-w) auto;
+}
+
+.exhibition-row-bottom .exhibition-leader-card:nth-child(1) .leader-portrait-frame {
+  background-position-x: 0;
+}
+
+.exhibition-row-bottom .exhibition-leader-card:nth-child(2) .leader-portrait-frame {
+  background-position-x: calc(-1 * (var(--card-bottom-w) + var(--row-gap-x)));
+}
+
+.exhibition-row-bottom .exhibition-leader-card:nth-child(3) .leader-portrait-frame {
+  background-position-x: calc(-2 * (var(--card-bottom-w) + var(--row-gap-x)));
+}
+
+.exhibition-row-bottom .exhibition-leader-card:nth-child(4) .leader-portrait-frame {
+  background-position-x: calc(-3 * (var(--card-bottom-w) + var(--row-gap-x)));
+}
+
+.exhibition-row-bottom .exhibition-leader-card:nth-child(5) .leader-portrait-frame {
+  background-position-x: calc(-4 * (var(--card-bottom-w) + var(--row-gap-x)));
+}
+
+.exhibition-row-bottom .exhibition-leader-card:nth-child(6) .leader-portrait-frame {
+  background-position-x: calc(-5 * (var(--card-bottom-w) + var(--row-gap-x)));
+}
+
+.exhibition-row-bottom .exhibition-leader-card:nth-child(7) .leader-portrait-frame {
+  background-position-x: calc(-6 * (var(--card-bottom-w) + var(--row-gap-x)));
 }

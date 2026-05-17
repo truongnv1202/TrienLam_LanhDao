@@ -6,6 +6,7 @@ import LeaderCard from "@/components/LeaderCard";
 import LeaderModal from "@/components/LeaderModal";
 import HomeExhibitionBackground from "@/components/HomeExhibitionBackground";
 import ExhibitionHeader from "@/components/ExhibitionHeader";
+import ExhibitionCanvas from "@/components/ExhibitionCanvas";
 import type { Leader } from "@/types";
 
 export default function HomePage() {
@@ -40,26 +41,21 @@ export default function HomePage() {
     <div className="exhibition-page relative h-[100dvh] overflow-hidden">
       <HomeExhibitionBackground />
 
-      <div className="exhibition-shell relative z-10 mx-auto flex h-full w-full max-w-[100rem] flex-col px-3 pb-2 pt-2 sm:px-5 sm:pt-3">
+      <ExhibitionCanvas>
         <ExhibitionHeader />
 
         {loading && (
-          <div className="flex flex-1 items-center justify-center py-16">
-            <Loader2
-              className="h-10 w-10 animate-spin text-[#f5d76e]"
-              aria-label="Đang tải"
-            />
+          <div className="exhibition-loading">
+            <Loader2 className="h-12 w-12 animate-spin text-[#f5d76e]" aria-label="Đang tải" />
           </div>
         )}
 
         {error && (
-          <p className="mx-auto max-w-lg rounded border border-red-400/40 bg-red-950/50 px-4 py-3 text-center text-sm text-red-100">
-            {error}
-          </p>
+          <p className="exhibition-error">{error}</p>
         )}
 
         {!loading && !error && (
-          <main className="exhibition-stage flex min-h-0 flex-1 flex-col items-center justify-center">
+          <main className="exhibition-stage">
             <div className="exhibition-board">
               {topTier.length > 0 && (
                 <section
@@ -93,13 +89,11 @@ export default function HomePage() {
             </div>
 
             {leaders.length === 0 && (
-              <p className="text-center text-sm text-white/75">
-                Chưa có dữ liệu lãnh đạo.
-              </p>
+              <p className="text-center text-lg text-white/75">Chưa có dữ liệu lãnh đạo.</p>
             )}
           </main>
         )}
-      </div>
+      </ExhibitionCanvas>
 
       <LeaderModal
         leader={selectedLeader}
