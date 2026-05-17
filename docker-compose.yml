@@ -1,6 +1,8 @@
 # Local:  docker compose up -d --build
-# Server: docker compose --env-file deploy/env.server -f docker-compose.yml up -d --build
-#          (mã nguồn phải nằm tại /opt/TrienLam_LanhDao)
+# Server (lần đầu):
+#   sudo bash deploy/setup-admin-env.sh    # tạo deploy/env.server + mật khẩu
+#   bash deploy/docker-up.sh --build
+# Hoặc: sudo bash deploy/server-up.sh
 
 services:
   lanhdao:

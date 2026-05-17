@@ -3,28 +3,16 @@
 # Chạy: sudo bash /opt/TrienLam_LanhDao/deploy/setup-admin-env.sh
 set -euo pipefail
 
-APP_ROOT="/opt/TrienLam_LanhDao"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+APP_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 ENV_FILE="$APP_ROOT/deploy/env.server"
 EXAMPLE="$APP_ROOT/deploy/env.server.example"
+
+bash "$SCRIPT_DIR/ensure-env.sh"
 
 if [[ $EUID -ne 0 ]] && [[ ! -w "$(dirname "$ENV_FILE")" ]]; then
   echo "Chạy với sudo hoặc quyền ghi $ENV_FILE"
   exit 1
-fi
-
-mkdir -p "$(dirname "$ENV_FILE")"
-
-if [[ ! -f "$ENV_FILE" ]]; then
-  if [[ -f "$EXAMPLE" ]]; then
-    cp "$EXAMPLE" "$ENV_FILE"
-  else
-    cat >"$ENV_FILE" <<'EOF'
-APP_ROOT=/opt/TrienLam_LanhDao
-APP_PORT=5006
-ADMIN_PASSWORD=
-ADMIN_SESSION_SECRET=
-EOF
-  fi
 fi
 
 # Đảm bảo APP_ROOT / APP_PORT
@@ -75,7 +63,7 @@ else
   echo "Đã tạo ADMIN_SESSION_SECRET mới (64 ký tự hex)."
 fi
 
-update_var "APP_ROOT" "/opt/TrienLam_LanhDao"
+update_var "APP_ROOT" "$APP_ROOT"
 update_var "APP_PORT" "5006"
 update_var "ADMIN_PASSWORD" "$NEW_PW"
 update_var "ADMIN_SESSION_SECRET" "$NEW_SECRET"

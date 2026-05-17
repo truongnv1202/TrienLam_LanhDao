@@ -18,7 +18,9 @@ mkdir -p \
 chown -R 1001:1001 "$APP_ROOT/data" "$APP_ROOT/public/uploads" 2>/dev/null \
   || chmod -R a+rwX "$APP_ROOT/data" "$APP_ROOT/public/uploads"
 
-echo "==> [2/5] Cấu hình mật khẩu admin (nếu chưa có)..."
+echo "==> [2/5] Tạo deploy/env.server (nếu thiếu) & cấu hình admin..."
+bash "$APP_ROOT/deploy/ensure-env.sh"
+
 PW_LEN=$(grep '^ADMIN_PASSWORD=' "$APP_ROOT/deploy/env.server" 2>/dev/null | cut -d= -f2- | wc -c || echo 0)
 SEC_LEN=$(grep '^ADMIN_SESSION_SECRET=' "$APP_ROOT/deploy/env.server" 2>/dev/null | cut -d= -f2- | wc -c || echo 0)
 if [[ ! -f "$APP_ROOT/deploy/env.server" ]] || [[ "$PW_LEN" -lt 7 ]] || [[ "$SEC_LEN" -lt 17 ]]; then
