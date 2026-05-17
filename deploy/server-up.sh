@@ -18,10 +18,21 @@ mkdir -p \
 chown -R 1001:1001 "$APP_ROOT/data" "$APP_ROOT/public/uploads" 2>/dev/null \
   || chmod -R a+rwX "$APP_ROOT/data" "$APP_ROOT/public/uploads"
 
-echo "==> [2/4] Build & start Docker..."
+echo "==> [2/5] Cấu hình mật khẩu admin (nếu chưa có)..."
+PW_LEN=$(grep '^ADMIN_PASSWORD=' "$APP_ROOT/deploy/env.server" 2>/dev/null | cut -d= -f2- | wc -c || echo 0)
+SEC_LEN=$(grep '^ADMIN_SESSION_SECRET=' "$APP_ROOT/deploy/env.server" 2>/dev/null | cut -d= -f2- | wc -c || echo 0)
+if [[ ! -f "$APP_ROOT/deploy/env.server" ]] || [[ "$PW_LEN" -lt 7 ]] || [[ "$SEC_LEN" -lt 17 ]]; then
+  if [[ $EUID -eq 0 ]]; then
+    bash "$APP_ROOT/deploy/setup-admin-env.sh"
+  else
+    sudo bash "$APP_ROOT/deploy/setup-admin-env.sh"
+  fi
+fi
+
+echo "==> [3/5] Build & start Docker..."
 docker compose --env-file "$APP_ROOT/deploy/env.server" up -d --build
 
-echo "==> [3/4] Đợi app sẵn sàng..."
+echo "==> [4/5] Đợi app sẵn sàng..."
 for i in $(seq 1 30); do
   if curl -sf "http://127.0.0.1:5006/api/health" >/dev/null 2>&1; then
     echo "    App OK (cổng 5006)"
@@ -35,7 +46,7 @@ for i in $(seq 1 30); do
   sleep 2
 done
 
-echo "==> [4/4] Cài / reload Nginx..."
+echo "==> [5/5] Cài / reload Nginx..."
 if [[ $EUID -eq 0 ]]; then
   bash "$APP_ROOT/deploy/nginx/install.sh"
 else
@@ -47,6 +58,7 @@ echo "Hoàn tất. Kiểm tra:"
 echo "  curl -I http://127.0.0.1:5006/api/health"
 echo "  curl -I -H 'Host: lanhdao.gamegiaoduc.co' http://127.0.0.1/"
 echo "  https://lanhdao.gamegiaoduc.co"
+echo "  https://lanhdao.gamegiaoduc.co/admin1111/login"
 echo ""
 echo "Bật cổng 443 (Cloudflare Full):"
 echo "  sudo bash $APP_ROOT/deploy/nginx/enable-ssl.sh"

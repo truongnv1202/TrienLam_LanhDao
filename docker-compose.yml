@@ -11,12 +11,12 @@ services:
     restart: unless-stopped
     ports:
       - "127.0.0.1:${APP_PORT:-5006}:3000"
+    env_file:
+      - ${APP_ROOT:-.}/deploy/env.server
     environment:
       NODE_ENV: production
       PORT: "3000"
       HOSTNAME: "0.0.0.0"
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
-      ADMIN_SESSION_SECRET: ${ADMIN_SESSION_SECRET:-}
     volumes:
       - ${APP_ROOT:-.}/data:/app/data
       - ${APP_ROOT:-.}/public/uploads:/app/public/uploads

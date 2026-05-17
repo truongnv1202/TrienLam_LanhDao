@@ -111,10 +111,112 @@ body {
   filter: brightness(0.92) saturate(1.05);
 }
 
-/* Nền vàng–đen cho khung ảnh chân dung lãnh đạo */
+/* —— Triển lãm: nền đỏ–vàng cố định —— */
+.exhibition-page {
+  background: #6e1212;
+}
+
+.exhibition-bg-base {
+  background: linear-gradient(
+    155deg,
+    #c43232 0%,
+    #a02222 28%,
+    #7a1818 55%,
+    #4a0c0c 100%
+  );
+}
+
+.exhibition-bg-rays {
+  background:
+    linear-gradient(
+      118deg,
+      transparent 28%,
+      rgba(255, 215, 130, 0.28) 46%,
+      rgba(255, 190, 90, 0.14) 52%,
+      transparent 68%
+    ),
+    linear-gradient(
+      125deg,
+      transparent 50%,
+      rgba(255, 200, 100, 0.1) 58%,
+      transparent 66%
+    );
+}
+
+.exhibition-bg-vignette {
+  background:
+    radial-gradient(
+      ellipse 80% 50% at 72% 18%,
+      rgba(255, 220, 140, 0.14) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 45%,
+      rgba(25, 0, 0, 0.5) 100%
+    );
+}
+
+.exhibition-title-sub,
+.exhibition-title-main {
+  font-family: var(--font-exhibition-serif), "Times New Roman", Georgia, serif;
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.35),
+    0 0 24px rgba(245, 215, 110, 0.25);
+}
+
+.exhibition-leader-card {
+  border: 1.5px solid rgba(232, 197, 71, 0.8);
+  border-radius: 3px;
+  box-shadow:
+    0 0 10px rgba(232, 197, 71, 0.22),
+    0 4px 14px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 223, 122, 0.12);
+}
+
+.exhibition-leader-info {
+  background: linear-gradient(180deg, #6b1818 0%, #420c0c 100%);
+  min-height: 4.5rem;
+}
+
+.exhibition-row-top {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  max-width: 54rem;
+  margin-inline: auto;
+}
+
+.exhibition-row-bottom {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  max-width: 58rem;
+  margin-inline: auto;
+}
+
+@media (max-width: 1023px) {
+  .exhibition-row-top {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 28rem;
+  }
+
+  .exhibition-row-bottom {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    max-width: 32rem;
+  }
+}
+
+@media (max-width: 639px) {
+  .exhibition-row-top,
+  .exhibition-row-bottom {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 20rem;
+  }
+}
+
+/* Nền chân dung trong thẻ */
 .leader-portrait-frame {
-  background-color: #0a0a0a;
-  background-image: url("/images/leader-portrait-bg.png");
+  background-color: #2a1810;
+  background-image:
+    linear-gradient(180deg, rgba(80, 50, 30, 0.5) 0%, rgba(30, 18, 10, 0.8) 100%),
+    url("/images/leader-portrait-bg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

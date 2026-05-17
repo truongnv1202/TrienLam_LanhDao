@@ -1,5 +1,12 @@
 import type { Metadata } from "next";
+import { Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
+
+const exhibitionSerif = Cormorant_Garamond({
+  subsets: ["vietnamese", "latin"],
+  weight: ["600", "700"],
+  variable: "--font-exhibition-serif",
+});
 
 export const metadata: Metadata = {
   title: "Triển lãm Lãnh đạo An ninh nhân dân",
@@ -14,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi">
-      <body className="antialiased">{children}</body>
+      <body className={`${exhibitionSerif.variable} antialiased`}>{children}</body>
     </html>
   );
 }
