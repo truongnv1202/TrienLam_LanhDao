@@ -8,6 +8,8 @@ export type LeaderTier = "top" | "bottom";
 
 export interface Leader {
   id: string;
+  /** Thứ tự hiển thị trên trang triển lãm (1–13) */
+  sortOrder: number;
   name: string;
   position: string;
   portraitUrl: string;

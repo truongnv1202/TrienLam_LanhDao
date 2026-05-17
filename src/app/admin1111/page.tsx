@@ -22,6 +22,7 @@ interface FormState {
   portraitUrl: string;
   biography: string;
   tier: LeaderTier;
+  sortOrder: number;
 }
 
 const EMPTY_FORM: FormState = {
@@ -31,6 +32,7 @@ const EMPTY_FORM: FormState = {
   portraitUrl: "",
   biography: "",
   tier: "bottom",
+  sortOrder: 1,
 };
 
 const EMPTY_MILESTONE: TimelineEvent = {
@@ -118,6 +120,7 @@ export default function AdminPage() {
       portraitUrl: leader.portraitUrl,
       biography: leader.biography,
       tier: leader.tier,
+      sortOrder: leader.sortOrder ?? 1,
     });
     setTimeline([...leader.timeline]);
     setMilestoneDraft(EMPTY_MILESTONE);
@@ -244,11 +247,12 @@ export default function AdminPage() {
 
       const payload: Leader = {
         id: leaderId,
+        sortOrder: form.sortOrder,
         name: form.name.trim(),
         position: form.position.trim(),
         portraitUrl:
           portraitUrl ||
-          "https://placehold.co/400x520/800000/d4af37?text=Anh+chan+dung",
+          `/images/portraits/${leaderId}.png`,
         biography: form.biography.trim(),
         tier: form.tier,
         timeline,
@@ -447,6 +451,26 @@ export default function AdminPage() {
                   setForm((f) => ({ ...f, biography: e.target.value }))
                 }
                 className="w-full resize-y rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white outline-none focus:border-[#ffdf7a] focus:ring-1 focus:ring-[#ffdf7a]/50"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="sortOrder" className="mb-1 block text-xs font-medium text-[#d4af37]">
+                Thứ tự hiển thị (1–13)
+              </label>
+              <input
+                id="sortOrder"
+                type="number"
+                min={1}
+                max={99}
+                value={form.sortOrder}
+                onChange={(e) =>
+                  setForm((f) => ({
+                    ...f,
+                    sortOrder: Number(e.target.value) || 1,
+                  }))
+                }
+                className="w-full rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white outline-none focus:border-[#ffdf7a]"
               />
             </div>
 

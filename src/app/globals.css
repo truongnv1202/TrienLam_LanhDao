@@ -157,11 +157,11 @@ body {
 .exhibition-canvas {
   --row-block-w: 1764px;
   --row-gap-x: 10px;
-  --row-gap-y: 24px;
+  --row-gap-y: 20px;
   --card-top-w: calc((var(--row-block-w) - var(--row-gap-x) * 5) / 6);
   --card-bottom-w: calc((var(--row-block-w) - var(--row-gap-x) * 6) / 7);
-  --card-top-h: 398px;
-  --card-bottom-h: 362px;
+  --card-top-h: 408px;
+  --card-bottom-h: 368px;
   --card-portrait-ratio: 62%;
   --card-info-ratio: 38%;
 
@@ -170,18 +170,18 @@ body {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  padding: 24px 78px 28px;
+  padding: 18px 70px 22px;
   transform-origin: center center;
 }
 
 .exhibition-header {
   flex-shrink: 0;
   display: grid;
-  grid-template-columns: 195px 1fr 210px;
+  grid-template-columns: 188px 1fr 200px;
   align-items: center;
-  gap: 8px;
-  height: 150px;
-  margin-bottom: 10px;
+  gap: 4px;
+  height: 142px;
+  margin-bottom: 6px;
 }
 
 .exhibition-header-side {
@@ -192,37 +192,40 @@ body {
 .exhibition-header-side--left {
   justify-content: flex-start;
   align-items: flex-start;
-  padding-top: 10px;
+  padding-top: 6px;
+  padding-left: 2px;
 }
 
 .exhibition-header-side--right {
   justify-content: flex-end;
   align-items: flex-start;
-  padding-top: 2px;
-  padding-right: 4px;
+  padding-top: 0;
+  padding-right: 0;
 }
 
 .exhibition-emblem {
-  width: 118px !important;
-  height: 118px !important;
+  width: 108px !important;
+  height: 108px !important;
   object-fit: contain;
   mix-blend-mode: screen;
   filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
 }
 
 .exhibition-flag {
-  width: 172px !important;
-  height: 172px !important;
+  width: 158px !important;
+  height: 158px !important;
   object-fit: contain;
-  transform: rotate(16deg);
-  transform-origin: 70% 30%;
+  transform: rotate(18deg);
+  transform-origin: 72% 28%;
   mix-blend-mode: screen;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+  margin-top: -6px;
+  margin-right: -10px;
 }
 
 .exhibition-header-titles {
   text-align: center;
-  padding-top: 6px;
+  padding-top: 10px;
 }
 
 .exhibition-title-sub,
@@ -232,7 +235,7 @@ body {
 }
 
 .exhibition-title-sub {
-  font-size: 36px;
+  font-size: 34px;
   font-weight: 600;
   letter-spacing: 0.12em;
   color: #e8c547;
@@ -240,8 +243,8 @@ body {
 }
 
 .exhibition-title-main {
-  margin-top: 4px;
-  font-size: 50px;
+  margin-top: 2px;
+  font-size: 48px;
   font-weight: 700;
   line-height: 1.06;
   letter-spacing: 0.04em;
