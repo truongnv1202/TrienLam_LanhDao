@@ -162,8 +162,8 @@ body {
   --card-bottom-w: calc((var(--row-block-w) - var(--row-gap-x) * 6) / 7);
   --card-top-h: 398px;
   --card-bottom-h: 362px;
-  --info-h-top: 96px;
-  --info-h-bottom: 88px;
+  --card-portrait-ratio: 62%;
+  --card-info-ratio: 38%;
 
   width: 1920px;
   height: 1080px;
@@ -287,65 +287,69 @@ body {
   height: var(--card-bottom-h);
 }
 
+/* Thẻ lãnh đạo — khớp mẫu: viền vàng, 62% ảnh / 38% chữ */
 .exhibition-leader-card {
-  border: 2px solid rgba(232, 197, 71, 0.9);
-  border-radius: 6px;
+  border: 1.5px solid #d4af37;
+  border-radius: 14px;
   box-shadow:
-    0 0 10px rgba(232, 197, 71, 0.3),
-    0 4px 14px rgba(0, 0, 0, 0.35);
+    0 0 12px rgba(212, 175, 55, 0.35),
+    0 4px 16px rgba(0, 0, 0, 0.4);
+  background: #2b0505;
 }
 
 .exhibition-leader-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 6px 8px 8px;
-  background: linear-gradient(180deg, #5a1212 0%, #4a0404 100%);
-}
-
-.exhibition-card-top .exhibition-leader-info {
-  height: var(--info-h-top);
-}
-
-.exhibition-card-bottom .exhibition-leader-info {
-  height: var(--info-h-bottom);
+  flex: 0 0 var(--card-info-ratio);
+  min-height: 0;
+  padding: 8px 10px 10px;
+  background: #2b0505;
 }
 
 .exhibition-label {
+  font-family: var(--font-exhibition-serif), "Times New Roman", Georgia, serif;
   font-size: 11px;
-  font-weight: 500;
-  color: #e8c547;
-  line-height: 1.1;
+  font-weight: 600;
+  font-style: italic;
+  color: #d4af37;
+  line-height: 1.15;
 }
 
 .exhibition-name {
-  margin-top: 2px;
+  margin-top: 3px;
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
   font-size: 15px;
   font-weight: 700;
-  line-height: 1.12;
-  color: #f5d76e;
+  line-height: 1.15;
+  color: #e5b80b;
+  letter-spacing: 0.02em;
 }
 
 .exhibition-card-top .exhibition-name {
   font-size: 16px;
 }
 
+.exhibition-card-bottom .exhibition-name {
+  font-size: 14px;
+}
+
 .exhibition-position {
-  margin-top: 3px;
-  font-size: 10px;
-  line-height: 1.3;
-  color: rgba(255, 255, 255, 0.93);
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  margin-top: 5px;
+  width: 100%;
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  font-size: 9.5px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: #ffffff;
+  white-space: pre-line;
   text-align: center;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
 }
 
 .exhibition-card-bottom .exhibition-position {
   font-size: 9px;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 5;
 }
 
 @media (max-width: 768px) {
@@ -360,76 +364,19 @@ body {
   }
 }
 
-/* Nền vân vàng–đen: một ảnh chung, căn liền mạch theo từng hàng trong khối thẻ */
-.exhibition-board {
-  --portrait-bg: url("/images/leader-portrait-bg.png");
-}
-
+/* Vùng ảnh: nền vân vàng–đen (~62% chiều cao thẻ) */
 .leader-portrait-frame {
-  background-color: #1a1208;
-  background-image: var(--portrait-bg);
+  flex: 0 0 var(--card-portrait-ratio);
+  min-height: 0;
+  background-color: #2b0505;
+  background-image: url("/images/leader-portrait-bg.png");
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
-  background-position-y: center;
 }
 
-/* Hàng trên — 6 thẻ dùng chung một lớp nền ngang */
-.exhibition-row-top .leader-portrait-frame {
-  background-size: var(--row-block-w) auto;
-}
-
-.exhibition-row-top .exhibition-leader-card:nth-child(1) .leader-portrait-frame {
-  background-position-x: 0;
-}
-
-.exhibition-row-top .exhibition-leader-card:nth-child(2) .leader-portrait-frame {
-  background-position-x: calc(-1 * (var(--card-top-w) + var(--row-gap-x)));
-}
-
-.exhibition-row-top .exhibition-leader-card:nth-child(3) .leader-portrait-frame {
-  background-position-x: calc(-2 * (var(--card-top-w) + var(--row-gap-x)));
-}
-
-.exhibition-row-top .exhibition-leader-card:nth-child(4) .leader-portrait-frame {
-  background-position-x: calc(-3 * (var(--card-top-w) + var(--row-gap-x)));
-}
-
-.exhibition-row-top .exhibition-leader-card:nth-child(5) .leader-portrait-frame {
-  background-position-x: calc(-4 * (var(--card-top-w) + var(--row-gap-x)));
-}
-
-.exhibition-row-top .exhibition-leader-card:nth-child(6) .leader-portrait-frame {
-  background-position-x: calc(-5 * (var(--card-top-w) + var(--row-gap-x)));
-}
-
-/* Hàng dưới — 7 thẻ */
-.exhibition-row-bottom .leader-portrait-frame {
-  background-size: var(--row-block-w) auto;
-}
-
-.exhibition-row-bottom .exhibition-leader-card:nth-child(1) .leader-portrait-frame {
-  background-position-x: 0;
-}
-
-.exhibition-row-bottom .exhibition-leader-card:nth-child(2) .leader-portrait-frame {
-  background-position-x: calc(-1 * (var(--card-bottom-w) + var(--row-gap-x)));
-}
-
-.exhibition-row-bottom .exhibition-leader-card:nth-child(3) .leader-portrait-frame {
-  background-position-x: calc(-2 * (var(--card-bottom-w) + var(--row-gap-x)));
-}
-
-.exhibition-row-bottom .exhibition-leader-card:nth-child(4) .leader-portrait-frame {
-  background-position-x: calc(-3 * (var(--card-bottom-w) + var(--row-gap-x)));
-}
-
-.exhibition-row-bottom .exhibition-leader-card:nth-child(5) .leader-portrait-frame {
-  background-position-x: calc(-4 * (var(--card-bottom-w) + var(--row-gap-x)));
-}
-
-.exhibition-row-bottom .exhibition-leader-card:nth-child(6) .leader-portrait-frame {
-  background-position-x: calc(-5 * (var(--card-bottom-w) + var(--row-gap-x)));
-}
-
-.exhibition-row-bottom .exhibition-leader-card:nth-child(7) .leader-portrait-frame {
-  background-position-x: calc(-6 * (var(--card-bottom-w) + var(--row-gap-x)));
+.leader-portrait-image {
+  object-fit: contain;
+  object-position: center bottom;
+  padding: 0 4px;
 }
