@@ -20,8 +20,8 @@ mkdir -p \
   "$APP_ROOT/public/images"
 
 chown -R "$APP_USER:$APP_USER" "$APP_ROOT"
+chown -R 1001:1001 "$APP_ROOT/data" "$APP_ROOT/public/uploads" 2>/dev/null || true
 
 echo "Đã tạo $APP_ROOT"
-echo "Copy/clone mã nguồn vào $APP_ROOT rồi chạy:"
-echo "  cd $APP_ROOT && docker compose --env-file deploy/env.server up -d --build"
-echo "  sudo bash $APP_ROOT/deploy/nginx/install.sh"
+echo "Copy mã nguồn vào $APP_ROOT rồi chạy 1 lệnh:"
+echo "  sudo bash $APP_ROOT/deploy/server-up.sh"

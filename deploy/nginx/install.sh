@@ -22,16 +22,24 @@ fi
 
 mkdir -p "$SNIPPETS_DIR" "$APP_ROOT/public/certbot" "$APP_ROOT/data" "$APP_ROOT/public/uploads/portraits"
 
+chown -R 1001:1001 "$APP_ROOT/data" "$APP_ROOT/public/uploads" 2>/dev/null \
+  || chmod -R a+rwX "$APP_ROOT/data" "$APP_ROOT/public/uploads"
+
 cp "$SCRIPT_DIR/cloudflare.conf" "$SNIPPETS_DIR/cloudflare-realip.conf"
 cp "$SCRIPT_DIR/snippets/lanhdao-proxy.conf" "$SNIPPETS_DIR/lanhdao-proxy.conf"
 cp "$SCRIPT_DIR/$SITE_NAME" "$SITES_AVAILABLE/$SITE_NAME"
 
 ln -sf "$SITES_AVAILABLE/$SITE_NAME" "$SITES_ENABLED/$SITE_NAME"
 
-nginx -t
+if ! nginx -t; then
+  echo "LỖI cấu hình Nginx. Sửa file rồi chạy lại: sudo nginx -t"
+  exit 1
+fi
+
 systemctl reload nginx
 
 echo "OK — Nginx đã load $SITE_NAME"
 echo "App root: $APP_ROOT"
-echo "Tiếp theo: cd $APP_ROOT && docker compose --env-file deploy/env.server up -d --build"
-echo "Kiểm tra: curl -I http://127.0.0.1:5006/api/leaders"
+echo "Kiểm tra:"
+echo "  curl -s http://127.0.0.1:5006/api/health"
+echo "  curl -I -H 'Host: lanhdao.gamegiaoduc.co' http://127.0.0.1/"
