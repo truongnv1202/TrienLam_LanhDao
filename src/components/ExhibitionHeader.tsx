@@ -37,22 +37,17 @@ function EmblemMark({ className }: { className?: string }) {
 
 export default function ExhibitionHeader() {
   return (
-    <header className="relative z-10 mb-2 grid w-full grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-2 px-1 sm:gap-4 sm:px-4">
-      <div className="flex justify-start pt-1">
-        <EmblemMark className="h-14 w-14 drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)] sm:h-[5.5rem] sm:w-[5.5rem]" />
-      </div>
+    <header className="exhibition-header relative z-10 shrink-0">
+      <EmblemMark className="exhibition-emblem absolute left-0 top-0 drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]" />
+      <GoldStar className="exhibition-star absolute right-0 top-0 text-[#f0c830] drop-shadow-[0_0_18px_rgba(240,200,48,0.55)]" />
 
-      <div className="px-1 pt-1 text-center sm:pt-2">
-        <p className="exhibition-title-sub font-serif text-lg font-semibold tracking-[0.12em] text-[#e8c547] sm:text-2xl md:text-[1.75rem]">
+      <div className="exhibition-header-titles text-center">
+        <p className="exhibition-title-sub font-serif font-semibold tracking-[0.14em] text-[#e8c547]">
           VAI TRÒ, UY TÍN
         </p>
-        <h1 className="exhibition-title-main mt-0.5 font-serif text-xl font-bold leading-tight tracking-[0.06em] text-[#f5d76e] drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] sm:text-3xl md:text-4xl lg:text-[2.65rem]">
+        <h1 className="exhibition-title-main mt-0.5 font-serif font-bold leading-[1.1] tracking-[0.05em] text-[#f5d76e]">
           LÃNH ĐẠO AN NINH NHÂN DÂN
         </h1>
-      </div>
-
-      <div className="flex justify-end pt-0 sm:pt-1">
-        <GoldStar className="h-16 w-16 text-[#f0c830] drop-shadow-[0_0_18px_rgba(240,200,48,0.55)] sm:h-24 sm:w-24 md:h-28 md:w-28" />
       </div>
     </header>
   );

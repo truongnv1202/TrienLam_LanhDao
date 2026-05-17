@@ -37,10 +37,10 @@ export default function HomePage() {
   const bottomTier = leaders.filter((l) => l.tier === "bottom");
 
   return (
-    <div className="exhibition-page relative min-h-screen min-h-[100dvh] overflow-x-hidden">
+    <div className="exhibition-page relative h-[100dvh] overflow-hidden">
       <HomeExhibitionBackground />
 
-      <div className="relative z-10 mx-auto flex min-h-[100dvh] max-w-[96rem] flex-col px-2 py-3 sm:px-4 sm:py-4">
+      <div className="exhibition-shell relative z-10 mx-auto flex h-full w-full max-w-[100rem] flex-col px-3 pb-2 pt-2 sm:px-5 sm:pt-3">
         <ExhibitionHeader />
 
         {loading && (
@@ -59,11 +59,11 @@ export default function HomePage() {
         )}
 
         {!loading && !error && (
-          <main className="flex flex-1 flex-col items-center justify-center gap-4 pb-4 pt-1 sm:gap-5 md:gap-6">
+          <main className="exhibition-stage flex min-h-0 flex-1 flex-col items-center justify-center">
             {topTier.length > 0 && (
               <section
                 aria-label="Hàng lãnh đạo trên"
-                className="exhibition-row-top grid w-full justify-items-center gap-2 sm:gap-3"
+                className="exhibition-row exhibition-row-top"
               >
                 {topTier.map((leader) => (
                   <LeaderCard
@@ -78,7 +78,7 @@ export default function HomePage() {
             {bottomTier.length > 0 && (
               <section
                 aria-label="Hàng lãnh đạo dưới"
-                className="exhibition-row-bottom grid w-full justify-items-center gap-1.5 sm:gap-2.5"
+                className="exhibition-row exhibition-row-bottom"
               >
                 {bottomTier.map((leader) => (
                   <LeaderCard

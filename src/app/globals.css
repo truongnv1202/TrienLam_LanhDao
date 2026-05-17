@@ -174,40 +174,130 @@ body {
     inset 0 0 0 1px rgba(255, 223, 122, 0.12);
 }
 
-.exhibition-leader-info {
-  background: linear-gradient(180deg, #6b1818 0%, #420c0c 100%);
-  min-height: 4.5rem;
+.exhibition-shell {
+  --card-top-w: clamp(7.35rem, 8.6vw, 9.5rem);
+  --card-bottom-w: clamp(6.4rem, 7.15vw, 8.05rem);
+  --row-gap-x: clamp(0.28rem, 0.5vw, 0.55rem);
+  --row-gap-y: clamp(0.45rem, 1.1vh, 0.85rem);
+}
+
+/* Header */
+.exhibition-header {
+  height: clamp(3.75rem, 9vh, 5.25rem);
+  margin-bottom: clamp(0.25rem, 0.8vh, 0.65rem);
+}
+
+.exhibition-emblem {
+  width: clamp(3.25rem, 5.5vw, 5.25rem);
+  height: clamp(3.25rem, 5.5vw, 5.25rem);
+}
+
+.exhibition-star {
+  width: clamp(3.5rem, 6.2vw, 6.75rem);
+  height: clamp(3.5rem, 6.2vw, 6.75rem);
+}
+
+.exhibition-header-titles {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(92%, 52rem);
+  transform: translate(-50%, -50%);
+  padding-inline: clamp(3.5rem, 12vw, 7rem);
+}
+
+.exhibition-title-sub {
+  font-size: clamp(1.05rem, 2.1vw, 1.85rem);
+}
+
+.exhibition-title-main {
+  font-size: clamp(1.15rem, 2.55vw, 2.55rem);
+}
+
+/* Hàng thẻ — flex căn giữa, kích thước cố định từng thẻ */
+.exhibition-stage {
+  gap: var(--row-gap-y);
+}
+
+.exhibition-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: var(--row-gap-x);
+  width: 100%;
+  margin-inline: auto;
 }
 
 .exhibition-row-top {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  max-width: 54rem;
-  margin-inline: auto;
+  max-width: min(96vw, calc(var(--card-top-w) * 6 + var(--row-gap-x) * 5));
 }
 
 .exhibition-row-bottom {
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  max-width: 58rem;
-  margin-inline: auto;
+  max-width: min(98vw, calc(var(--card-bottom-w) * 7 + var(--row-gap-x) * 6));
 }
 
-@media (max-width: 1023px) {
-  .exhibition-row-top {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    max-width: 28rem;
-  }
+.exhibition-card-top {
+  width: var(--card-top-w);
+  flex: 0 0 var(--card-top-w);
+}
 
-  .exhibition-row-bottom {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    max-width: 32rem;
+.exhibition-card-bottom {
+  width: var(--card-bottom-w);
+  flex: 0 0 var(--card-bottom-w);
+}
+
+.exhibition-portrait-top {
+  aspect-ratio: 3 / 3.65;
+}
+
+.exhibition-portrait-bottom {
+  aspect-ratio: 3 / 3.45;
+}
+
+.exhibition-leader-info {
+  background: linear-gradient(180deg, #5c1414 0%, #4a0404 100%);
+  min-height: clamp(3.35rem, 8.5vh, 4.25rem);
+}
+
+.exhibition-position {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Màn hình nhỏ: thu nhỏ toàn bộ khối nội dung */
+@media (max-width: 1100px) {
+  .exhibition-shell {
+    --card-top-w: clamp(6.1rem, 7.8vw, 7.75rem);
+    --card-bottom-w: clamp(5.35rem, 6.5vw, 6.65rem);
   }
 }
 
-@media (max-width: 639px) {
-  .exhibition-row-top,
-  .exhibition-row-bottom {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-width: 20rem;
+@media (max-width: 768px) {
+  .exhibition-page {
+    height: auto;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .exhibition-shell {
+    height: auto;
+    min-height: 100dvh;
+  }
+
+  .exhibition-row {
+    flex-wrap: wrap;
+    max-width: 22rem !important;
+    justify-content: center;
+  }
+
+  .exhibition-card-top,
+  .exhibition-card-bottom {
+    width: calc(50% - 0.35rem);
+    flex: 0 0 calc(50% - 0.35rem);
   }
 }
 
