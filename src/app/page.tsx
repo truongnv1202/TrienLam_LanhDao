@@ -36,7 +36,7 @@ export default function HomePage() {
   const bottomTier = leaders.filter((l) => l.tier === "bottom");
 
   return (
-    <div className="relative min-h-[calc(100vh-57px)] overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden">
       <HomeVideoBackground />
       <div className="relative z-10 mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         <header className="mb-10 text-center">

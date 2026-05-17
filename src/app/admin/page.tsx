@@ -289,11 +289,10 @@ export default function AdminPage() {
   const previewSrc = portraitPreview || form.portraitUrl || null;
 
   return (
-    <div className="min-h-[calc(100vh-57px)] bg-gradient-to-b from-[#800000] via-[#6b0000] to-[#4a0000]">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <header className="mb-8 border-b border-[#d4af37]/30 pb-4">
           <h1 className="text-2xl font-bold text-[#ffdf7a] sm:text-3xl">
-            Quản trị nội dung
+            Quản lý lãnh đạo
           </h1>
           <p className="mt-1 text-sm text-white/75">
             Thêm, sửa, xóa lãnh đạo — upload ảnh chân dung hoặc dán URL
@@ -628,7 +627,6 @@ export default function AdminPage() {
               </ul>
             )}
           </section>
-        </div>
       </div>
     </div>
   );
