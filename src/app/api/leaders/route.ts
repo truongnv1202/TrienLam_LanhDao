@@ -16,10 +16,10 @@ function isValidLeaderInput(body: unknown): body is LeaderInput {
     typeof candidate.position === "string" &&
     typeof candidate.biography === "string" &&
     (candidate.tier === "top" || candidate.tier === "bottom") &&
-    (candidate.sortOrder === undefined || typeof candidate.sortOrder === "number") &&
     Array.isArray(candidate.timeline) &&
     (candidate.portraitUrl === undefined ||
-      typeof candidate.portraitUrl === "string")
+      typeof candidate.portraitUrl === "string") &&
+    (candidate.sortOrder === undefined || typeof candidate.sortOrder === "number")
   );
 }
 
@@ -40,20 +40,17 @@ function normalizeLeader(input: LeaderInput, existing?: Leader): Leader {
     existing?.portraitUrl ||
     "https://placehold.co/400x520/800000/d4af37?text=Anh+chan+dung";
 
-  const sortOrder =
-    typeof input.sortOrder === "number" && !Number.isNaN(input.sortOrder)
-      ? input.sortOrder
-      : (existing?.sortOrder ??
-        (input.tier === "top" ? 1 : 7));
-
   return {
     id,
-    sortOrder,
     name: input.name.trim(),
     position: input.position.trim(),
     portraitUrl,
     biography: input.biography.trim(),
     tier: input.tier,
+    sortOrder:
+      typeof input.sortOrder === "number" && input.sortOrder > 0
+        ? input.sortOrder
+        : (existing?.sortOrder ?? 1),
     timeline,
   };
 }

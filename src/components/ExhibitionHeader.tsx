@@ -7,8 +7,8 @@ export default function ExhibitionHeader() {
         <Image
           src="/images/emblem-annd.png"
           alt="Huy hiệu Công an nhân dân"
-          width={108}
-          height={108}
+          width={120}
+          height={120}
           className="exhibition-emblem"
           priority
         />
@@ -23,8 +23,8 @@ export default function ExhibitionHeader() {
         <Image
           src="/images/flag-vn.png"
           alt="Cờ Tổ quốc"
-          width={158}
-          height={158}
+          width={168}
+          height={168}
           className="exhibition-flag"
           priority
         />

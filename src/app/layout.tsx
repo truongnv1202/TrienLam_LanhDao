@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond } from "next/font/google";
+import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import "./globals.css";
 
 const exhibitionSerif = Cormorant_Garamond({
   subsets: ["vietnamese", "latin"],
   weight: ["600", "700"],
+  style: ["normal", "italic"],
   variable: "--font-exhibition-serif",
+});
+
+const exhibitionSans = Montserrat({
+  subsets: ["vietnamese", "latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-exhibition-sans",
 });
 
 export const metadata: Metadata = {
@@ -21,7 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi">
-      <body className={`${exhibitionSerif.variable} antialiased`}>{children}</body>
+      <body className={`${exhibitionSerif.variable} ${exhibitionSans.variable} antialiased`}>
+        {children}
+      </body>
     </html>
   );
 }

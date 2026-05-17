@@ -1,0 +1,210 @@
+[
+  {
+    "id": "bui-thien-ngo",
+    "name": "Bùi Thiện Ngộ",
+    "position": "P.TC trưởng TC ANND (1985)\nUV Bộ Chính trị Khóa VII\nBộ trưởng Bộ NV (1991-1996)",
+    "portraitUrl": "/uploads/portraits/bui-thien-ngo.jpg",
+    "biography": "Đồng chí Bùi Thiện Ngộ có nhiều năm công tác trong lực lượng Công an nhân dân, góp phần bảo đảm an ninh quốc gia, giữ vững trật tự an toàn xã hội.",
+    "tier": "top",
+    "sortOrder": 1,
+    "timeline": [
+      {
+        "year": "1985",
+        "event": "Phó Tổng cục trưởng TC ANND",
+        "description": "Phó Tổng cục trưởng TC ANND"
+      }
+    ]
+  },
+  {
+    "id": "le-minh-huong",
+    "name": "Lê Minh Hương",
+    "position": "P.TC trưởng, TC trưởng TC Tình báo (1988-1990)\nUV Bộ Chính trị khóa VII, IX\nBộ trưởng Bộ NV (1996-2002)",
+    "portraitUrl": "/uploads/portraits/le-minh-huong.jpg",
+    "biography": "Đồng chí Lê Minh Hương có nhiều năm công tác trong lực lượng Công an nhân dân, góp phần bảo đảm an ninh quốc gia, giữ vững trật tự an toàn xã hội.",
+    "tier": "top",
+    "sortOrder": 2,
+    "timeline": [
+      {
+        "year": "1996",
+        "event": "Bộ trưởng Bộ Nội vụ",
+        "description": "Bộ trưởng Bộ Nội vụ"
+      }
+    ]
+  },
+  {
+    "id": "tran-dai-quang",
+    "name": "Trần Đại Quang",
+    "position": "P.TC trưởng TC An ninh\nThứ trưởng, Bộ trưởng Bộ CA\nUV Bộ Chính trị khóa XI, XII\nChủ tịch nước CHXHCN Việt Nam (2016-2018)",
+    "portraitUrl": "/uploads/portraits/tran-dai-quang.jpg",
+    "biography": "Đồng chí Trần Đại Quang có nhiều năm công tác trong lực lượng Công an nhân dân, góp phần bảo đảm an ninh quốc gia, giữ vững trật tự an toàn xã hội.",
+    "tier": "top",
+    "sortOrder": 3,
+    "timeline": [
+      {
+        "year": "2016",
+        "event": "Chủ tịch nước",
+        "description": "Chủ tịch nước"
+      }
+    ]
+  },
+  {
+    "id": "to-lam",
+    "name": "Tô Lâm",
+    "position": "TC trưởng TC An ninh\nThứ trưởng, Bộ trưởng Bộ CA\nUV Bộ Chính trị khóa XII, XIII\nChủ tịch nước & Tổng Bí thư BCH TW Đảng khóa XIII (2024 - Nay)",
+    "portraitUrl": "/uploads/portraits/to-lam.jpg",
+    "biography": "Đồng chí Tô Lâm có nhiều năm công tác trong lực lượng Công an nhân dân, góp phần bảo đảm an ninh quốc gia, giữ vững trật tự an toàn xã hội.",
+    "tier": "top",
+    "sortOrder": 4,
+    "timeline": [
+      {
+        "year": "2024",
+        "event": "Chủ tịch nước",
+        "description": "Chủ tịch nước"
+      }
+    ]
+  },
+  {
+    "id": "pham-minh-chinh",
+    "name": "Phạm Minh Chính",
+    "position": "P.TC trưởng TC V (2006)\nTC trưởng TC IV (2010)\nThứ trưởng Bộ CA (2010-2011)",
+    "portraitUrl": "/uploads/portraits/pham-minh-chinh.jpg",
+    "biography": "Đồng chí Phạm Minh Chính có nhiều năm công tác trong lực lượng Công an nhân dân, góp phần bảo đảm an ninh quốc gia, giữ vững trật tự an toàn xã hội.",
+    "tier": "top",
+    "sortOrder": 5,
+    "timeline": [
+      {
+        "year": "2010",
+        "event": "Thứ trưởng Bộ Công an",
+        "description": "Thứ trưởng Bộ Công an"
+      }
+    ]
+  },
+  {
+    "id": "luong-tam-quang",
+    "name": "Lương Tam Quang",
+    "position": "Thứ trưởng Bộ CA (2019)\nUV TW Đảng Khóa XIII\nBộ trưởng Bộ CA (2024)\nUV Bộ Chính trị khóa XIII",
+    "portraitUrl": "/uploads/portraits/luong-tam-quang.jpg",
+    "biography": "Đồng chí Lương Tam Quang có nhiều năm công tác trong lực lượng Công an nhân dân, góp phần bảo đảm an ninh quốc gia, giữ vững trật tự an toàn xã hội.",
+    "tier": "top",
+    "sortOrder": 6,
+    "timeline": [
+      {
+        "year": "2024",
+        "event": "Bộ trưởng Bộ Công an",
+        "description": "Bộ trưởng Bộ Công an"
+      }
+    ]
+  },
+  {
+    "id": "vo-viet-thanh",
+    "name": "Võ Viết Thanh",
+    "position": "TC trưởng TC ANND (1988)\nThứ trưởng Bộ NV (1988-1991)",
+    "portraitUrl": "/uploads/portraits/vo-viet-thanh.jpg",
+    "biography": "Đồng chí Võ Viết Thanh có nhiều năm công tác trong lực lượng Công an nhân dân, góp phần bảo đảm an ninh quốc gia, giữ vững trật tự an toàn xã hội.",
+    "tier": "bottom",
+    "sortOrder": 1,
+    "timeline": [
+      {
+        "year": "1988",
+        "event": "Tổng cục trưởng TC ANND",
+        "description": "Tổng cục trưởng TC ANND"
+      }
+    ]
+  },
+  {
+    "id": "nguyen-khanh-toan",
+    "name": "Nguyễn Khánh Toàn",
+    "position": "TC trưởng TC ANND (1989)\nThứ trưởng Bộ CA (1996)\nThứ trưởng Thường trực Bộ CA (1998-2011)",
+    "portraitUrl": "/uploads/portraits/nguyen-khanh-toan.jpg",
+    "biography": "Đồng chí Nguyễn Khánh Toàn có nhiều năm công tác trong lực lượng Công an nhân dân, góp phần bảo đảm an ninh quốc gia, giữ vững trật tự an toàn xã hội.",
+    "tier": "bottom",
+    "sortOrder": 2,
+    "timeline": [
+      {
+        "year": "1996",
+        "event": "Thứ trưởng Bộ Công an",
+        "description": "Thứ trưởng Bộ Công an"
+      }
+    ]
+  },
+  {
+    "id": "bui-van-nam",
+    "name": "Bùi Văn Nam",
+    "position": "P.TC trưởng, TC trưởng TC ANND (1989)\nThứ trưởng Bộ CA (1996)\nThứ trưởng Thường trực Bộ CA (1998-2011) - (2013-2021)",
+    "portraitUrl": "/uploads/portraits/bui-van-nam.jpg",
+    "biography": "Đồng chí Bùi Văn Nam có nhiều năm công tác trong lực lượng Công an nhân dân, góp phần bảo đảm an ninh quốc gia, giữ vững trật tự an toàn xã hội.",
+    "tier": "bottom",
+    "sortOrder": 3,
+    "timeline": [
+      {
+        "year": "1996",
+        "event": "Thứ trưởng Bộ Công an",
+        "description": "Thứ trưởng Bộ Công an"
+      }
+    ]
+  },
+  {
+    "id": "nguyen-van-huong",
+    "name": "Nguyễn Văn Hưởng",
+    "position": "TC trưởng TC An ninh (1997)\nThứ trưởng Bộ CA (2001-2011)",
+    "portraitUrl": "/uploads/portraits/nguyen-van-huong.jpg",
+    "biography": "Đồng chí Nguyễn Văn Hưởng có nhiều năm công tác trong lực lượng Công an nhân dân, góp phần bảo đảm an ninh quốc gia, giữ vững trật tự an toàn xã hội.",
+    "tier": "bottom",
+    "sortOrder": 4,
+    "timeline": [
+      {
+        "year": "2001",
+        "event": "Thứ trưởng Bộ Công an",
+        "description": "Thứ trưởng Bộ Công an"
+      }
+    ]
+  },
+  {
+    "id": "thi-van-tam",
+    "name": "Thi Văn Tám",
+    "position": "TC trưởng TC An ninh (2001)\nThứ trưởng Bộ CA (2006-2008)",
+    "portraitUrl": "/uploads/portraits/thi-van-tam.jpg",
+    "biography": "Đồng chí Thi Văn Tám có nhiều năm công tác trong lực lượng Công an nhân dân, góp phần bảo đảm an ninh quốc gia, giữ vững trật tự an toàn xã hội.",
+    "tier": "bottom",
+    "sortOrder": 5,
+    "timeline": [
+      {
+        "year": "2006",
+        "event": "Thứ trưởng Bộ Công an",
+        "description": "Thứ trưởng Bộ Công an"
+      }
+    ]
+  },
+  {
+    "id": "pham-dung",
+    "name": "Phạm Dũng",
+    "position": "TC trưởng TC ANND (2008-2009)\nTC trưởng TC An ninh II (2010)\nThứ trưởng Bộ NV kiêm Trưởng Ban TGCP (2012)\nThứ trưởng Bộ CA (2015-2017)",
+    "portraitUrl": "/uploads/portraits/pham-dung.jpg",
+    "biography": "Đồng chí Phạm Dũng có nhiều năm công tác trong lực lượng Công an nhân dân, góp phần bảo đảm an ninh quốc gia, giữ vững trật tự an toàn xã hội.",
+    "tier": "bottom",
+    "sortOrder": 6,
+    "timeline": [
+      {
+        "year": "2015",
+        "event": "Thứ trưởng Bộ Công an",
+        "description": "Thứ trưởng Bộ Công an"
+      }
+    ]
+  },
+  {
+    "id": "pham-the-tung",
+    "name": "Phạm Thế Tùng",
+    "position": "Cục trưởng Cục ANCT nội bộ (12/2023)\nThứ trưởng Bộ CA (7/2024)",
+    "portraitUrl": "/uploads/portraits/pham-the-tung.jpg",
+    "biography": "Đồng chí Phạm Thế Tùng có nhiều năm công tác trong lực lượng Công an nhân dân, góp phần bảo đảm an ninh quốc gia, giữ vững trật tự an toàn xã hội.",
+    "tier": "bottom",
+    "sortOrder": 7,
+    "timeline": [
+      {
+        "year": "2024",
+        "event": "Thứ trưởng Bộ Công an",
+        "description": "Thứ trưởng Bộ Công an"
+      }
+    ]
+  }
+]

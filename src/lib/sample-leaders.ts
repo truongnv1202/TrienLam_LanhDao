@@ -1,191 +1,156 @@
 import type { Leader } from "@/types";
 
-const P = (lines: string[]) => lines.join("\n");
+const PLACEHOLDER = (id: string) => `/uploads/portraits/${id}.jpg`;
 
 const bio = (name: string) =>
-  `Đồng chí ${name} có nhiều năm công tác trong lực lượng Công an nhân dân, góp phần bảo đảm an ninh quốc gia và trật tự, an toàn xã hội.`;
+  `Đồng chí ${name} có nhiều năm công tác trong lực lượng Công an nhân dân, góp phần bảo đảm an ninh quốc gia, giữ vững trật tự an toàn xã hội.`;
 
-const portrait = (slug: string) => `/images/portraits/${slug}.png`;
+const timeline = (year: string, event: string) => ({
+  year,
+  event,
+  description: event,
+});
 
-/** 13 lãnh đạo mẫu — đúng thứ tự và nội dung ảnh thiết kế */
+/** 13 lãnh đạo theo ảnh mẫu — upload ảnh tại /uploads/portraits/{id}.jpg */
 export const SAMPLE_LEADERS: Leader[] = [
   {
     id: "bui-thien-ngo",
-    sortOrder: 1,
     name: "Bùi Thiện Ngộ",
-    position: P([
-      "P.TC trưởng TC ANND (1985)",
-      "UV Bộ Chính trị khóa VII",
-      "Bộ trưởng Bộ NV (1991-1996)",
-    ]),
-    portraitUrl: portrait("bui-thien-ngo"),
+    position:
+      "P.TC trưởng TC ANND (1985)\nUV Bộ Chính trị Khóa VII\nBộ trưởng Bộ NV (1991-1996)",
+    portraitUrl: PLACEHOLDER("bui-thien-ngo"),
     biography: bio("Bùi Thiện Ngộ"),
     tier: "top",
-    timeline: [],
+    sortOrder: 1,
+    timeline: [timeline("1985", "Phó Tổng cục trưởng TC ANND")],
   },
   {
     id: "le-minh-huong",
-    sortOrder: 2,
     name: "Lê Minh Hương",
-    position: P([
-      "P.TC trưởng, TC trưởng TC Tình báo (1988-1990)",
-      "UV Bộ Chính trị khóa VIII, IX",
-      "Bộ trưởng Bộ NV (1996-2002)",
-    ]),
-    portraitUrl: portrait("le-minh-huong"),
+    position:
+      "P.TC trưởng, TC trưởng TC Tình báo (1988-1990)\nUV Bộ Chính trị khóa VII, IX\nBộ trưởng Bộ NV (1996-2002)",
+    portraitUrl: PLACEHOLDER("le-minh-huong"),
     biography: bio("Lê Minh Hương"),
     tier: "top",
-    timeline: [],
+    sortOrder: 2,
+    timeline: [timeline("1996", "Bộ trưởng Bộ Nội vụ")],
   },
   {
     id: "tran-dai-quang",
-    sortOrder: 3,
     name: "Trần Đại Quang",
-    position: P([
-      "P.TC trưởng TC An ninh",
-      "Thứ trưởng, Bộ trưởng Bộ CA",
-      "UV Bộ Chính trị khóa XI, XII",
-      "Chủ tịch nước CHXHCN Việt Nam (2016-2018)",
-    ]),
-    portraitUrl: portrait("tran-dai-quang"),
+    position:
+      "P.TC trưởng TC An ninh\nThứ trưởng, Bộ trưởng Bộ CA\nUV Bộ Chính trị khóa XI, XII\nChủ tịch nước CHXHCN Việt Nam (2016-2018)",
+    portraitUrl: PLACEHOLDER("tran-dai-quang"),
     biography: bio("Trần Đại Quang"),
     tier: "top",
-    timeline: [],
+    sortOrder: 3,
+    timeline: [timeline("2016", "Chủ tịch nước")],
   },
   {
     id: "to-lam",
-    sortOrder: 4,
     name: "Tô Lâm",
-    position: P([
-      "TC trưởng TC An ninh",
-      "Thứ trưởng, Bộ trưởng Bộ CA",
-      "UV Bộ Chính trị khóa XII, XIII",
-      "Chủ tịch nước & Tổng Bí thư BCH TW Đảng khóa XIII (2024 - Nay)",
-    ]),
-    portraitUrl: portrait("to-lam"),
+    position:
+      "TC trưởng TC An ninh\nThứ trưởng, Bộ trưởng Bộ CA\nUV Bộ Chính trị khóa XII, XIII\nChủ tịch nước & Tổng Bí thư BCH TW Đảng khóa XIII (2024 - Nay)",
+    portraitUrl: PLACEHOLDER("to-lam"),
     biography: bio("Tô Lâm"),
     tier: "top",
-    timeline: [],
+    sortOrder: 4,
+    timeline: [timeline("2024", "Chủ tịch nước")],
   },
   {
     id: "pham-minh-chinh",
-    sortOrder: 5,
     name: "Phạm Minh Chính",
-    position: P([
-      "P.TC trưởng TC V (2006)",
-      "TC trưởng TC IV (2010)",
-      "Thứ trưởng Bộ CA (2010-2011)",
-    ]),
-    portraitUrl: portrait("pham-minh-chinh"),
+    position:
+      "P.TC trưởng TC V (2006)\nTC trưởng TC IV (2010)\nThứ trưởng Bộ CA (2010-2011)",
+    portraitUrl: PLACEHOLDER("pham-minh-chinh"),
     biography: bio("Phạm Minh Chính"),
     tier: "top",
-    timeline: [],
+    sortOrder: 5,
+    timeline: [timeline("2010", "Thứ trưởng Bộ Công an")],
   },
   {
     id: "luong-tam-quang",
-    sortOrder: 6,
     name: "Lương Tam Quang",
-    position: P([
-      "Thứ trưởng Bộ CA (2019)",
-      "UV TW Đảng khóa XIII",
-      "Bộ trưởng Bộ CA (2024)",
-      "UV Bộ Chính trị khóa XIII",
-    ]),
-    portraitUrl: portrait("luong-tam-quang"),
+    position:
+      "Thứ trưởng Bộ CA (2019)\nUV TW Đảng Khóa XIII\nBộ trưởng Bộ CA (2024)\nUV Bộ Chính trị khóa XIII",
+    portraitUrl: PLACEHOLDER("luong-tam-quang"),
     biography: bio("Lương Tam Quang"),
     tier: "top",
-    timeline: [],
+    sortOrder: 6,
+    timeline: [timeline("2024", "Bộ trưởng Bộ Công an")],
   },
   {
     id: "vo-viet-thanh",
-    sortOrder: 7,
     name: "Võ Viết Thanh",
-    position: P(["TC trưởng TC ANND (1988)", "Thứ trưởng Bộ NV (1988-1991)"]),
-    portraitUrl: portrait("vo-viet-thanh"),
+    position: "TC trưởng TC ANND (1988)\nThứ trưởng Bộ NV (1988-1991)",
+    portraitUrl: PLACEHOLDER("vo-viet-thanh"),
     biography: bio("Võ Viết Thanh"),
     tier: "bottom",
-    timeline: [],
+    sortOrder: 1,
+    timeline: [timeline("1988", "Tổng cục trưởng TC ANND")],
   },
   {
     id: "nguyen-khanh-toan",
-    sortOrder: 8,
     name: "Nguyễn Khánh Toàn",
-    position: P([
-      "TC trưởng TC ANND (1989)",
-      "Thứ trưởng Bộ CA (1996)",
-      "Thứ trưởng Thường trực Bộ CA (1998-2011)",
-    ]),
-    portraitUrl: portrait("nguyen-khanh-toan"),
+    position:
+      "TC trưởng TC ANND (1989)\nThứ trưởng Bộ CA (1996)\nThứ trưởng Thường trực Bộ CA (1998-2011)",
+    portraitUrl: PLACEHOLDER("nguyen-khanh-toan"),
     biography: bio("Nguyễn Khánh Toàn"),
     tier: "bottom",
-    timeline: [],
+    sortOrder: 2,
+    timeline: [timeline("1996", "Thứ trưởng Bộ Công an")],
   },
   {
     id: "bui-van-nam",
-    sortOrder: 9,
     name: "Bùi Văn Nam",
-    position: P([
-      "P.TC trưởng, TC trưởng TC ANND (1989)",
-      "Thứ trưởng Bộ CA (1996)",
-      "Thứ trưởng Thường trực Bộ CA (1998-2011) - (2013-2021)",
-    ]),
-    portraitUrl: portrait("bui-van-nam"),
+    position:
+      "P.TC trưởng, TC trưởng TC ANND (1989)\nThứ trưởng Bộ CA (1996)\nThứ trưởng Thường trực Bộ CA (1998-2011) - (2013-2021)",
+    portraitUrl: PLACEHOLDER("bui-van-nam"),
     biography: bio("Bùi Văn Nam"),
     tier: "bottom",
-    timeline: [],
+    sortOrder: 3,
+    timeline: [timeline("1996", "Thứ trưởng Bộ Công an")],
   },
   {
     id: "nguyen-van-huong",
-    sortOrder: 10,
     name: "Nguyễn Văn Hưởng",
-    position: P([
-      "TC trưởng TC An ninh (1997)",
-      "Thứ trưởng Bộ CA (2001-2011)",
-    ]),
-    portraitUrl: portrait("nguyen-van-huong"),
+    position: "TC trưởng TC An ninh (1997)\nThứ trưởng Bộ CA (2001-2011)",
+    portraitUrl: PLACEHOLDER("nguyen-van-huong"),
     biography: bio("Nguyễn Văn Hưởng"),
     tier: "bottom",
-    timeline: [],
+    sortOrder: 4,
+    timeline: [timeline("2001", "Thứ trưởng Bộ Công an")],
   },
   {
     id: "thi-van-tam",
-    sortOrder: 11,
     name: "Thi Văn Tám",
-    position: P([
-      "TC trưởng TC An ninh (2001)",
-      "Thứ trưởng Bộ CA (2006-2008)",
-    ]),
-    portraitUrl: portrait("thi-van-tam"),
+    position: "TC trưởng TC An ninh (2001)\nThứ trưởng Bộ CA (2006-2008)",
+    portraitUrl: PLACEHOLDER("thi-van-tam"),
     biography: bio("Thi Văn Tám"),
     tier: "bottom",
-    timeline: [],
+    sortOrder: 5,
+    timeline: [timeline("2006", "Thứ trưởng Bộ Công an")],
   },
   {
     id: "pham-dung",
-    sortOrder: 12,
     name: "Phạm Dũng",
-    position: P([
-      "TC trưởng TC ANND (2008-2009)",
-      "TC trưởng TC An ninh II (2010)",
-      "Thứ trưởng Bộ NV kiêm Trưởng Ban TGCP (2012)",
-      "Thứ trưởng Bộ CA (2015-2017)",
-    ]),
-    portraitUrl: portrait("pham-dung"),
+    position:
+      "TC trưởng TC ANND (2008-2009)\nTC trưởng TC An ninh II (2010)\nThứ trưởng Bộ NV kiêm Trưởng Ban TGCP (2012)\nThứ trưởng Bộ CA (2015-2017)",
+    portraitUrl: PLACEHOLDER("pham-dung"),
     biography: bio("Phạm Dũng"),
     tier: "bottom",
-    timeline: [],
+    sortOrder: 6,
+    timeline: [timeline("2015", "Thứ trưởng Bộ Công an")],
   },
   {
     id: "pham-the-tung",
-    sortOrder: 13,
     name: "Phạm Thế Tùng",
-    position: P([
-      "Cục trưởng Cục ANCT nội bộ (12/2023)",
-      "Thứ trưởng Bộ CA (7/2024)",
-    ]),
-    portraitUrl: portrait("pham-the-tung"),
+    position:
+      "Cục trưởng Cục ANCT nội bộ (12/2023)\nThứ trưởng Bộ CA (7/2024)",
+    portraitUrl: PLACEHOLDER("pham-the-tung"),
     biography: bio("Phạm Thế Tùng"),
     tier: "bottom",
-    timeline: [],
+    sortOrder: 7,
+    timeline: [timeline("2024", "Thứ trưởng Bộ Công an")],
   },
 ];

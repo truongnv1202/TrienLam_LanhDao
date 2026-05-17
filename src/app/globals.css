@@ -119,22 +119,16 @@ body {
   transform: translate(-50%, -50%);
   object-fit: cover;
   object-position: center;
-  filter: brightness(0.9) saturate(1.08);
+  filter: brightness(0.95) saturate(1.12) contrast(1.02);
 }
 
 .exhibition-video-overlay {
-  background:
-    radial-gradient(
-      ellipse 90% 75% at 50% 40%,
-      rgba(120, 20, 20, 0.15) 0%,
-      rgba(60, 8, 8, 0.45) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(40, 0, 0, 0.35) 0%,
-      rgba(74, 12, 12, 0.2) 45%,
-      rgba(30, 0, 0, 0.5) 100%
-    );
+  background: linear-gradient(
+    180deg,
+    rgba(20, 0, 0, 0.12) 0%,
+    rgba(40, 0, 0, 0.08) 50%,
+    rgba(20, 0, 0, 0.22) 100%
+  );
   pointer-events: none;
 }
 
@@ -155,15 +149,15 @@ body {
 }
 
 .exhibition-canvas {
-  --row-block-w: 1764px;
-  --row-gap-x: 10px;
+  --row-block-w: 1778px;
+  --row-gap-x: 9px;
   --row-gap-y: 20px;
   --card-top-w: calc((var(--row-block-w) - var(--row-gap-x) * 5) / 6);
   --card-bottom-w: calc((var(--row-block-w) - var(--row-gap-x) * 6) / 7);
-  --card-top-h: 408px;
+  --card-top-h: 412px;
   --card-bottom-h: 368px;
-  --card-portrait-ratio: 62%;
-  --card-info-ratio: 38%;
+  --card-portrait-ratio: 65%;
+  --card-info-ratio: 35%;
 
   width: 1920px;
   height: 1080px;
@@ -177,10 +171,10 @@ body {
 .exhibition-header {
   flex-shrink: 0;
   display: grid;
-  grid-template-columns: 188px 1fr 200px;
+  grid-template-columns: 200px 1fr 215px;
   align-items: center;
   gap: 4px;
-  height: 142px;
+  height: 138px;
   margin-bottom: 6px;
 }
 
@@ -192,64 +186,58 @@ body {
 .exhibition-header-side--left {
   justify-content: flex-start;
   align-items: flex-start;
-  padding-top: 6px;
+  padding-top: 14px;
   padding-left: 2px;
 }
 
 .exhibition-header-side--right {
   justify-content: flex-end;
   align-items: flex-start;
-  padding-top: 0;
+  padding-top: 6px;
   padding-right: 0;
 }
 
 .exhibition-emblem {
-  width: 108px !important;
-  height: 108px !important;
+  width: 106px !important;
+  height: 106px !important;
   object-fit: contain;
   mix-blend-mode: screen;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
 }
 
 .exhibition-flag {
   width: 158px !important;
   height: 158px !important;
   object-fit: contain;
-  transform: rotate(18deg);
-  transform-origin: 72% 28%;
+  transform: rotate(14deg);
+  transform-origin: 65% 28%;
   mix-blend-mode: screen;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
-  margin-top: -6px;
-  margin-right: -10px;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.35));
 }
 
 .exhibition-header-titles {
   text-align: center;
-  padding-top: 10px;
-}
-
-.exhibition-title-sub,
-.exhibition-title-main,
-.exhibition-name {
-  font-family: var(--font-exhibition-serif), "Times New Roman", Georgia, serif;
+  padding-top: 18px;
 }
 
 .exhibition-title-sub {
+  font-family: var(--font-exhibition-sans), "Segoe UI", sans-serif;
   font-size: 34px;
   font-weight: 600;
-  letter-spacing: 0.12em;
-  color: #e8c547;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  letter-spacing: 0.1em;
+  color: #ffd700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .exhibition-title-main {
   margin-top: 2px;
+  font-family: var(--font-exhibition-sans), "Segoe UI", sans-serif;
   font-size: 48px;
   font-weight: 700;
-  line-height: 1.06;
-  letter-spacing: 0.04em;
-  color: #f5d76e;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+  color: #ffdf7a;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .exhibition-stage {
@@ -306,58 +294,59 @@ body {
   height: var(--card-bottom-h);
 }
 
-/* Thẻ lãnh đạo — khớp mẫu: viền vàng, 62% ảnh / 38% chữ */
+/* Thẻ lãnh đạo — khớp mẫu */
 .exhibition-leader-card {
-  border: 1.5px solid #d4af37;
-  border-radius: 14px;
+  border: 1.5px solid #e8a030;
+  border-radius: 12px;
   box-shadow:
-    0 0 12px rgba(212, 175, 55, 0.35),
-    0 4px 16px rgba(0, 0, 0, 0.4);
+    0 0 14px rgba(255, 180, 50, 0.4),
+    0 0 4px rgba(255, 215, 100, 0.25),
+    0 4px 14px rgba(0, 0, 0, 0.45);
   background: #2b0505;
 }
 
 .exhibition-leader-info {
   flex: 0 0 var(--card-info-ratio);
   min-height: 0;
-  padding: 8px 10px 10px;
-  background: #2b0505;
+  padding: 7px 8px 9px;
+  background: rgba(43, 5, 5, 0.92);
 }
 
 .exhibition-label {
   font-family: var(--font-exhibition-serif), "Times New Roman", Georgia, serif;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   font-style: italic;
-  color: #d4af37;
-  line-height: 1.15;
+  color: #ffd700;
+  line-height: 1.1;
 }
 
 .exhibition-name {
-  margin-top: 3px;
-  font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
-  font-size: 15px;
+  margin-top: 2px;
+  font-family: var(--font-exhibition-sans), "Segoe UI", sans-serif;
+  font-size: 17px;
   font-weight: 700;
-  line-height: 1.15;
-  color: #e5b80b;
-  letter-spacing: 0.02em;
+  line-height: 1.12;
+  color: #ffd700;
+  letter-spacing: 0.01em;
 }
 
 .exhibition-card-top .exhibition-name {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .exhibition-card-bottom .exhibition-name {
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .exhibition-position {
-  margin-top: 5px;
+  margin-top: 4px;
   width: 100%;
-  font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
-  font-size: 9.5px;
-  font-weight: 400;
-  line-height: 1.35;
-  color: #ffffff;
+  font-family: var(--font-exhibition-sans), "Segoe UI", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.32;
+  color: #fff8e7;
   white-space: pre-line;
   text-align: center;
   overflow: hidden;
@@ -368,6 +357,7 @@ body {
 
 .exhibition-card-bottom .exhibition-position {
   font-size: 9px;
+  line-height: 1.28;
   -webkit-line-clamp: 5;
 }
 

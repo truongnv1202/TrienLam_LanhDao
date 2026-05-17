@@ -5,7 +5,7 @@ import { SAMPLE_LEADERS } from "@/lib/sample-leaders";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const DATA_FILE = path.join(DATA_DIR, "leaders.json");
-const SAMPLE_FILE = path.join(DATA_DIR, "leaders.sample.json");
+const SEED_FILE = path.join(DATA_DIR, "leaders.seed.json");
 const UPLOADS_DIR = path.join(process.cwd(), "public", "uploads", "portraits");
 
 export const SEED_LEADERS: Leader[] = SAMPLE_LEADERS;
@@ -13,16 +13,15 @@ export const SEED_LEADERS: Leader[] = SAMPLE_LEADERS;
 async function ensureDataFile(): Promise<void> {
   await fs.mkdir(DATA_DIR, { recursive: true });
   await fs.mkdir(UPLOADS_DIR, { recursive: true });
-  await fs.mkdir(path.join(process.cwd(), "public", "images", "portraits"), {
-    recursive: true,
-  });
-
-  await fs.writeFile(SAMPLE_FILE, JSON.stringify(SAMPLE_LEADERS, null, 2), "utf-8");
-
   try {
     await fs.access(DATA_FILE);
   } catch {
-    await fs.writeFile(DATA_FILE, JSON.stringify(SAMPLE_LEADERS, null, 2), "utf-8");
+    try {
+      const seedRaw = await fs.readFile(SEED_FILE, "utf-8");
+      await fs.writeFile(DATA_FILE, seedRaw, "utf-8");
+    } catch {
+      await fs.writeFile(DATA_FILE, JSON.stringify(SEED_LEADERS, null, 2), "utf-8");
+    }
   }
 }
 
@@ -30,9 +29,7 @@ export async function readLeaders(): Promise<Leader[]> {
   await ensureDataFile();
   const raw = await fs.readFile(DATA_FILE, "utf-8");
   const parsed: unknown = JSON.parse(raw);
-  if (!Array.isArray(parsed) || parsed.length === 0) {
-    return [...SAMPLE_LEADERS];
-  }
+  if (!Array.isArray(parsed)) return [...SEED_LEADERS];
   return parsed as Leader[];
 }
 
@@ -41,19 +38,12 @@ export async function writeLeaders(leaders: Leader[]): Promise<void> {
   await fs.writeFile(DATA_FILE, JSON.stringify(leaders, null, 2), "utf-8");
 }
 
-export async function resetLeadersToSample(): Promise<Leader[]> {
-  await ensureDataFile();
-  await fs.writeFile(DATA_FILE, JSON.stringify(SAMPLE_LEADERS, null, 2), "utf-8");
-  return [...SAMPLE_LEADERS];
-}
-
 export function sortLeaders(leaders: Leader[]): Leader[] {
   return [...leaders].sort((a, b) => {
-    const orderA = a.sortOrder ?? (a.tier === "top" ? 0 : 100);
-    const orderB = b.sortOrder ?? (b.tier === "top" ? 0 : 100);
-    if (orderA !== orderB) return orderA - orderB;
     if (a.tier !== b.tier) return a.tier === "top" ? -1 : 1;
-    return a.name.localeCompare(b.name, "vi");
+    const orderA = a.sortOrder ?? 999;
+    const orderB = b.sortOrder ?? 999;
+    return orderA - orderB;
   });
 }
 
@@ -130,4 +120,12 @@ export async function savePortraitFile(
   await fs.writeFile(filePath, buffer);
 
   return `/uploads/portraits/${filename}`;
+}
+
+/** Ghi đè data/leaders.json bằng dữ liệu mẫu ảnh */
+export async function resetToSampleLeaders(): Promise<Leader[]> {
+  await ensureDataFile();
+  await fs.writeFile(DATA_FILE, JSON.stringify(SEED_LEADERS, null, 2), "utf-8");
+  await fs.writeFile(SEED_FILE, JSON.stringify(SEED_LEADERS, null, 2), "utf-8");
+  return SEED_LEADERS;
 }

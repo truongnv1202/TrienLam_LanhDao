@@ -34,15 +34,8 @@ export default function HomePage() {
     void fetchLeaders();
   }, [fetchLeaders]);
 
-  const byOrder = (a: Leader, b: Leader) =>
-    (a.sortOrder ?? 0) - (b.sortOrder ?? 0);
-
-  const topTier = leaders
-    .filter((l) => l.tier === "top")
-    .sort(byOrder);
-  const bottomTier = leaders
-    .filter((l) => l.tier === "bottom")
-    .sort(byOrder);
+  const topTier = leaders.filter((l) => l.tier === "top");
+  const bottomTier = leaders.filter((l) => l.tier === "bottom");
 
   return (
     <div className="exhibition-page relative h-[100dvh] overflow-hidden">
