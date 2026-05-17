@@ -149,110 +149,121 @@ body {
 }
 
 .exhibition-canvas {
-  --row-block-w: 1778px;
-  --row-gap-x: 9px;
-  --row-gap-y: 20px;
-  --card-top-w: calc((var(--row-block-w) - var(--row-gap-x) * 5) / 6);
-  --card-bottom-w: calc((var(--row-block-w) - var(--row-gap-x) * 6) / 7);
-  --card-top-h: 412px;
-  --card-bottom-h: 368px;
+  /* Hàng trên — Figma */
+  --card-top-w: 240px;
+  --card-top-h: 391px;
+  --card-top-left-1: 190px;
+  --card-top-left-2: 450px;
+  --card-top-step: 260px; /* 240 + khoảng cách 20px */
+  --card-top-top: 224px;
+  /* Hàng dưới — Figma */
+  --card-bottom-w: 240px;
+  --card-bottom-h: 391px;
+  --card-bottom-left-1: 60px;
+  --card-bottom-left-2: 320px;
+  --card-bottom-step: 260px;
+  --card-bottom-top: 635px;
   --card-portrait-ratio: 65%;
   --card-info-ratio: 35%;
 
+  position: relative;
   width: 1920px;
   height: 1080px;
   flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  padding: 18px 70px 22px;
   transform-origin: center center;
 }
 
+/* Header — tọa độ Figma 1920×1080 */
 .exhibition-header {
-  flex-shrink: 0;
-  display: grid;
-  grid-template-columns: 200px 1fr 215px;
-  align-items: center;
-  gap: 4px;
-  height: 138px;
-  margin-bottom: 6px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 1920px;
+  height: 348px;
+  margin: 0;
+  pointer-events: none;
 }
 
-.exhibition-header-side {
-  display: flex;
-  height: 100%;
-}
-
-.exhibition-header-side--left {
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding-top: 14px;
-  padding-left: 2px;
-}
-
-.exhibition-header-side--right {
-  justify-content: flex-end;
-  align-items: flex-start;
-  padding-top: 6px;
-  padding-right: 0;
+.exhibition-header .exhibition-emblem,
+.exhibition-header .exhibition-flag {
+  pointer-events: auto;
 }
 
 .exhibition-emblem {
-  width: 106px !important;
-  height: 106px !important;
+  position: absolute;
+  top: 74px;
+  left: 294px;
+  width: 144px !important;
+  height: 113px !important;
   object-fit: contain;
+  opacity: 1;
   mix-blend-mode: screen;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
 }
 
 .exhibition-flag {
-  width: 158px !important;
-  height: 158px !important;
+  position: absolute;
+  top: 74px;
+  left: 1450px;
+  width: 361px !important;
+  height: 260px !important;
   object-fit: contain;
-  transform: rotate(14deg);
-  transform-origin: 65% 28%;
+  opacity: 1;
+  transform: none;
   mix-blend-mode: screen;
-  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.35));
 }
 
 .exhibition-header-titles {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 82px;
   text-align: center;
-  padding-top: 18px;
+  pointer-events: none;
 }
 
 .exhibition-title-sub {
-  font-family: var(--font-exhibition-sans), "Segoe UI", sans-serif;
-  font-size: 34px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-family: var(--font-lato), "Lato", sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-align: center;
   color: #ffd700;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
 }
 
 .exhibition-title-main {
-  margin-top: 2px;
-  font-family: var(--font-exhibition-sans), "Segoe UI", sans-serif;
-  font-size: 48px;
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: 0.03em;
+  margin-top: 4px;
+  font-family: var(--font-lato), "Lato", sans-serif;
+  font-size: 56px;
+  font-weight: 900;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-align: center;
   color: #ffdf7a;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .exhibition-stage {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  pointer-events: none;
 }
 
 .exhibition-loading {
-  flex: 1;
+  position: absolute;
+  inset: 0;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: auto;
 }
 
 .exhibition-error {
@@ -268,36 +279,103 @@ body {
 }
 
 .exhibition-board {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--row-gap-y);
-  width: var(--row-block-w);
+  position: relative;
+  width: 1920px;
+  height: 1080px;
 }
 
-.exhibition-row {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: flex-end;
-  gap: var(--row-gap-x);
-  width: var(--row-block-w);
-}
-
-.exhibition-card-top {
-  width: var(--card-top-w);
+/* Hàng trên: 6 thẻ, tọa độ tuyệt đối */
+.exhibition-row-top {
+  position: absolute;
+  top: var(--card-top-top);
+  left: 0;
+  width: 1920px;
   height: var(--card-top-h);
+  pointer-events: none;
 }
 
-.exhibition-card-bottom {
-  width: var(--card-bottom-w);
+.exhibition-row-top .exhibition-leader-card {
+  position: absolute;
+  top: 0;
+  width: var(--card-top-w) !important;
+  height: var(--card-top-h) !important;
+  pointer-events: auto;
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(1) {
+  left: var(--card-top-left-1);
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(2) {
+  left: var(--card-top-left-2);
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(3) {
+  left: calc(var(--card-top-left-2) + var(--card-top-step));
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(4) {
+  left: calc(var(--card-top-left-2) + var(--card-top-step) * 2);
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(5) {
+  left: calc(var(--card-top-left-2) + var(--card-top-step) * 3);
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(6) {
+  left: calc(var(--card-top-left-2) + var(--card-top-step) * 4);
+}
+
+/* Hàng dưới: 7 thẻ, tọa độ tuyệt đối */
+.exhibition-row-bottom {
+  position: absolute;
+  top: var(--card-bottom-top);
+  left: 0;
+  width: 1920px;
   height: var(--card-bottom-h);
+  pointer-events: none;
+}
+
+.exhibition-row-bottom .exhibition-leader-card {
+  position: absolute;
+  top: 0;
+  width: var(--card-bottom-w) !important;
+  height: var(--card-bottom-h) !important;
+  pointer-events: auto;
+}
+
+.exhibition-row-bottom .exhibition-leader-card:nth-child(1) {
+  left: var(--card-bottom-left-1);
+}
+
+.exhibition-row-bottom .exhibition-leader-card:nth-child(2) {
+  left: var(--card-bottom-left-2);
+}
+
+.exhibition-row-bottom .exhibition-leader-card:nth-child(3) {
+  left: calc(var(--card-bottom-left-2) + var(--card-bottom-step));
+}
+
+.exhibition-row-bottom .exhibition-leader-card:nth-child(4) {
+  left: calc(var(--card-bottom-left-2) + var(--card-bottom-step) * 2);
+}
+
+.exhibition-row-bottom .exhibition-leader-card:nth-child(5) {
+  left: calc(var(--card-bottom-left-2) + var(--card-bottom-step) * 3);
+}
+
+.exhibition-row-bottom .exhibition-leader-card:nth-child(6) {
+  left: calc(var(--card-bottom-left-2) + var(--card-bottom-step) * 4);
+}
+
+.exhibition-row-bottom .exhibition-leader-card:nth-child(7) {
+  left: calc(var(--card-bottom-left-2) + var(--card-bottom-step) * 5);
 }
 
 /* Thẻ lãnh đạo — khớp mẫu */
 .exhibition-leader-card {
   border: 1.5px solid #e8a030;
-  border-radius: 12px;
+  border-radius: 12px; /* Figma */
   box-shadow:
     0 0 14px rgba(255, 180, 50, 0.4),
     0 0 4px rgba(255, 215, 100, 0.25),
@@ -323,7 +401,7 @@ body {
 
 .exhibition-name {
   margin-top: 2px;
-  font-family: var(--font-exhibition-sans), "Segoe UI", sans-serif;
+  font-family: var(--font-lato), "Lato", sans-serif;
   font-size: 17px;
   font-weight: 700;
   line-height: 1.12;
@@ -342,7 +420,7 @@ body {
 .exhibition-position {
   margin-top: 4px;
   width: 100%;
-  font-family: var(--font-exhibition-sans), "Segoe UI", sans-serif;
+  font-family: var(--font-lato), "Lato", sans-serif;
   font-size: 10px;
   font-weight: 500;
   line-height: 1.32;
