@@ -185,8 +185,7 @@ body {
   pointer-events: none;
 }
 
-.exhibition-header .exhibition-emblem,
-.exhibition-header .exhibition-flag {
+.exhibition-header .exhibition-emblem {
   pointer-events: auto;
 }
 
@@ -194,6 +193,7 @@ body {
   position: absolute;
   top: 74px;
   left: 294px;
+  z-index: 2;
   width: 144px !important;
   height: 113px !important;
   object-fit: contain;
@@ -201,10 +201,18 @@ body {
   mix-blend-mode: screen;
 }
 
-.exhibition-flag {
+/* Cờ VN — dưới lớp thẻ (z-index thấp) */
+.exhibition-flag-wrap {
   position: absolute;
   top: 74px;
   left: 1450px;
+  z-index: 1;
+  width: 361px;
+  height: 260px;
+  pointer-events: none;
+}
+
+.exhibition-flag {
   width: 361px !important;
   height: 260px !important;
   object-fit: contain;
@@ -218,6 +226,7 @@ body {
   left: 0;
   right: 0;
   top: 82px;
+  z-index: 2;
   text-align: center;
   pointer-events: none;
 }
@@ -251,6 +260,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 5;
   width: 1920px;
   height: 1080px;
   pointer-events: none;

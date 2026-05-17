@@ -6,6 +6,7 @@ import LeaderCard from "@/components/LeaderCard";
 import LeaderModal from "@/components/LeaderModal";
 import HomeExhibitionBackground from "@/components/HomeExhibitionBackground";
 import ExhibitionHeader from "@/components/ExhibitionHeader";
+import ExhibitionFlag from "@/components/ExhibitionFlag";
 import ExhibitionCanvas from "@/components/ExhibitionCanvas";
 import type { Leader } from "@/types";
 
@@ -43,6 +44,7 @@ export default function HomePage() {
 
       <ExhibitionCanvas>
         <ExhibitionHeader />
+        <ExhibitionFlag />
 
         {loading && (
           <div className="exhibition-loading">
