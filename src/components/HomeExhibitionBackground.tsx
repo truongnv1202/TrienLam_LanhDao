@@ -2,9 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
-/** Video nền 16:9 — đặt file tại public/videos/exhibition-background.mp4 */
-const VIDEO_PRIMARY = "/videos/exhibition-background.mp4";
-const VIDEO_FALLBACK = "/videos/home-background.mp4";
+/** Video nền 16:9 — public/videos/home-background.mp4 */
+const VIDEO_SRC = "/videos/home-background.mp4";
 
 export default function HomeExhibitionBackground() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -38,8 +37,7 @@ export default function HomeExhibitionBackground() {
         playsInline
         preload="auto"
       >
-        <source src={VIDEO_PRIMARY} type="video/mp4" />
-        <source src={VIDEO_FALLBACK} type="video/mp4" />
+        <source src={VIDEO_SRC} type="video/mp4" />
       </video>
       <div className="exhibition-video-overlay absolute inset-0" />
     </div>
