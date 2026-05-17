@@ -189,22 +189,10 @@ body {
   pointer-events: auto;
 }
 
-.exhibition-emblem {
+/* Cờ VN — dưới thẻ lãnh đạo */
+.exhibition-flag-layer {
   position: absolute;
-  top: 74px;
-  left: 294px;
-  z-index: 2;
-  width: 144px !important;
-  height: 113px !important;
-  object-fit: contain;
-  opacity: 1;
-  mix-blend-mode: screen;
-}
-
-/* Cờ VN — dưới lớp thẻ (z-index thấp) */
-.exhibition-flag-wrap {
-  position: absolute;
-  top: 74px;
+  top: 0;
   left: 1450px;
   z-index: 1;
   width: 361px;
@@ -221,12 +209,22 @@ body {
   mix-blend-mode: screen;
 }
 
+.exhibition-emblem {
+  position: absolute;
+  top: 74px;
+  left: 294px;
+  width: 144px !important;
+  height: 113px !important;
+  object-fit: contain;
+  opacity: 1;
+  mix-blend-mode: screen;
+}
+
 .exhibition-header-titles {
   position: absolute;
   left: 0;
   right: 0;
   top: 82px;
-  z-index: 2;
   text-align: center;
   pointer-events: none;
 }
@@ -290,6 +288,7 @@ body {
 
 .exhibition-board {
   position: relative;
+  z-index: 5;
   width: 1920px;
   height: 1080px;
 }
