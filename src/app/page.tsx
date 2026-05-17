@@ -60,35 +60,37 @@ export default function HomePage() {
 
         {!loading && !error && (
           <main className="exhibition-stage flex min-h-0 flex-1 flex-col items-center justify-center">
-            {topTier.length > 0 && (
-              <section
-                aria-label="Hàng lãnh đạo trên"
-                className="exhibition-row exhibition-row-top"
-              >
-                {topTier.map((leader) => (
-                  <LeaderCard
-                    key={leader.id}
-                    leader={leader}
-                    onClick={setSelectedLeader}
-                  />
-                ))}
-              </section>
-            )}
+            <div className="exhibition-board">
+              {topTier.length > 0 && (
+                <section
+                  aria-label="Hàng lãnh đạo trên"
+                  className="exhibition-row exhibition-row-top"
+                >
+                  {topTier.map((leader) => (
+                    <LeaderCard
+                      key={leader.id}
+                      leader={leader}
+                      onClick={setSelectedLeader}
+                    />
+                  ))}
+                </section>
+              )}
 
-            {bottomTier.length > 0 && (
-              <section
-                aria-label="Hàng lãnh đạo dưới"
-                className="exhibition-row exhibition-row-bottom"
-              >
-                {bottomTier.map((leader) => (
-                  <LeaderCard
-                    key={leader.id}
-                    leader={leader}
-                    onClick={setSelectedLeader}
-                  />
-                ))}
-              </section>
-            )}
+              {bottomTier.length > 0 && (
+                <section
+                  aria-label="Hàng lãnh đạo dưới"
+                  className="exhibition-row exhibition-row-bottom"
+                >
+                  {bottomTier.map((leader) => (
+                    <LeaderCard
+                      key={leader.id}
+                      leader={leader}
+                      onClick={setSelectedLeader}
+                    />
+                  ))}
+                </section>
+              )}
+            </div>
 
             {leaders.length === 0 && (
               <p className="text-center text-sm text-white/75">

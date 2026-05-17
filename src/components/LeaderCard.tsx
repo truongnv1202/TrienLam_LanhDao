@@ -16,7 +16,7 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
       type="button"
       onClick={() => onClick(leader)}
       className={[
-        "exhibition-leader-card group flex flex-col overflow-hidden text-left transition-transform duration-200",
+        "exhibition-leader-card group flex flex-col overflow-hidden text-center transition-transform duration-200",
         "hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f5d76e]/80",
         isTopTier ? "exhibition-card-top" : "exhibition-card-bottom",
       ].join(" ")}
@@ -24,7 +24,7 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
     >
       <div
         className={[
-          "leader-portrait-frame relative w-full overflow-hidden",
+          "leader-portrait-frame relative w-full shrink-0 overflow-hidden",
           isTopTier ? "exhibition-portrait-top" : "exhibition-portrait-bottom",
         ].join(" ")}
       >
@@ -32,27 +32,16 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
           src={leader.portraitUrl}
           alt=""
           fill
-          sizes={isTopTier ? "152px" : "130px"}
+          sizes={isTopTier ? "(min-width:1200px) 142px, 120px" : "(min-width:1200px) 122px, 104px"}
           className="relative z-[1] object-contain object-bottom"
           priority={isTopTier}
         />
       </div>
 
-      <div className="exhibition-leader-info flex flex-col items-center justify-center px-1.5 py-1.5 text-center">
-        <p className="text-[8px] font-medium leading-none text-[#e8c547] sm:text-[9px]">
-          Đồng chí
-        </p>
-        <h3
-          className={[
-            "mt-0.5 font-bold leading-tight text-[#f5d76e]",
-            isTopTier ? "text-[11px] sm:text-xs" : "text-[10px] sm:text-[11px]",
-          ].join(" ")}
-        >
-          {leader.name}
-        </h3>
-        <p className="exhibition-position mt-0.5 text-[7px] leading-[1.25] text-white/92 sm:text-[8px]">
-          {leader.position}
-        </p>
+      <div className="exhibition-leader-info flex min-h-0 flex-1 flex-col items-center justify-start px-1 py-1.5">
+        <p className="exhibition-label">Đồng chí</p>
+        <h3 className="exhibition-name">{leader.name}</h3>
+        <p className="exhibition-position">{leader.position}</p>
       </div>
     </button>
   );
