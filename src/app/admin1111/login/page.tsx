@@ -3,6 +3,7 @@
 import { FormEvent, Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Lock, Loader2, Shield } from "lucide-react";
+import { ADMIN_BASE_PATH, isAdminPath } from "@/lib/admin-path";
 
 function LoginForm() {
   const router = useRouter();
@@ -36,7 +37,7 @@ function LoginForm() {
       }
 
       const from = searchParams.get("from");
-      router.replace(from && from.startsWith("/admin") ? from : "/admin");
+      router.replace(from && isAdminPath(from) ? from : ADMIN_BASE_PATH);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Đăng nhập thất bại.");

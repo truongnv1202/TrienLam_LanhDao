@@ -2,17 +2,18 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { LogOut, Shield } from "lucide-react";
+import { ADMIN_LOGIN_PATH } from "@/lib/admin-path";
 
 export default function AdminLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname();
   const router = useRouter();
-  const isLoginPage = pathname === "/admin/login";
+  const isLoginPage = pathname === ADMIN_LOGIN_PATH;
 
   const handleLogout = async () => {
     await fetch("/api/admin/logout", { method: "POST" });
-    router.replace("/admin/login");
+    router.replace(ADMIN_LOGIN_PATH);
     router.refresh();
   };
 
