@@ -1,0 +1,20 @@
+services:
+  lanhdao:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: trienlam-lanhdao
+    restart: unless-stopped
+    # Chỉ bind localhost — Nginx host proxy vào 5006
+    ports:
+      - "127.0.0.1:5006:3000"
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      HOSTNAME: "0.0.0.0"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:3000/api/leaders"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

@@ -1,0 +1,25 @@
+{
+  "project_context": "Hệ thống hiển thị sơ đồ tổ chức và quản lý tiểu sử timeline Lãnh đạo An ninh nhân dân.",
+  "tech_stack": [
+    "Next.js (App Router)",
+    "TypeScript (Strict Mode)",
+    "Tailwind CSS",
+    "Lucide React Icons"
+  ],
+  "code_style_guidelines": {
+    "typescript": "Strict typing is mandatory. Never use 'any'. Always define interfaces clearly in @src/types/index.ts.",
+    "components": "Functional components with 'use client' only when state or browser APIs are required. Separate logic and presentation cleanly.",
+    "styling": "Utilize pure Tailwind CSS. Follow the precise color theme defined in instructions (crimson red background, gold/yellow accents). Ensure perfect responsiveness across mobile, tablet, and desktop."
+  },
+  "ui_ux_standards": {
+    "theme_colors": {
+      "background_gradient": "from-[#800000] via-[#a30000] to-[#4a0000]",
+      "accents": "gold/yellow accents (#d4af37 or #ffdf7a)"
+    },
+    "hierarchy": "Tier top cards must be ~10% larger than Tier bottom cards to preserve political hierarchy.",
+    "interactions": "Hover states on cards must include smooth scale-105, brightness boost, and a subtle gold glow. Modal opens must use backdrop blur and transition animations."
+  },
+  "backend_rules": {
+    "api_routes": "Handle GET and POST in @src/app/api/leaders/route.ts. Use a persistent-in-memory array variable for simulation. Implement robust update-or-insert (upsert) logic based on ID existence."
+  }
+}
