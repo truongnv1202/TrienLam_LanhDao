@@ -381,17 +381,32 @@ body {
   left: calc(var(--card-bottom-left-2) + var(--card-bottom-step) * 5);
 }
 
-/* Thẻ lãnh đạo — nền ảnh mẫu (đỏ sẫm + viền vàng) */
+/* Thẻ lãnh đạo — nền mẫu (vân vàng trên + đỏ sẫm dưới) */
 .exhibition-leader-card {
   position: relative;
   border: none;
   border-radius: 12px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
-  background-color: transparent;
+  background-color: #2b0505;
   background-image: url("/images/leader-card-bg.png");
   background-size: 100% 100%;
-  background-repeat: no-repeat;
   background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Viền vàng góc — đè lên toàn thẻ */
+.leader-card-frame-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.leader-card-frame-image {
+  object-fit: fill;
+  mix-blend-mode: screen;
 }
 
 .exhibition-leader-info {
@@ -459,10 +474,10 @@ body {
   }
 }
 
-/* Vùng ảnh chân dung — trong suốt, nền lấy từ leader-card-bg */
+/* Vùng ảnh chân dung — không nền đen, dùng nền thẻ phía sau */
 .leader-portrait-frame {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   flex: 0 0 var(--card-portrait-ratio);
   min-height: 0;
   background: transparent;
@@ -471,5 +486,5 @@ body {
 .leader-portrait-image {
   object-fit: contain;
   object-position: center bottom;
-  padding: 0 6px;
+  padding: 0 4px;
 }
