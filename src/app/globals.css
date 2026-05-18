@@ -386,7 +386,7 @@ body {
   position: relative;
   border: none;
   border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  box-shadow: none;
   background: transparent;
 }
 
@@ -409,8 +409,7 @@ body {
   flex: 0 0 var(--card-info-ratio);
   min-height: 0;
   padding: 7px 8px 9px;
-  background: #2b0505;
-  border-radius: 0 0 10px 10px;
+  background: rgba(43, 5, 5, 0.92);
 }
 
 .exhibition-label {
@@ -469,7 +468,7 @@ body {
   }
 }
 
-/* Vùng ảnh — không nền đen */
+/* Vùng ảnh — trong suốt, vân vàng qua lớp phủ (bỏ nền đen PNG) */
 .leader-portrait-frame {
   flex: 0 0 var(--card-portrait-ratio);
   min-height: 0;
@@ -481,10 +480,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url("/images/leader-portrait-bg.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: url("/images/leader-portrait-bg.png") center / cover no-repeat;
   mix-blend-mode: screen;
   pointer-events: none;
 }
