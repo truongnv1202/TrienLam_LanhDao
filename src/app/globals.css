@@ -479,14 +479,31 @@ body {
   }
 }
 
-/* Vùng ảnh chân dung — không vân, không nền (ảnh hiển thị sạch) */
+/* Vùng chân dung — nền vân vàng, đáy ảnh lãnh đạo trùng đáy nền */
 .exhibition-leader-card .leader-portrait-frame {
   flex: 0 0 var(--card-portrait-ratio);
   min-height: 0;
   background: transparent;
 }
 
+.exhibition-leader-card .leader-portrait-frame::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("/images/leader-portrait-bg.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center bottom;
+  mix-blend-mode: screen;
+}
+
 .exhibition-leader-card .leader-portrait-image {
+  z-index: 1;
   object-fit: contain;
   object-position: center bottom;
   padding: 0 4px;
