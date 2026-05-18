@@ -381,13 +381,13 @@ body {
   left: calc(var(--card-bottom-left-2) + var(--card-bottom-step) * 5);
 }
 
-/* Thẻ lãnh đạo — nền đỏ đồng nhất, không nền đen */
+/* Thẻ lãnh đạo — trong suốt, chỉ viền vàng (không khối nền đen) */
 .exhibition-leader-card {
   position: relative;
-  border: 1px solid #d4af37;
+  border: 1px solid rgba(212, 175, 55, 0.85);
   border-radius: 12px;
   overflow: hidden;
-  background-color: #3d0a0a;
+  background: transparent;
   box-shadow: none;
   -webkit-appearance: none;
   appearance: none;
@@ -397,7 +397,7 @@ body {
   flex: 0 0 var(--card-info-ratio);
   min-height: 0;
   padding: 7px 8px 9px;
-  background-color: #3d0a0a;
+  background: transparent;
 }
 
 .exhibition-label {
@@ -409,6 +409,7 @@ body {
   letter-spacing: 0;
   text-align: center;
   color: #ffd700;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
 }
 
 .exhibition-name {
@@ -420,6 +421,7 @@ body {
   letter-spacing: 0;
   text-align: center;
   color: #ffd700;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
 }
 
 .exhibition-position {
@@ -436,6 +438,7 @@ body {
   display: -webkit-box;
   -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .exhibition-card-bottom .exhibition-position {
@@ -456,27 +459,15 @@ body {
   }
 }
 
-/* Vùng ảnh chân dung — vân chéo trên nền đỏ (không đen) */
+/* Vùng ảnh chân dung — không vân, không nền (ảnh hiển thị sạch) */
 .exhibition-leader-card .leader-portrait-frame {
   flex: 0 0 var(--card-portrait-ratio);
   min-height: 0;
-  isolation: isolate;
-  background-color: #3d0a0a;
-  background-image: repeating-linear-gradient(
-    -42deg,
-    #3d0a0a 0,
-    #3d0a0a 5px,
-    rgba(212, 175, 55, 0.14) 5px,
-    rgba(255, 215, 0, 0.3) 7px,
-    #3d0a0a 7px,
-    #3d0a0a 12px
-  );
+  background: transparent;
 }
 
 .exhibition-leader-card .leader-portrait-image {
   object-fit: contain;
   object-position: center bottom;
   padding: 0 4px;
-  /* Bỏ nền đen trong file ảnh chân dung (nếu có) */
-  mix-blend-mode: screen;
 }
