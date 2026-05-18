@@ -381,31 +381,22 @@ body {
   left: calc(var(--card-bottom-left-2) + var(--card-bottom-step) * 5);
 }
 
-/* Thẻ lãnh đạo — khớp mẫu */
+/* Thẻ lãnh đạo — nền ảnh mẫu (đỏ sẫm + viền vàng) */
 .exhibition-leader-card {
   position: relative;
   border: none;
   border-radius: 12px;
-  box-shadow: none;
-  background: transparent;
-}
-
-/* Viền vàng góc — đè lên toàn thẻ */
-.leader-card-frame-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 15;
-  pointer-events: none;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.leader-card-frame-image {
-  object-fit: fill;
-  mix-blend-mode: screen;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  background-color: transparent;
+  background-image: url("/images/leader-card-bg.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .exhibition-leader-info {
+  position: relative;
+  z-index: 2;
   flex: 0 0 var(--card-info-ratio);
   min-height: 0;
   padding: 7px 8px 9px;
@@ -468,26 +459,17 @@ body {
   }
 }
 
-/* Vùng ảnh — trong suốt, vân vàng qua lớp phủ (bỏ nền đen PNG) */
+/* Vùng ảnh chân dung — trong suốt, nền lấy từ leader-card-bg */
 .leader-portrait-frame {
+  position: relative;
+  z-index: 1;
   flex: 0 0 var(--card-portrait-ratio);
   min-height: 0;
   background: transparent;
 }
 
-.leader-portrait-frame::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background: url("/images/leader-portrait-bg.png") center / cover no-repeat;
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-
 .leader-portrait-image {
-  z-index: 1;
   object-fit: contain;
   object-position: center bottom;
-  padding: 0 4px;
+  padding: 0 6px;
 }
