@@ -23,7 +23,6 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
       ].join(" ")}
       aria-label={`Xem tiểu sử đồng chí ${leader.name}`}
     >
-      <span className="leader-card-bg-layer" aria-hidden />
       <div className="leader-portrait-frame relative w-full shrink-0 overflow-hidden">
         <Image
           src={leader.portraitUrl}

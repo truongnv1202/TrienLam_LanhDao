@@ -381,35 +381,16 @@ body {
   left: calc(var(--card-bottom-left-2) + var(--card-bottom-step) * 5);
 }
 
-/* Thẻ lãnh đạo — nền đỏ + viền vàng, không nền/bóng đen */
+/* Thẻ lãnh đạo — nền CSS (không dùng ảnh nền) */
 .exhibition-leader-card {
   position: relative;
-  border: none;
+  border: 1px solid #d4af37;
   border-radius: 12px;
   overflow: hidden;
-  background: transparent;
+  background-color: #2b0505;
   box-shadow: none;
   -webkit-appearance: none;
   appearance: none;
-}
-
-.leader-card-bg-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: 12px;
-  pointer-events: none;
-  background-color: #2b0505;
-  background-image: url("/images/leader-card-bg.png");
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.exhibition-leader-card .leader-portrait-frame,
-.exhibition-leader-card .exhibition-leader-info {
-  position: relative;
-  z-index: 1;
 }
 
 .exhibition-leader-info {
@@ -475,29 +456,23 @@ body {
   }
 }
 
-/* Vùng ảnh chân dung — một lớp nền vân (không lặp), ảnh lãnh đạo trên */
+/* Vùng ảnh chân dung — vân chéo CSS, ảnh lãnh đạo trên */
 .exhibition-leader-card .leader-portrait-frame {
   flex: 0 0 var(--card-portrait-ratio);
   min-height: 0;
-  background-color: transparent;
-}
-
-.exhibition-leader-card .leader-portrait-frame::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image: url("/images/leader-portrait-bg.png");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-position: center;
-  mix-blend-mode: screen;
+  background-color: #1f0404;
+  background-image: repeating-linear-gradient(
+    -42deg,
+    #1f0404 0,
+    #1f0404 5px,
+    rgba(212, 175, 55, 0.12) 5px,
+    rgba(255, 215, 0, 0.28) 7px,
+    #1f0404 7px,
+    #1f0404 12px
+  );
 }
 
 .exhibition-leader-card .leader-portrait-image {
-  position: relative;
-  z-index: 1;
   object-fit: contain;
   object-position: center bottom;
   padding: 0 4px;
