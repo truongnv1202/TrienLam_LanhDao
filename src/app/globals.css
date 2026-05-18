@@ -400,11 +400,11 @@ body {
   z-index: 0;
   border-radius: 12px;
   pointer-events: none;
+  opacity: 0.7;
   background-image: url("/images/leader-card-bg.png");
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.7;
 }
 
 .exhibition-leader-card .leader-portrait-frame,
