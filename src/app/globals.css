@@ -381,13 +381,13 @@ body {
   left: calc(var(--card-bottom-left-2) + var(--card-bottom-step) * 5);
 }
 
-/* Thẻ lãnh đạo — nền CSS (không dùng ảnh nền) */
+/* Thẻ lãnh đạo — nền đỏ đồng nhất, không nền đen */
 .exhibition-leader-card {
   position: relative;
   border: 1px solid #d4af37;
   border-radius: 12px;
   overflow: hidden;
-  background-color: #2b0505;
+  background-color: #3d0a0a;
   box-shadow: none;
   -webkit-appearance: none;
   appearance: none;
@@ -397,7 +397,7 @@ body {
   flex: 0 0 var(--card-info-ratio);
   min-height: 0;
   padding: 7px 8px 9px;
-  background: transparent;
+  background-color: #3d0a0a;
 }
 
 .exhibition-label {
@@ -456,19 +456,20 @@ body {
   }
 }
 
-/* Vùng ảnh chân dung — vân chéo CSS, ảnh lãnh đạo trên */
+/* Vùng ảnh chân dung — vân chéo trên nền đỏ (không đen) */
 .exhibition-leader-card .leader-portrait-frame {
   flex: 0 0 var(--card-portrait-ratio);
   min-height: 0;
-  background-color: #1f0404;
+  isolation: isolate;
+  background-color: #3d0a0a;
   background-image: repeating-linear-gradient(
     -42deg,
-    #1f0404 0,
-    #1f0404 5px,
-    rgba(212, 175, 55, 0.12) 5px,
-    rgba(255, 215, 0, 0.28) 7px,
-    #1f0404 7px,
-    #1f0404 12px
+    #3d0a0a 0,
+    #3d0a0a 5px,
+    rgba(212, 175, 55, 0.14) 5px,
+    rgba(255, 215, 0, 0.3) 7px,
+    #3d0a0a 7px,
+    #3d0a0a 12px
   );
 }
 
@@ -476,4 +477,6 @@ body {
   object-fit: contain;
   object-position: center bottom;
   padding: 0 4px;
+  /* Bỏ nền đen trong file ảnh chân dung (nếu có) */
+  mix-blend-mode: screen;
 }
