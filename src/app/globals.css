@@ -475,22 +475,28 @@ body {
   }
 }
 
-/* Vùng ảnh chân dung — nền vân vàng dưới, ảnh lãnh đạo trên */
+/* Vùng ảnh chân dung — một lớp nền vân (không lặp), ảnh lãnh đạo trên */
 .exhibition-leader-card .leader-portrait-frame {
   flex: 0 0 var(--card-portrait-ratio);
   min-height: 0;
-  background: transparent;
+  background-color: transparent;
 }
 
-.leader-portrait-pattern {
+.exhibition-leader-card .leader-portrait-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   z-index: 0;
-  object-fit: cover;
-  object-position: center;
-  /* Bỏ nền đen trong leader-portrait-bg — chỉ giữ vân vàng */
+  pointer-events: none;
+  background-image: url("/images/leader-portrait-bg.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
   mix-blend-mode: screen;
 }
 
-.leader-portrait-image {
+.exhibition-leader-card .leader-portrait-image {
+  position: relative;
   z-index: 1;
   object-fit: contain;
   object-position: center bottom;

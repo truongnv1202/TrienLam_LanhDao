@@ -26,14 +26,6 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
       <span className="leader-card-bg-layer" aria-hidden />
       <div className="leader-portrait-frame relative w-full shrink-0 overflow-hidden">
         <Image
-          src="/images/leader-portrait-bg.png"
-          alt=""
-          fill
-          sizes="240px"
-          className="leader-portrait-pattern"
-          aria-hidden
-        />
-        <Image
           src={leader.portraitUrl}
           alt=""
           fill
