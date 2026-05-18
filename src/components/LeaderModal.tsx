@@ -94,8 +94,8 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
             </p>
           </section>
 
-          {/* Timeline */}
-          <section className="shrink-0 border-t border-[#d4af37]/25 px-5 py-4 sm:px-8 sm:py-5">
+          {leader.timeline.length > 0 && (
+            <section className="shrink-0 border-t border-[#d4af37]/25 px-5 py-4 sm:px-8 sm:py-5">
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[#ffdf7a]">
               Dòng thời gian sự nghiệp
             </h3>
@@ -127,13 +127,9 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
                   </li>
                 ))}
               </ol>
-              {leader.timeline.length === 0 && (
-                <p className="text-center text-sm text-white/60">
-                  Chưa có mốc thời gian nào.
-                </p>
-              )}
             </div>
-          </section>
+            </section>
+          )}
         </div>
       </div>
     </div>
