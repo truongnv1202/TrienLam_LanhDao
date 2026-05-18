@@ -483,23 +483,20 @@ body {
 .exhibition-leader-card .leader-portrait-frame {
   flex: 0 0 var(--card-portrait-ratio);
   min-height: 0;
+  isolation: isolate;
   background: transparent;
 }
 
 .exhibition-leader-card .leader-portrait-frame::before {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
   background-image: url("/images/leader-portrait-bg.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center bottom;
-  mix-blend-mode: screen;
 }
 
 .exhibition-leader-card .leader-portrait-image {
