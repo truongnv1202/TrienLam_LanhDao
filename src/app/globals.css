@@ -390,7 +390,7 @@ body {
   background: transparent;
 }
 
-/* Viền vàng góc — đè lên toàn thẻ */
+/* Viền vàng — không phủ nền đen lên vùng ảnh (chỉ viền + khối chữ) */
 .leader-card-frame-overlay {
   position: absolute;
   inset: 0;
@@ -398,11 +398,21 @@ body {
   pointer-events: none;
   border-radius: 12px;
   overflow: hidden;
+  mix-blend-mode: screen;
+  mask-image: linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-size: 100% 100%, calc(100% - 26px) calc(65% - 22px);
+  mask-position: 0 0, 13px 11px;
+  mask-repeat: no-repeat;
+  mask-composite: exclude;
+  -webkit-mask-image: linear-gradient(#000, #000), linear-gradient(#000, #000);
+  -webkit-mask-size: 100% 100%, calc(100% - 26px) calc(65% - 22px);
+  -webkit-mask-position: 0 0, 13px 11px;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-composite: destination-out;
 }
 
 .leader-card-frame-image {
   object-fit: fill;
-  mix-blend-mode: screen;
 }
 
 .exhibition-leader-info {
@@ -468,25 +478,20 @@ body {
   }
 }
 
-/* Vùng ảnh — trong suốt, vân vàng qua lớp phủ (bỏ nền đen PNG) */
+/* Vùng ảnh — hoàn toàn trong suốt (lộ video nền) */
 .leader-portrait-frame {
   flex: 0 0 var(--card-portrait-ratio);
   min-height: 0;
   background: transparent;
 }
 
-.leader-portrait-frame::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background: url("/images/leader-portrait-bg.png") center / cover no-repeat;
-  mix-blend-mode: screen;
-  pointer-events: none;
+.exhibition-leader-card .leader-portrait-frame {
+  background: transparent;
 }
 
 .leader-portrait-image {
   z-index: 1;
+  background: transparent;
   object-fit: contain;
   object-position: center bottom;
   padding: 0 4px;
