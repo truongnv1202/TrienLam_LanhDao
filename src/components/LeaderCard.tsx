@@ -40,6 +40,17 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
         <h3 className="exhibition-name">{leader.name}</h3>
         <p className="exhibition-position">{positionText}</p>
       </div>
+
+      <div className="leader-card-frame-overlay" aria-hidden>
+        <Image
+          src="/images/leader-card-frame.png"
+          alt=""
+          fill
+          sizes="240px"
+          className="leader-card-frame-image"
+          priority={isTopTier}
+        />
+      </div>
     </button>
   );
 }
