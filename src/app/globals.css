@@ -107,6 +107,38 @@ body {
   animation: modal-in 0.35s ease-out forwards;
 }
 
+/* Popup chi tiết lãnh đạo — ảnh to phía trên */
+.leader-modal-portrait {
+  height: min(52vh, 420px);
+  min-height: 280px;
+  max-width: 100%;
+  isolation: isolate;
+}
+
+.leader-modal-portrait::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 1px;
+  right: 1px;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("/images/leader-portrait-bg.png");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 100% 100%;
+  mix-blend-mode: screen;
+}
+
+.leader-modal-portrait-image {
+  position: relative;
+  z-index: 1;
+  object-fit: contain;
+  object-position: center bottom;
+  padding: 0 1px;
+}
+
 /* Video nền 16:9 toàn màn hình */
 .exhibition-video-bg {
   position: absolute;
