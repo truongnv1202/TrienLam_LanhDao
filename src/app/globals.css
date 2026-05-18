@@ -459,14 +459,21 @@ body {
   }
 }
 
-/* Vùng ảnh chân dung — trong suốt, nền lấy từ leader-card-bg */
-.leader-portrait-frame {
+/* Vùng ảnh chân dung — nền vân vàng dưới, ảnh lãnh đạo trên */
+.exhibition-leader-card .leader-portrait-frame {
   flex: 0 0 var(--card-portrait-ratio);
   min-height: 0;
   background: transparent;
 }
 
+.leader-portrait-pattern {
+  z-index: 0;
+  object-fit: cover;
+  object-position: center;
+}
+
 .leader-portrait-image {
+  z-index: 1;
   object-fit: contain;
   object-position: center bottom;
   padding: 0 4px;

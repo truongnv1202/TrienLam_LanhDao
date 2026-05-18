@@ -25,11 +25,19 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
     >
       <div className="leader-portrait-frame relative w-full shrink-0 overflow-hidden">
         <Image
+          src="/images/leader-portrait-bg.png"
+          alt=""
+          fill
+          sizes="240px"
+          className="leader-portrait-pattern"
+          aria-hidden
+        />
+        <Image
           src={leader.portraitUrl}
           alt=""
           fill
           sizes="240px"
-          className="leader-portrait-image relative z-[1]"
+          className="leader-portrait-image"
           priority={isTopTier}
         />
       </div>
