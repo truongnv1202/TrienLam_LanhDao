@@ -381,19 +381,35 @@ body {
   left: calc(var(--card-bottom-left-2) + var(--card-bottom-step) * 5);
 }
 
-/* Thẻ lãnh đạo — nền ảnh đỏ sẫm + viền vàng (không nền đen) */
+/* Thẻ lãnh đạo — nền đỏ + viền vàng, không nền/bóng đen */
 .exhibition-leader-card {
   position: relative;
   border: none;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
-  background-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.leader-card-bg-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 12px;
+  pointer-events: none;
+  background-color: #2b0505;
   background-image: url("/images/leader-card-bg.png");
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  isolation: isolate;
+}
+
+.exhibition-leader-card .leader-portrait-frame,
+.exhibition-leader-card .exhibition-leader-info {
+  position: relative;
+  z-index: 1;
 }
 
 .exhibition-leader-info {
@@ -470,6 +486,8 @@ body {
   z-index: 0;
   object-fit: cover;
   object-position: center;
+  /* Bỏ nền đen trong leader-portrait-bg — chỉ giữ vân vàng */
+  mix-blend-mode: screen;
 }
 
 .leader-portrait-image {

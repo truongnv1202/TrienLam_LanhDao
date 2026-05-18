@@ -17,12 +17,13 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
       type="button"
       onClick={() => onClick(leader)}
       className={[
-        "exhibition-leader-card group flex flex-col overflow-hidden text-center transition-transform duration-200",
+        "exhibition-leader-card group flex flex-col overflow-hidden bg-transparent text-center transition-transform duration-200",
         "hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/80",
         isTopTier ? "exhibition-card-top" : "exhibition-card-bottom",
       ].join(" ")}
       aria-label={`Xem tiểu sử đồng chí ${leader.name}`}
     >
+      <span className="leader-card-bg-layer" aria-hidden />
       <div className="leader-portrait-frame relative w-full shrink-0 overflow-hidden">
         <Image
           src="/images/leader-portrait-bg.png"
