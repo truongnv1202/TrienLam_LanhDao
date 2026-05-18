@@ -387,7 +387,7 @@ body {
   border: none;
   border-radius: 12px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
-  background: #2b0505;
+  background: transparent;
 }
 
 /* Viền vàng góc — đè lên toàn thẻ */
@@ -409,7 +409,8 @@ body {
   flex: 0 0 var(--card-info-ratio);
   min-height: 0;
   padding: 7px 8px 9px;
-  background: rgba(43, 5, 5, 0.92);
+  background: #2b0505;
+  border-radius: 0 0 10px 10px;
 }
 
 .exhibition-label {
@@ -468,18 +469,28 @@ body {
   }
 }
 
-/* Vùng ảnh: nền vân vàng–đen (~62% chiều cao thẻ) */
+/* Vùng ảnh — không nền đen */
 .leader-portrait-frame {
   flex: 0 0 var(--card-portrait-ratio);
   min-height: 0;
-  background-color: #2b0505;
+  background: transparent;
+}
+
+.leader-portrait-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   background-image: url("/images/leader-portrait-bg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  mix-blend-mode: screen;
+  pointer-events: none;
 }
 
 .leader-portrait-image {
+  z-index: 1;
   object-fit: contain;
   object-position: center bottom;
   padding: 0 4px;
