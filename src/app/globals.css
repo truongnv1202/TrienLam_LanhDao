@@ -16,13 +16,20 @@ html {
 body {
   min-height: 100vh;
   color: #fff8e7;
-  font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-lato), "Lato", sans-serif;
   background: linear-gradient(
     145deg,
     var(--crimson-mid) 0%,
     var(--crimson-bright) 45%,
     var(--crimson-deep) 100%
   );
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 /* Sơ đồ cờ đỏ sao vàng — nền trang chủ */
@@ -117,15 +124,17 @@ body {
 }
 
 .leader-detail-shell {
-  width: min(1380px, calc(100vw - 64px));
+  width: min(1360px, calc(100vw - 64px));
+  max-height: calc(100vh - 96px);
 }
 
 .leader-detail-panel {
   display: grid;
   grid-template-columns: 300px minmax(430px, 1fr) 380px;
-  gap: 26px;
-  min-height: 620px;
-  padding: 26px 28px;
+  gap: 22px;
+  height: min(680px, calc(100vh - 126px));
+  min-height: 0;
+  padding: 22px 26px;
   border: 1px solid rgba(255, 223, 122, 0.65);
   border-radius: 12px;
   background:
@@ -138,6 +147,9 @@ body {
 }
 
 .leader-detail-profile {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
   overflow: hidden;
   border-radius: 10px;
   background: linear-gradient(180deg, rgba(173, 24, 13, 0.9), rgba(122, 2, 2, 0.92));
@@ -146,8 +158,9 @@ body {
 
 .leader-detail-portrait {
   position: relative;
-  height: 320px;
-  margin: 18px 18px 0;
+  height: clamp(250px, 33vh, 320px);
+  margin: 16px 16px 0;
+  flex-shrink: 0;
   overflow: hidden;
   background: #8b1009;
   isolation: isolate;
@@ -175,7 +188,11 @@ body {
 }
 
 .leader-detail-profile-info {
-  padding: 14px 22px 24px;
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  padding: 12px 20px 18px;
 }
 
 .leader-detail-label {
@@ -199,7 +216,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin: 16px 0 14px;
+  margin: 12px 0 10px;
   color: #ffdf7a;
 }
 
@@ -217,16 +234,27 @@ body {
 }
 
 .leader-detail-meta {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   white-space: pre-line;
   font-size: 14px;
-  line-height: 1.45;
+  line-height: 1.4;
   color: #fff2c4;
+}
+
+.leader-detail-meta::-webkit-scrollbar {
+  display: none;
 }
 
 .leader-detail-work,
 .leader-detail-awards {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
   min-width: 0;
-  padding-top: 6px;
+  padding-top: 2px;
 }
 
 .leader-detail-work {
@@ -240,8 +268,8 @@ body {
   justify-content: center;
   gap: 12px;
   width: min(360px, 100%);
-  margin: 0 auto 26px;
-  padding: 12px 28px;
+  margin: 0 auto 18px;
+  padding: 11px 28px;
   clip-path: polygon(8% 0, 92% 0, 100% 50%, 92% 100%, 8% 100%, 0 50%);
   border: 1px solid rgba(255, 223, 122, 0.42);
   background: linear-gradient(180deg, rgba(153, 25, 15, 0.92), rgba(104, 4, 4, 0.9));
@@ -258,7 +286,9 @@ body {
 
 .leader-detail-timeline,
 .leader-detail-awards-list {
-  max-height: 486px;
+  min-height: 0;
+  flex: 1;
+  max-height: none;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -273,7 +303,7 @@ body {
   display: grid;
   grid-template-columns: 82px 28px 1fr;
   align-items: start;
-  min-height: 58px;
+  min-height: 50px;
   color: #fff5d7;
 }
 
@@ -313,17 +343,17 @@ body {
 }
 
 .leader-detail-timeline-item p {
-  padding-bottom: 18px;
+  padding-bottom: 14px;
   border-bottom: 1px solid rgba(255, 223, 122, 0.11);
   font-size: 14px;
-  line-height: 1.45;
+  line-height: 1.4;
   color: #fff7e6;
 }
 
 .leader-detail-awards-list {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -335,7 +365,7 @@ body {
   align-items: center;
   gap: 12px;
   font-size: 14px;
-  line-height: 1.45;
+  line-height: 1.4;
   color: #fff7e6;
 }
 
@@ -346,15 +376,21 @@ body {
   width: 36px;
   height: 36px;
   color: #ffdf7a;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 223, 122, 0.28);
-  box-shadow: inset 0 0 12px rgba(255, 223, 122, 0.1);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.leader-detail-award-image {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }
 
 .leader-detail-close {
   position: absolute;
   left: 50%;
-  bottom: -74px;
+  bottom: -58px;
   display: flex;
   width: 46px;
   height: 46px;

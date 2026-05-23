@@ -1,13 +1,6 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Lato } from "next/font/google";
+import { Lato } from "next/font/google";
 import "./globals.css";
-
-const exhibitionSerif = Cormorant_Garamond({
-  subsets: ["vietnamese", "latin"],
-  weight: ["600", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-exhibition-serif",
-});
 
 const lato = Lato({
   subsets: ["latin", "latin-ext"],
@@ -28,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi">
-      <body className={`${exhibitionSerif.variable} ${lato.variable} antialiased`}>
+      <body className={`${lato.variable} antialiased`}>
         {children}
       </body>
     </html>

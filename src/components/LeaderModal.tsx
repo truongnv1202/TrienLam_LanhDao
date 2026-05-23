@@ -2,7 +2,7 @@
 
 import { useEffect, useCallback } from "react";
 import Image from "next/image";
-import { Award, X } from "lucide-react";
+import { X } from "lucide-react";
 import { formatPositionNewestFirst } from "@/lib/format-position";
 import type { Leader, TimelineEvent } from "@/types";
 
@@ -31,8 +31,8 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
 
   if (!leader) return null;
 
-  const workEvents = buildWorkEvents(leader);
-  const awards = leader.awards?.length ? leader.awards : buildAwards();
+  const workEvents = sortWorkEventsNewestFirst(buildWorkEvents(leader));
+  const awards = sortAwardsByRank(leader.awards?.length ? leader.awards : buildAwards());
 
   return (
     <div
@@ -98,7 +98,13 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
               {awards.map((award) => (
                 <li key={award}>
                   <span className="leader-detail-award-icon" aria-hidden>
-                    <Award className="h-5 w-5" />
+                    <Image
+                      src="/images/award-icon.png"
+                      alt=""
+                      width={32}
+                      height={32}
+                      className="leader-detail-award-image"
+                    />
                   </span>
                   <span>{award}</span>
                 </li>
@@ -144,6 +150,37 @@ function buildWorkEvents(leader: Leader): TimelineEvent[] {
     }));
 }
 
+function sortWorkEventsNewestFirst(events: TimelineEvent[]): TimelineEvent[] {
+  return events
+    .map((event, index) => ({ event, index }))
+    .sort((a, b) => {
+      const dateDiff = getTimelineSortKey(b.event) - getTimelineSortKey(a.event);
+      return dateDiff || a.index - b.index;
+    })
+    .map(({ event }) => event);
+}
+
+function getTimelineSortKey(item: TimelineEvent): number {
+  const text = `${item.year} ${item.event} ${item.description}`;
+  if (/\b(nay|hiện nay|tu nay|từ nay)\b/i.test(normalizeText(text))) {
+    return Number.MAX_SAFE_INTEGER;
+  }
+
+  const monthYears = [...text.matchAll(/\b(\d{1,2})\/(\d{4})\b/g)].map((match) => ({
+    month: Number(match[1]),
+    year: Number(match[2]),
+  }));
+
+  if (monthYears.length > 0) {
+    return Math.max(...monthYears.map(({ year, month }) => year * 100 + month));
+  }
+
+  const years = [...text.matchAll(/\b(19|20)\d{2}\b/g)].map((match) => Number(match[0]));
+  if (years.length > 0) return Math.max(...years) * 100;
+
+  return 0;
+}
+
 function extractYearLabel(text: string): string {
   const monthYear = text.match(/\b\d{1,2}\/\d{4}\b/);
   if (monthYear) return monthYear[0];
@@ -153,6 +190,56 @@ function extractYearLabel(text: string): string {
 
   const year = text.match(/\b\d{4}\b/);
   return year?.[0] ?? "";
+}
+
+function sortAwardsByRank(awards: string[]): string[] {
+  return awards
+    .map((award, index) => ({ award, index, rank: getAwardRank(award) }))
+    .sort((a, b) => a.rank - b.rank || a.index - b.index)
+    .map(({ award }) => award);
+}
+
+function getAwardRank(award: string): number {
+  const text = normalizeText(award);
+  if (text.includes("nhieu phan thuong")) return 990;
+
+  const awardLevels = [
+    ["huan chuong sao vang", 0],
+    ["huan chuong ho chi minh", 10],
+    ["anh hung luc luong vu trang", 20],
+    ["anh hung lao dong", 21],
+    ["huy hieu 50 nam", 30],
+    ["huan chuong doc lap", 40],
+    ["huan chuong quan cong", 50],
+    ["huan chuong lao dong", 60],
+    ["huan chuong chien cong", 70],
+    ["huan chuong khang chien", 80],
+    ["huan chuong huu nghi", 90],
+    ["huan chuong tu do", 91],
+    ["sahametrei", 92],
+    ["6 thang 6", 93],
+    ["huy chuong", 110],
+    ["bang khen", 130],
+  ] as const;
+
+  const baseRank = awardLevels.find(([keyword]) => text.includes(keyword))?.[1] ?? 150;
+  return baseRank + getAwardClassRank(text);
+}
+
+function getAwardClassRank(text: string): number {
+  if (text.includes("hang nhat")) return 0;
+  if (text.includes("hang nhi")) return 1;
+  if (text.includes("hang ba")) return 2;
+  return 5;
+}
+
+function normalizeText(value: string): string {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
+    .toLowerCase();
 }
 
 function buildAwards(): string[] {
