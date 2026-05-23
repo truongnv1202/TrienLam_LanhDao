@@ -821,6 +821,7 @@ select {
 /* Thẻ lãnh đạo — nền ảnh đỏ + viền vàng */
 .exhibition-leader-card {
   position: relative;
+  isolation: isolate;
   border: none;
   border-radius: 12px;
   overflow: hidden;
@@ -844,18 +845,20 @@ select {
   background-repeat: no-repeat;
 }
 
-.exhibition-leader-card::after {
-  content: "";
+.leader-card-overlay {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 5;
   width: 162px;
   height: 168px;
   pointer-events: none;
-  background-image: url("/images/leader-portrait-overlay.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 162px 168px;
+}
+
+.leader-card-overlay-image {
+  width: 162px !important;
+  height: 168px !important;
+  object-fit: fill;
+  object-position: center;
 }
 
 .exhibition-leader-card .leader-portrait-frame,
