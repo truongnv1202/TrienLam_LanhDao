@@ -642,7 +642,8 @@ body {
   height: 86px;
   align-items: center;
   justify-content: center;
-  padding: 0 120px;
+  box-sizing: border-box;
+  padding: 0;
   transform: translateX(-50%);
   text-align: center;
   font-family: var(--font-lato), "Lato", sans-serif;
@@ -663,7 +664,7 @@ body {
   left: 663px;
   width: 595px;
   height: 49px;
-  padding: 0 72px;
+  padding: 0;
   transform: none;
   font-family: var(--font-lato), "Lato", sans-serif;
   font-size: 20px;
@@ -679,7 +680,7 @@ body {
   left: 663px;
   width: 595px;
   height: 49px;
-  padding: 0 72px;
+  padding: 0;
   transform: none;
   font-family: var(--font-lato), "Lato", sans-serif;
   font-size: 20px;
@@ -706,7 +707,7 @@ body {
   top: 246px;
 }
 
-.exhibition-row-ministry-1 {
+.exhibitgin-row-ministry-1 {
   top: 512px;
 }
 
