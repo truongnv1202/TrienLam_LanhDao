@@ -37,16 +37,6 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
         <p className="exhibition-label">ĐỒNG CHÍ</p>
         <h3 className="exhibition-name">{leader.name}</h3>
       </div>
-
-      <span className="leader-card-overlay" aria-hidden>
-        <Image
-          src="/images/group-37593-overlay.png"
-          alt=""
-          fill
-          sizes="162px"
-          className="leader-card-overlay-image"
-        />
-      </span>
     </button>
   );
 }

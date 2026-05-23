@@ -848,27 +848,6 @@ select {
   background-repeat: no-repeat;
 }
 
-.leader-card-overlay {
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  bottom: -2px;
-  left: -2px;
-  z-index: 20;
-  display: block;
-  width: 166px;
-  height: 172px;
-  pointer-events: none;
-  transform: translateZ(0);
-}
-
-.leader-card-overlay-image {
-  width: 166px !important;
-  height: 172px !important;
-  object-fit: fill;
-  object-position: center;
-}
-
 .exhibition-leader-card .leader-portrait-frame,
 .exhibition-leader-card .exhibition-leader-info {
   position: relative;
