@@ -827,7 +827,7 @@ select {
   pointer-events: auto;
 }
 
-/* Thẻ lãnh đạo — nền ảnh đỏ + viền vàng, nền ngoài card trong suốt */
+/* Thẻ lãnh đạo — nền ảnh đỏ + viền vàng */
 .exhibition-leader-card {
   position: relative;
   border: none;
