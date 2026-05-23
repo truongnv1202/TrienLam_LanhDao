@@ -144,7 +144,7 @@ export async function savePortraitFile(
   };
   const ext = extMap[file.type] ?? ".jpg";
   const safeId = leaderId.replace(/[^a-zA-Z0-9-_]/g, "-");
-  const filename = `${safeId}-${Date.now()}${ext}`;
+  const filename = `${safeId}${ext}`;
 
   await fs.mkdir(UPLOADS_DIR, { recursive: true });
   const buffer = Buffer.from(await file.arrayBuffer());

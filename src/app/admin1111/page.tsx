@@ -11,7 +11,6 @@ import {
   ListPlus,
   RotateCcw,
   Upload,
-  ImageIcon,
 } from "lucide-react";
 import type { Leader, LeaderTier, TimelineEvent } from "@/types";
 
@@ -393,7 +392,7 @@ export default function AdminPage() {
                     src={previewSrc}
                     alt="Xem trước ảnh"
                     fill
-                    unoptimized={previewSrc.startsWith("blob:") || previewSrc.startsWith("/uploads/")}
+                    unoptimized={previewSrc.startsWith("blob:")}
                     className="object-contain object-bottom"
                     sizes="144px"
                   />
@@ -415,25 +414,9 @@ export default function AdminPage() {
                 onChange={handlePortraitFileChange}
               />
 
-              <p className="mb-2 text-center text-[10px] uppercase tracking-wider text-[#d4af37]/70">
-                hoặc dán URL
+              <p className="text-center text-xs text-[#d4af37]/75">
+                Ảnh sẽ được lưu vào <code>/uploads/portraits</code> theo ID lãnh đạo.
               </p>
-
-              <div className="relative">
-                <ImageIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#d4af37]/60" />
-                <input
-                  id="portraitUrl"
-                  type="url"
-                  value={form.portraitUrl}
-                  onChange={(e) => {
-                    const url = e.target.value;
-                    setForm((f) => ({ ...f, portraitUrl: url }));
-                    if (!portraitFile) setPortraitPreview(url || null);
-                  }}
-                  className="w-full rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 py-2 pl-9 pr-3 text-sm text-white outline-none focus:border-[#ffdf7a]"
-                  placeholder="https://... hoặc /uploads/portraits/..."
-                />
-              </div>
             </fieldset>
 
             <div>
@@ -605,7 +588,6 @@ export default function AdminPage() {
                         src={leader.portraitUrl}
                         alt={leader.name}
                         fill
-                        unoptimized={leader.portraitUrl.startsWith("/uploads/")}
                         className="object-contain object-bottom"
                         sizes="56px"
                       />
