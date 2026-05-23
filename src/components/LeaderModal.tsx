@@ -32,7 +32,7 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
   if (!leader) return null;
 
   const workEvents = buildWorkEvents(leader);
-  const awards = buildAwards();
+  const awards = leader.awards?.length ? leader.awards : buildAwards();
 
   return (
     <div

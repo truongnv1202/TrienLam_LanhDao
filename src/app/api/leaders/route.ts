@@ -19,7 +19,8 @@ function isValidLeaderInput(body: unknown): body is LeaderInput {
     Array.isArray(candidate.timeline) &&
     (candidate.portraitUrl === undefined ||
       typeof candidate.portraitUrl === "string") &&
-    (candidate.sortOrder === undefined || typeof candidate.sortOrder === "number")
+    (candidate.sortOrder === undefined || typeof candidate.sortOrder === "number") &&
+    (candidate.awards === undefined || Array.isArray(candidate.awards))
   );
 }
 
@@ -34,6 +35,9 @@ function normalizeLeader(input: LeaderInput, existing?: Leader): Leader {
     event: String(item.event).trim(),
     description: String(item.description).trim(),
   }));
+  const awards = Array.isArray(input.awards)
+    ? input.awards.map((item) => String(item).trim()).filter(Boolean)
+    : existing?.awards;
 
   const portraitUrl =
     (typeof input.portraitUrl === "string" && input.portraitUrl.trim()) ||
@@ -52,6 +56,7 @@ function normalizeLeader(input: LeaderInput, existing?: Leader): Leader {
         ? input.sortOrder
         : (existing?.sortOrder ?? 1),
     timeline,
+    awards,
   };
 }
 

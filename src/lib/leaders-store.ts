@@ -1,14 +1,12 @@
 import { promises as fs } from "fs";
 import path from "path";
 import type { Leader } from "@/types";
-import { SAMPLE_LEADERS } from "@/lib/sample-leaders";
+import { SEED_LEADERS } from "@/lib/seed";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const DATA_FILE = path.join(DATA_DIR, "leaders.json");
 const SEED_FILE = path.join(DATA_DIR, "leaders.seed.json");
 const UPLOADS_DIR = path.join(process.cwd(), "public", "uploads", "portraits");
-
-export const SEED_LEADERS: Leader[] = SAMPLE_LEADERS;
 
 async function ensureDataFile(): Promise<void> {
   await fs.mkdir(DATA_DIR, { recursive: true });
@@ -48,12 +46,8 @@ async function mergeSeedLeaders(current: Leader[]): Promise<Leader[]> {
     }
 
     const normalized: Leader = {
-      ...seed,
       ...existing,
-      name: seed.name,
-      position: seed.position,
-      tier: seed.tier,
-      sortOrder: seed.sortOrder,
+      ...seed,
       portraitUrl: existing.portraitUrl || seed.portraitUrl,
     };
 

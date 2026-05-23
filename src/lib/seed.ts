@@ -1,4 +1,7 @@
-[
+import type { Leader } from "@/types";
+
+/** Seed data extracted from LĐ.docx. */
+export const SEED_LEADERS: Leader[] = [
   {
     "id": "pham-hung",
     "name": "Phạm Hùng",
@@ -1318,4 +1321,4 @@
       "nhiều phần thưởng cao quý khác"
     ]
   }
-]
+];

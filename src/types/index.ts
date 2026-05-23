@@ -16,6 +16,7 @@ export interface Leader {
   /** Thứ tự hiển thị trong hàng (1–6 trên, 1–7 dưới) */
   sortOrder: number;
   timeline: TimelineEvent[];
+  awards?: string[];
 }
 
 export type LeaderInput = Omit<Leader, "id" | "portraitUrl"> & {
