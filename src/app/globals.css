@@ -827,7 +827,7 @@ select {
   pointer-events: auto;
 }
 
-/* Thẻ lãnh đạo — nền ảnh đỏ + viền vàng, opacity 70% */
+/* Thẻ lãnh đạo — nền ảnh đỏ + viền vàng, nền ngoài card trong suốt */
 .exhibition-leader-card {
   position: relative;
   border: none;
@@ -846,7 +846,7 @@ select {
   z-index: 0;
   border-radius: 12px;
   pointer-events: none;
-  opacity: 0.7;
+  opacity: 1;
   background-image: url("/images/leader-card-bg.png");
   background-size: 100% 100%;
   background-position: center;
