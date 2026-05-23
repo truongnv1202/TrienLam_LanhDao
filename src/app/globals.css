@@ -839,7 +839,7 @@ select {
   position: absolute;
   inset: 0;
   z-index: 0;
-  border-radius: 12px;
+  border-radius: 0;
   pointer-events: none;
   opacity: 1;
   background-image: url("/images/card.png");
@@ -852,6 +852,8 @@ select {
 .exhibition-leader-card .exhibition-leader-info {
   position: relative;
   z-index: 1;
+  border-radius: 0;
+  background-color: transparent;
 }
 
 .exhibition-leader-info {
@@ -861,6 +863,7 @@ select {
   min-height: 0;
   padding: 4px 6px 5px;
   background: transparent;
+  border-radius: 0;
 }
 
 .exhibition-label {
@@ -935,6 +938,7 @@ select {
   flex: 0 0 var(--card-portrait-h);
   min-height: 0;
   background: transparent;
+  border-radius: 0;
   isolation: isolate;
 }
 
@@ -946,6 +950,8 @@ select {
   width: 162px !important;
   height: 122px !important;
   z-index: 1;
+  border-radius: 0 !important;
+  background: transparent;
   object-fit: contain;
   object-position: center bottom;
   padding: 0 1px;
