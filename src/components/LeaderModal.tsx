@@ -72,9 +72,18 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
                 <span />
               </div>
               {profileMeta && (
-                <p className="leader-detail-meta">
-                  {profileMeta}
-                </p>
+                <div className="leader-detail-meta">
+                  {profileMeta.birthYear && (
+                    <p>
+                      <strong>Năm sinh:</strong> {profileMeta.birthYear}
+                    </p>
+                  )}
+                  {profileMeta.hometown && (
+                    <p>
+                      <strong>Quê quán:</strong> {profileMeta.hometown}
+                    </p>
+                  )}
+                </div>
               )}
             </div>
           </aside>
@@ -159,14 +168,12 @@ function buildWorkEvents(leader: Leader): TimelineEvent[] {
     }));
 }
 
-function buildProfileMeta(biography: string): string {
+function buildProfileMeta(biography: string): { birthYear?: string; hometown?: string } | null {
   const birthYear = biography.match(/sinh\s+năm\s*[:：]?\s*([^;.]+)/i)?.[1]?.trim();
   const hometown = biography.match(/quê\s+quán\s*[:：]\s*([^;.]+)/i)?.[1]?.trim();
 
-  return [
-    birthYear ? `Năm sinh: ${birthYear}` : "",
-    hometown ? `Quê quán: ${hometown}` : "",
-  ].filter(Boolean).join("\n");
+  if (!birthYear && !hometown) return null;
+  return { birthYear, hometown };
 }
 
 function sortWorkEventsNewestFirst(events: TimelineEvent[]): TimelineEvent[] {

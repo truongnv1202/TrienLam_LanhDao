@@ -238,10 +238,18 @@ select {
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  white-space: pre-line;
   font-size: 14px;
   line-height: 1.4;
   color: #fff2c4;
+}
+
+.leader-detail-meta strong {
+  font-weight: 900;
+  color: #ffdf7a;
+}
+
+.leader-detail-meta p + p {
+  margin-top: 6px;
 }
 
 .leader-detail-meta::-webkit-scrollbar {
@@ -314,10 +322,13 @@ select {
 }
 
 .leader-detail-timeline-item {
+  position: relative;
   display: grid;
   grid-template-columns: 82px 28px 1fr;
   align-items: start;
   min-height: 50px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
   color: #fff5d7;
 }
 
@@ -357,14 +368,12 @@ select {
 }
 
 .leader-detail-timeline-item p {
-  position: relative;
-  padding-bottom: 16px;
   font-size: 14px;
   line-height: 1.4;
   color: #fff7e6;
 }
 
-.leader-detail-timeline-item p::after {
+.leader-detail-timeline-item::after {
   content: "";
   position: absolute;
   right: 0;
