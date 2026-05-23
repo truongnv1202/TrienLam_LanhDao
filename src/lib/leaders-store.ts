@@ -47,8 +47,17 @@ async function mergeSeedLeaders(current: Leader[]): Promise<Leader[]> {
 
     const normalized: Leader = {
       ...existing,
-      ...seed,
+      name: existing.name || seed.name,
+      position: existing.position || seed.position,
       portraitUrl: existing.portraitUrl || seed.portraitUrl,
+      biography: existing.biography || seed.biography,
+      tier: existing.tier || seed.tier,
+      sortOrder:
+        typeof existing.sortOrder === "number" && existing.sortOrder > 0
+          ? existing.sortOrder
+          : seed.sortOrder,
+      timeline: Array.isArray(existing.timeline) ? existing.timeline : seed.timeline,
+      awards: Array.isArray(existing.awards) ? existing.awards : seed.awards,
     };
 
     if (JSON.stringify(existing) !== JSON.stringify(normalized)) {

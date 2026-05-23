@@ -73,7 +73,7 @@ export default function AdminPage() {
   const fetchLeaders = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/leaders");
+      const res = await fetch("/api/leaders", { cache: "no-store" });
       if (!res.ok) throw new Error();
       const data: Leader[] = await res.json();
       setLeaders(data);

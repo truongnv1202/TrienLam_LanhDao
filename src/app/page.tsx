@@ -19,7 +19,7 @@ export default function HomePage() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("/api/leaders");
+      const response = await fetch("/api/leaders", { cache: "no-store" });
       if (!response.ok) throw new Error("Không tải được dữ liệu");
       const data: Leader[] = await response.json();
       setLeaders(data);

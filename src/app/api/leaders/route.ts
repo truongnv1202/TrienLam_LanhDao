@@ -62,7 +62,11 @@ function normalizeLeader(input: LeaderInput, existing?: Leader): Leader {
 
 export async function GET(): Promise<NextResponse<Leader[]>> {
   const leaders = sortLeaders(await readLeaders());
-  return NextResponse.json(leaders);
+  return NextResponse.json(leaders, {
+    headers: {
+      "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+    },
+  });
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
