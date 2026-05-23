@@ -3,25 +3,13 @@ import Image from "next/image";
 export default function ExhibitionHeader() {
   return (
     <>
-      {/* Cờ nằm dưới thẻ lãnh đạo (z-index thấp) */}
-      <div className="exhibition-flag-layer" aria-hidden>
-        <Image
-          src="/images/flag-vn.png"
-          alt=""
-          width={361}
-          height={260}
-          className="exhibition-flag"
-          priority
-        />
-      </div>
-
       <header className="exhibition-header">
         <Image
-          src="/images/emblem-annd.png"
-          alt="Huy hiệu Công an nhân dân"
-          width={144}
-          height={113}
-          className="exhibition-emblem"
+          src="/images/header-decoration.png"
+          alt=""
+          width={766}
+          height={422}
+          className="exhibition-header-decoration"
           priority
         />
         <div className="exhibition-header-titles">
