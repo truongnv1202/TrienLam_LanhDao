@@ -245,7 +245,7 @@ select {
 
 .leader-detail-meta strong {
   font-weight: 900;
-  color: #ffdf7a;
+  color: #ffffff;
 }
 
 .leader-detail-meta p + p {
@@ -379,12 +379,12 @@ select {
   right: 0;
   bottom: 0;
   left: 0;
-  height: 2px;
+  height: 3px;
   pointer-events: none;
-  background-image: url("/images/section-separator-line.png");
+  background-image: url("/images/section-separator-line-crop.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 100% 2px;
+  background-size: 100% 100%;
 }
 
 .leader-detail-awards-list {
@@ -416,12 +416,12 @@ select {
   right: 0;
   bottom: 0;
   left: 0;
-  height: 2px;
+  height: 3px;
   pointer-events: none;
-  background-image: url("/images/section-separator-line.png");
+  background-image: url("/images/section-separator-line-crop.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 100% 2px;
+  background-size: 100% 100%;
 }
 
 .leader-detail-award-icon {
