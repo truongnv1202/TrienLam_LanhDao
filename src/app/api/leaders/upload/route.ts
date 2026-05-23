@@ -37,6 +37,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     return NextResponse.json({ url, leaderId: id });
   } catch (err) {
+    console.error("Portrait upload failed", err);
     if (err instanceof Error) {
       if (err.message === "INVALID_TYPE") {
         return NextResponse.json(
