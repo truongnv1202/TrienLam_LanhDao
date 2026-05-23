@@ -651,11 +651,22 @@ body {
   line-height: 1;
   color: #ffdf7a;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
+  background: none;
+  isolation: isolate;
+  pointer-events: none;
+}
+
+.exhibition-group-label::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background-image: url("/images/group-label-bg.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100% 100%;
-  pointer-events: none;
+  mix-blend-mode: screen;
 }
 
 .exhibition-group-label-party {
@@ -675,7 +686,7 @@ body {
 }
 
 .exhibition-group-label-ministry {
-  top: 455px;
+  top: 470px;
   left: 663px;
   width: 595px;
   height: 49px;
