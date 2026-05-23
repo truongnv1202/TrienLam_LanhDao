@@ -844,6 +844,20 @@ select {
   background-repeat: no-repeat;
 }
 
+.exhibition-leader-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 162px;
+  height: 168px;
+  pointer-events: none;
+  background-image: url("/images/leader-portrait-overlay.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 162px 168px;
+}
+
 .exhibition-leader-card .leader-portrait-frame,
 .exhibition-leader-card .exhibition-leader-info {
   position: relative;
