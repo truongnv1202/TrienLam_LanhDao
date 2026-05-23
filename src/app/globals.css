@@ -237,6 +237,7 @@ body {
   width: 390px !important;
   height: 230px !important;
   object-fit: contain;
+  object-position: left top;
   opacity: 1;
   transform: none;
   mix-blend-mode: screen;
