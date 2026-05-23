@@ -63,7 +63,9 @@ export default function AdminPage() {
 
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [timeline, setTimeline] = useState<TimelineEvent[]>([]);
+  const [awards, setAwards] = useState<string[]>([]);
   const [milestoneDraft, setMilestoneDraft] = useState<TimelineEvent>(EMPTY_MILESTONE);
+  const [awardDraft, setAwardDraft] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [portraitFile, setPortraitFile] = useState<File | null>(null);
   const [portraitPreview, setPortraitPreview] = useState<string | null>(null);
@@ -105,7 +107,9 @@ export default function AdminPage() {
   const resetForm = () => {
     setForm(EMPTY_FORM);
     setTimeline([]);
+    setAwards([]);
     setMilestoneDraft(EMPTY_MILESTONE);
+    setAwardDraft("");
     setIsEditing(false);
     clearPortraitSelection();
     setMessage(null);
@@ -122,7 +126,9 @@ export default function AdminPage() {
       sortOrder: leader.sortOrder ?? 1,
     });
     setTimeline([...leader.timeline]);
+    setAwards([...(leader.awards ?? [])]);
     setMilestoneDraft(EMPTY_MILESTONE);
+    setAwardDraft("");
     setIsEditing(true);
     clearPortraitSelection();
     setPortraitPreview(leader.portraitUrl || null);
@@ -195,6 +201,39 @@ export default function AdminPage() {
     setTimeline((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const updateMilestone = (
+    index: number,
+    field: keyof TimelineEvent,
+    value: string
+  ) => {
+    setTimeline((prev) =>
+      prev.map((item, i) => (i === index ? { ...item, [field]: value } : item))
+    );
+  };
+
+  const addAward = () => {
+    const value = awardDraft.trim();
+    if (!value) {
+      setMessage({
+        type: "err",
+        text: "Vui lòng nhập nội dung phần thưởng trước khi thêm.",
+      });
+      return;
+    }
+
+    setAwards((prev) => [...prev, value]);
+    setAwardDraft("");
+    setMessage(null);
+  };
+
+  const updateAward = (index: number, value: string) => {
+    setAwards((prev) => prev.map((item, i) => (i === index ? value : item)));
+  };
+
+  const removeAward = (index: number) => {
+    setAwards((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const handleDelete = async (leader: Leader) => {
     const confirmed = window.confirm(
       `Xóa "${leader.name}"? Hành động không thể hoàn tác.`
@@ -254,7 +293,12 @@ export default function AdminPage() {
           `/images/portraits/${leaderId}.png`,
         biography: form.biography.trim(),
         tier: form.tier,
-        timeline,
+        timeline: timeline.map((item) => ({
+          year: item.year.trim(),
+          event: item.event.trim(),
+          description: item.description.trim(),
+        })),
+        awards: awards.map((item) => item.trim()).filter(Boolean),
       };
 
       const res = await fetch("/api/leaders", {
@@ -525,27 +569,109 @@ export default function AdminPage() {
               </button>
 
               {timeline.length > 0 && (
-                <ul className="mt-4 space-y-2">
+                <div className="mt-4 space-y-3">
                   {timeline.map((item, index) => (
-                    <li
-                      key={`${item.year}-${index}`}
-                      className="flex items-start justify-between gap-2 rounded-md bg-[#4a0000]/50 px-3 py-2 text-xs"
+                    <div
+                      key={`timeline-${index}`}
+                      className="rounded-md border border-[#d4af37]/20 bg-[#4a0000]/50 p-3"
                     >
-                      <span className="text-white/90">
-                        <strong className="text-[#ffdf7a]">{item.year}</strong> —{" "}
-                        {item.event}: {item.description}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => removeMilestone(index)}
-                        className="shrink-0 text-red-300 hover:text-red-100"
-                        aria-label="Xóa mốc"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </li>
+                      <div className="mb-2 flex items-center justify-between gap-2">
+                        <p className="text-xs font-semibold text-[#ffdf7a]">
+                          Mốc công tác #{index + 1}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => removeMilestone(index)}
+                          className="shrink-0 text-red-300 hover:text-red-100"
+                          aria-label="Xóa mốc"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <div className="grid gap-2 sm:grid-cols-3">
+                        <input
+                          type="text"
+                          value={item.year}
+                          onChange={(e) => updateMilestone(index, "year", e.target.value)}
+                          className="rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white"
+                          placeholder="Năm"
+                        />
+                        <input
+                          type="text"
+                          value={item.event}
+                          onChange={(e) => updateMilestone(index, "event", e.target.value)}
+                          className="rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white sm:col-span-2"
+                          placeholder="Sự kiện"
+                        />
+                        <textarea
+                          rows={2}
+                          value={item.description}
+                          onChange={(e) =>
+                            updateMilestone(index, "description", e.target.value)
+                          }
+                          className="rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white sm:col-span-3"
+                          placeholder="Mô tả"
+                        />
+                      </div>
+                    </div>
                   ))}
-                </ul>
+                </div>
+              )}
+            </fieldset>
+
+            <fieldset className="rounded-lg border border-dashed border-[#d4af37]/40 p-4">
+              <legend className="px-2 text-sm font-semibold text-[#ffdf7a]">
+                Phần thưởng cao quý
+              </legend>
+
+              <div className="mt-2 flex gap-2">
+                <input
+                  type="text"
+                  placeholder="Nhập phần thưởng"
+                  value={awardDraft}
+                  onChange={(e) => setAwardDraft(e.target.value)}
+                  className="min-w-0 flex-1 rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white"
+                />
+                <button
+                  type="button"
+                  onClick={addAward}
+                  className="flex shrink-0 items-center gap-2 rounded-md border border-[#d4af37]/50 bg-[#800000]/80 px-3 py-2 text-sm font-medium text-[#ffdf7a] transition hover:bg-[#a30000]/70"
+                >
+                  <ListPlus className="h-4 w-4" />
+                  Thêm
+                </button>
+              </div>
+
+              {awards.length > 0 && (
+                <div className="mt-4 space-y-3">
+                  {awards.map((award, index) => (
+                    <div
+                      key={`award-${index}`}
+                      className="rounded-md border border-[#d4af37]/20 bg-[#4a0000]/50 p-3"
+                    >
+                      <div className="mb-2 flex items-center justify-between gap-2">
+                        <p className="text-xs font-semibold text-[#ffdf7a]">
+                          Phần thưởng #{index + 1}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => removeAward(index)}
+                          className="shrink-0 text-red-300 hover:text-red-100"
+                          aria-label="Xóa phần thưởng"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <textarea
+                        rows={2}
+                        value={award}
+                        onChange={(e) => updateAward(index, e.target.value)}
+                        className="w-full rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white"
+                        placeholder="Nội dung phần thưởng"
+                      />
+                    </div>
+                  ))}
+                </div>
               )}
             </fieldset>
 
@@ -602,7 +728,7 @@ export default function AdminPage() {
                         </p>
                         <p className="mt-1 text-[10px] uppercase text-[#d4af37]/80">
                           {leader.tier === "top" ? "Hàng trên" : "Hàng dưới"} ·{" "}
-                          {leader.timeline.length} mốc
+                          {leader.timeline.length} mốc · {leader.awards?.length ?? 0} phần thưởng
                         </p>
                       </div>
                       <div className="flex shrink-0 gap-2">
