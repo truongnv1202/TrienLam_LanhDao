@@ -642,8 +642,7 @@ body {
   height: 86px;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
-  padding: 0;
+  padding: 0 120px;
   transform: translateX(-50%);
   text-align: center;
   font-family: var(--font-lato), "Lato", sans-serif;
@@ -664,7 +663,7 @@ body {
   left: 663px;
   width: 595px;
   height: 49px;
-  padding: 0;
+  padding: 26px 72px 0;
   transform: none;
   font-family: var(--font-lato), "Lato", sans-serif;
   font-size: 20px;
@@ -680,7 +679,7 @@ body {
   left: 663px;
   width: 595px;
   height: 49px;
-  padding: 0;
+  padding: 26px 72px 0;
   transform: none;
   font-family: var(--font-lato), "Lato", sans-serif;
   font-size: 20px;
