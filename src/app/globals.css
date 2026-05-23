@@ -853,6 +853,7 @@ select {
   width: 162px;
   height: 168px;
   pointer-events: none;
+  transform: translateZ(0);
 }
 
 .leader-card-overlay-image {

@@ -40,7 +40,7 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
 
       <span className="leader-card-overlay" aria-hidden>
         <Image
-          src="/images/group-37593-overlay-162x168.png"
+          src="/images/group-37593-overlay.png"
           alt=""
           fill
           sizes="162px"
