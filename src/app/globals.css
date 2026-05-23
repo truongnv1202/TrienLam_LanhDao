@@ -193,22 +193,11 @@ body {
 }
 
 .exhibition-canvas {
-  /* Hàng trên — Figma */
-  --card-top-w: 240px;
-  --card-top-h: 391px;
-  --card-top-left-1: 190px;
-  --card-top-left-2: 450px;
-  --card-top-step: 260px; /* 240 + khoảng cách 20px */
-  --card-top-top: 224px;
-  /* Hàng dưới — Figma */
-  --card-bottom-w: 240px;
-  --card-bottom-h: 391px;
-  --card-bottom-left-1: 60px;
-  --card-bottom-left-2: 320px;
-  --card-bottom-step: 260px;
-  --card-bottom-top: 635px;
-  --card-portrait-ratio: 65%;
-  --card-info-ratio: 35%;
+  --home-card-w: 174px;
+  --home-card-h: 168px;
+  --home-card-gap: 20px;
+  --card-portrait-ratio: 68%;
+  --card-info-ratio: 32%;
 
   position: relative;
   width: 1920px;
@@ -224,7 +213,7 @@ body {
   left: 0;
   z-index: 10;
   width: 1920px;
-  height: 348px;
+  height: 190px;
   margin: 0;
   pointer-events: none;
 }
@@ -237,16 +226,16 @@ body {
 .exhibition-flag-layer {
   position: absolute;
   top: 0;
-  left: 1450px;
+  left: 1398px;
   z-index: 1;
-  width: 361px;
-  height: 260px;
+  width: 390px;
+  height: 230px;
   pointer-events: none;
 }
 
 .exhibition-flag {
-  width: 361px !important;
-  height: 260px !important;
+  width: 390px !important;
+  height: 230px !important;
   object-fit: contain;
   opacity: 1;
   transform: none;
@@ -255,10 +244,10 @@ body {
 
 .exhibition-emblem {
   position: absolute;
-  top: 74px;
-  left: 294px;
-  width: 144px !important;
-  height: 113px !important;
+  top: 38px;
+  left: 380px;
+  width: 118px !important;
+  height: 93px !important;
   object-fit: contain;
   opacity: 1;
   mix-blend-mode: screen;
@@ -268,14 +257,14 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  top: 82px;
+  top: 46px;
   text-align: center;
   pointer-events: none;
 }
 
 .exhibition-title-sub {
   font-family: var(--font-lato), "Lato", sans-serif;
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
   font-style: normal;
   line-height: 1.2;
@@ -288,7 +277,7 @@ body {
 .exhibition-title-main {
   margin-top: 4px;
   font-family: var(--font-lato), "Lato", sans-serif;
-  font-size: 56px;
+  font-size: 44px;
   font-weight: 900;
   font-style: normal;
   line-height: 1.2;
@@ -425,6 +414,71 @@ body {
   left: calc(var(--card-bottom-left-2) + var(--card-bottom-step) * 5);
 }
 
+.exhibition-group-label {
+  position: absolute;
+  left: 50%;
+  z-index: 7;
+  min-width: 370px;
+  padding: 12px 54px 14px;
+  transform: translateX(-50%);
+  text-align: center;
+  font-family: var(--font-lato), "Lato", sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+  color: #ffdf7a;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
+  background: linear-gradient(180deg, rgba(118, 12, 7, 0.88), rgba(72, 4, 4, 0.92));
+  border: 1px solid rgba(255, 215, 0, 0.45);
+  clip-path: polygon(8% 0, 92% 0, 100% 100%, 0 100%);
+  pointer-events: none;
+}
+
+.exhibition-group-label-party {
+  top: 184px;
+}
+
+.exhibition-group-label-ministry {
+  top: 438px;
+}
+
+.exhibition-row {
+  position: absolute;
+  left: 0;
+  z-index: 6;
+  display: flex;
+  width: 1920px;
+  height: var(--home-card-h);
+  gap: var(--home-card-gap);
+  justify-content: center;
+  pointer-events: none;
+}
+
+.exhibition-row-top {
+  top: 246px;
+}
+
+.exhibition-row-ministry-1 {
+  top: 512px;
+}
+
+.exhibition-row-ministry-2 {
+  top: 700px;
+}
+
+.exhibition-row-ministry-3 {
+  top: 888px;
+}
+
+.exhibition-row .exhibition-leader-card {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  width: var(--home-card-w) !important;
+  height: var(--home-card-h) !important;
+  pointer-events: auto;
+}
+
 /* Thẻ lãnh đạo — nền ảnh đỏ + viền vàng, opacity 70% */
 .exhibition-leader-card {
   position: relative;
@@ -460,13 +514,13 @@ body {
 .exhibition-leader-info {
   flex: 0 0 var(--card-info-ratio);
   min-height: 0;
-  padding: 7px 8px 9px;
+  padding: 4px 6px 5px;
   background: transparent;
 }
 
 .exhibition-label {
   font-family: var(--font-lato), "Lato", sans-serif;
-  font-size: 16px;
+  font-size: 10px;
   font-weight: 400;
   font-style: normal;
   line-height: 1.2;
@@ -477,11 +531,11 @@ body {
 }
 
 .exhibition-name {
-  margin-top: 2px;
+  margin-top: 1px;
   font-family: var(--font-lato), "Lato", sans-serif;
-  font-size: 20px;
+  font-size: 13px;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.18;
   letter-spacing: 0;
   text-align: center;
   color: #ffd700;
@@ -489,26 +543,26 @@ body {
 }
 
 .exhibition-position {
-  margin-top: 4px;
+  margin-top: 2px;
   width: 100%;
   font-family: var(--font-lato), "Lato", sans-serif;
-  font-size: 10px;
+  font-size: 6.6px;
   font-weight: 500;
-  line-height: 1.32;
+  line-height: 1.18;
   color: #fff8e7;
   white-space: pre-line;
   text-align: center;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 6;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .exhibition-card-bottom .exhibition-position {
-  font-size: 9px;
-  line-height: 1.28;
-  -webkit-line-clamp: 5;
+  font-size: 6.4px;
+  line-height: 1.16;
+  -webkit-line-clamp: 4;
 }
 
 @media (max-width: 768px) {

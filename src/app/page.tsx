@@ -36,6 +36,11 @@ export default function HomePage() {
 
   const topTier = leaders.filter((l) => l.tier === "top");
   const bottomTier = leaders.filter((l) => l.tier === "bottom");
+  const ministryRows = [
+    bottomTier.slice(0, 7),
+    bottomTier.slice(7, 13),
+    bottomTier.slice(13, 20),
+  ];
 
   return (
     <div className="exhibition-page relative h-[100dvh] overflow-hidden">
@@ -58,33 +63,48 @@ export default function HomePage() {
           <main className="exhibition-stage">
             <div className="exhibition-board">
               {topTier.length > 0 && (
-                <section
-                  aria-label="Hàng lãnh đạo trên"
-                  className="exhibition-row exhibition-row-top"
-                >
-                  {topTier.map((leader) => (
-                    <LeaderCard
-                      key={leader.id}
-                      leader={leader}
-                      onClick={setSelectedLeader}
-                    />
-                  ))}
-                </section>
+                <>
+                  <div className="exhibition-group-label exhibition-group-label-party">
+                    LÃNH ĐẠO ĐẢNG, NHÀ NƯỚC
+                  </div>
+                  <section
+                    aria-label="Lãnh đạo Đảng, Nhà nước"
+                    className="exhibition-row exhibition-row-top"
+                  >
+                    {topTier.slice(0, 4).map((leader) => (
+                      <LeaderCard
+                        key={leader.id}
+                        leader={leader}
+                        onClick={setSelectedLeader}
+                      />
+                    ))}
+                  </section>
+                </>
               )}
 
               {bottomTier.length > 0 && (
-                <section
-                  aria-label="Hàng lãnh đạo dưới"
-                  className="exhibition-row exhibition-row-bottom"
-                >
-                  {bottomTier.map((leader) => (
-                    <LeaderCard
-                      key={leader.id}
-                      leader={leader}
-                      onClick={setSelectedLeader}
-                    />
-                  ))}
-                </section>
+                <>
+                  <div className="exhibition-group-label exhibition-group-label-ministry">
+                    LÃNH ĐẠO BỘ CÔNG AN
+                  </div>
+                  {ministryRows.map((row, index) =>
+                    row.length > 0 ? (
+                      <section
+                        key={`ministry-row-${index + 1}`}
+                        aria-label={`Lãnh đạo Bộ Công an hàng ${index + 1}`}
+                        className={`exhibition-row exhibition-row-ministry exhibition-row-ministry-${index + 1}`}
+                      >
+                        {row.map((leader) => (
+                          <LeaderCard
+                            key={leader.id}
+                            leader={leader}
+                            onClick={setSelectedLeader}
+                          />
+                        ))}
+                      </section>
+                    ) : null
+                  )}
+                </>
               )}
             </div>
 

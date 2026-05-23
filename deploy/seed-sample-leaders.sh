@@ -1,5 +1,5 @@
 #!/bin/bash
-# Nạp 13 lãnh đạo mẫu theo ảnh — chạy trên server:
+# Nạp dữ liệu lãnh đạo mẫu theo ảnh — chạy trên server:
 #   bash deploy/seed-sample-leaders.sh
 set -euo pipefail
 

@@ -30,7 +30,45 @@ export async function readLeaders(): Promise<Leader[]> {
   const raw = await fs.readFile(DATA_FILE, "utf-8");
   const parsed: unknown = JSON.parse(raw);
   if (!Array.isArray(parsed)) return [...SEED_LEADERS];
-  return parsed as Leader[];
+  return await mergeSeedLeaders(parsed as Leader[]);
+}
+
+async function mergeSeedLeaders(current: Leader[]): Promise<Leader[]> {
+  let changed = false;
+  const byId = new Map(current.map((leader) => [leader.id, leader]));
+  const merged = [...current];
+
+  for (const seed of SEED_LEADERS) {
+    const existing = byId.get(seed.id);
+
+    if (!existing) {
+      merged.push(seed);
+      changed = true;
+      continue;
+    }
+
+    const normalized: Leader = {
+      ...seed,
+      ...existing,
+      name: seed.name,
+      position: seed.position,
+      tier: seed.tier,
+      sortOrder: seed.sortOrder,
+      portraitUrl: existing.portraitUrl || seed.portraitUrl,
+    };
+
+    if (JSON.stringify(existing) !== JSON.stringify(normalized)) {
+      const index = merged.findIndex((leader) => leader.id === seed.id);
+      merged[index] = normalized;
+      changed = true;
+    }
+  }
+
+  if (changed) {
+    await fs.writeFile(DATA_FILE, JSON.stringify(merged, null, 2), "utf-8");
+  }
+
+  return merged;
 }
 
 export async function writeLeaders(leaders: Leader[]): Promise<void> {
