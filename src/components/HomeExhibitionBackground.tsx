@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
-/** Video nền 16:9 — public/videos/home-background.mp4 */
-const VIDEO_SRC = "/videos/home-background.mp4";
+/** Video nền 16:9 — public/videos/red-light-streaks-bg.mp4 */
+const VIDEO_SRC = "/videos/red-light-streaks-bg.mp4";
 
 export default function HomeExhibitionBackground() {
   const videoRef = useRef<HTMLVideoElement>(null);
