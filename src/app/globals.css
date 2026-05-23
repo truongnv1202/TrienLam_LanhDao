@@ -637,9 +637,13 @@ body {
   position: absolute;
   left: 50%;
   z-index: 7;
-  min-width: 370px;
-  padding: 12px 54px 14px;
+  width: 690px;
+  height: 74px;
+  padding: 0 92px 10px;
   transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   font-family: var(--font-lato), "Lato", sans-serif;
   font-size: 20px;
@@ -647,18 +651,19 @@ body {
   line-height: 1;
   color: #ffdf7a;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
-  background: linear-gradient(180deg, rgba(118, 12, 7, 0.88), rgba(72, 4, 4, 0.92));
-  border: 1px solid rgba(255, 215, 0, 0.45);
-  clip-path: polygon(8% 0, 92% 0, 100% 100%, 0 100%);
+  background-image: url("/images/group-label-bg.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
   pointer-events: none;
 }
 
 .exhibition-group-label-party {
-  top: 184px;
+  top: 172px;
 }
 
 .exhibition-group-label-ministry {
-  top: 438px;
+  top: 426px;
 }
 
 .exhibition-row {
