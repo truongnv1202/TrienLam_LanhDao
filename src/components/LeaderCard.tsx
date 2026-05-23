@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { formatPositionNewestFirst } from "@/lib/format-position";
 import type { Leader } from "@/types";
 
 interface LeaderCardProps {
@@ -35,11 +34,8 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
       </div>
 
       <div className="exhibition-leader-info flex w-full shrink-0 flex-col items-center justify-center">
-        <p className="exhibition-label">Đồng chí</p>
+        <p className="exhibition-label">ĐỒNG CHÍ</p>
         <h3 className="exhibition-name">{leader.name}</h3>
-        <p className="exhibition-position">
-          {formatPositionNewestFirst(leader.position)}
-        </p>
       </div>
     </button>
   );
