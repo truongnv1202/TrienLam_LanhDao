@@ -58,6 +58,7 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
                 fill
                 className="leader-detail-portrait-image"
                 sizes="260px"
+                unoptimized={leader.portraitUrl.startsWith("/uploads/")}
                 priority
               />
             </div>

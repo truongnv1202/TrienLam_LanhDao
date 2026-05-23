@@ -393,7 +393,7 @@ export default function AdminPage() {
                     src={previewSrc}
                     alt="Xem trước ảnh"
                     fill
-                    unoptimized={previewSrc.startsWith("blob:")}
+                    unoptimized={previewSrc.startsWith("blob:") || previewSrc.startsWith("/uploads/")}
                     className="object-contain object-bottom"
                     sizes="144px"
                   />
@@ -605,6 +605,7 @@ export default function AdminPage() {
                         src={leader.portraitUrl}
                         alt={leader.name}
                         fill
+                        unoptimized={leader.portraitUrl.startsWith("/uploads/")}
                         className="object-contain object-bottom"
                         sizes="56px"
                       />
