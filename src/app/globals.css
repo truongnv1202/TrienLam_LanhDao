@@ -427,9 +427,9 @@ body {
 }
 
 .exhibition-canvas {
-  --home-card-w: 174px;
+  --home-card-w: 160px;
   --home-card-h: 168px;
-  --home-card-gap: 20px;
+  --home-card-gap: 15px;
   --card-portrait-ratio: 68%;
   --card-info-ratio: 32%;
 
@@ -476,7 +476,7 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  top: 20px;
+  top: 50px;
   text-align: center;
   pointer-events: none;
 }
@@ -706,16 +706,16 @@ body {
   top: 246px;
 }
 
-.exhibitgin-row-ministry-1 {
-  top: 512px;
+.exhibition-row-ministry-1 {
+  top: 522px;
 }
 
 .exhibition-row-ministry-2 {
-  top: 700px;
+  top: 704px;
 }
 
 .exhibition-row-ministry-3 {
-  top: 888px;
+  top: 886px;
 }
 
 .exhibition-row .exhibition-leader-card {
