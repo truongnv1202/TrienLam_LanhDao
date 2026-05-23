@@ -637,13 +637,13 @@ body {
   position: absolute;
   left: 50%;
   z-index: 7;
-  width: 690px;
-  height: 74px;
-  padding: 0 92px 10px;
-  transform: translateX(-50%);
   display: flex;
+  width: 920px;
+  height: 86px;
   align-items: center;
   justify-content: center;
+  padding: 0 120px;
+  transform: translateX(-50%);
   text-align: center;
   font-family: var(--font-lato), "Lato", sans-serif;
   font-size: 20px;
@@ -659,11 +659,11 @@ body {
 }
 
 .exhibition-group-label-party {
-  top: 172px;
+  top: 164px;
 }
 
 .exhibition-group-label-ministry {
-  top: 426px;
+  top: 418px;
 }
 
 .exhibition-row {
