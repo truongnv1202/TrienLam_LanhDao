@@ -518,11 +518,11 @@ select {
 }
 
 .exhibition-canvas {
-  --home-card-w: 160px;
+  --home-card-w: 162px;
   --home-card-h: 168px;
   --home-card-gap: 15px;
-  --card-portrait-ratio: 68%;
-  --card-info-ratio: 32%;
+  --card-portrait-h: 122px;
+  --card-info-h: 46px;
 
   position: relative;
   width: 1920px;
@@ -847,8 +847,8 @@ select {
   border-radius: 12px;
   pointer-events: none;
   opacity: 1;
-  background-image: url("/images/leader-card-bg.png");
-  background-size: 100% 100%;
+  background-image: url("/images/card.png");
+  background-size: 162px 168px;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -860,7 +860,9 @@ select {
 }
 
 .exhibition-leader-info {
-  flex: 0 0 var(--card-info-ratio);
+  width: 162px;
+  height: var(--card-info-h);
+  flex: 0 0 var(--card-info-h);
   min-height: 0;
   padding: 4px 6px 5px;
   background: transparent;
@@ -875,7 +877,7 @@ select {
   letter-spacing: 0;
   text-align: center;
   vertical-align: middle;
-  color: #ffd700;
+  color: #b88900;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
 }
 
@@ -934,29 +936,21 @@ select {
 
 /* Vùng ảnh chân dung — nền vân vàng, đáy ảnh trùng đáy nền */
 .exhibition-leader-card .leader-portrait-frame {
-  flex: 0 0 var(--card-portrait-ratio);
+  width: 162px !important;
+  height: var(--card-portrait-h);
+  flex: 0 0 var(--card-portrait-h);
   min-height: 0;
   background: transparent;
   isolation: isolate;
 }
 
 .exhibition-leader-card .leader-portrait-frame::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 1px;
-  right: 1px;
-  z-index: 0;
-  pointer-events: none;
-  background-image: url("/images/leader-portrait-bg.png");
-  background-repeat: no-repeat;
-  background-position: center bottom;
-  background-size: 100% 100%;
-  mix-blend-mode: screen;
+  content: none;
 }
 
 .exhibition-leader-card .leader-portrait-image {
+  width: 162px !important;
+  height: 122px !important;
   z-index: 1;
   object-fit: contain;
   object-position: center bottom;

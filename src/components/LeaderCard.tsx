@@ -27,7 +27,7 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
           src={leader.portraitUrl}
           alt=""
           fill
-          sizes="174px"
+          sizes="162px"
           className="leader-portrait-image"
           priority={isTopTier}
         />
