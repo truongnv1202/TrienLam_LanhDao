@@ -167,16 +167,7 @@ select {
 }
 
 .leader-detail-portrait::before {
-  content: "";
-  position: absolute;
-  inset: 0 1px;
-  z-index: 0;
-  background-image: url("/images/leader-portrait-bg.png");
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  mix-blend-mode: screen;
-  pointer-events: none;
+  content: none;
 }
 
 .leader-detail-portrait-image {
