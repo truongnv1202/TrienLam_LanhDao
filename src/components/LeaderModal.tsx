@@ -93,7 +93,15 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
           </section>
 
           <section className="leader-detail-awards">
-            <SectionBadge>PHẦN THƯỞNG CAO QUÝ</SectionBadge>
+            <h3 className="leader-detail-awards-heading">
+              <Image
+                src="/images/awards-header.png"
+                alt="PHẦN THƯỞNG CAO QUÝ"
+                width={1024}
+                height={160}
+                className="leader-detail-awards-heading-image"
+              />
+            </h3>
             <ul className="leader-detail-awards-list leader-modal-scroll">
               {awards.map((award) => (
                 <li key={award}>

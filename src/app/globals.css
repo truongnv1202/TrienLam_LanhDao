@@ -284,6 +284,18 @@ select {
   color: #ffd966;
 }
 
+.leader-detail-awards-heading {
+  width: min(360px, 100%);
+  margin: 0 auto 18px;
+  line-height: 0;
+}
+
+.leader-detail-awards-heading-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
 .leader-detail-timeline,
 .leader-detail-awards-list {
   min-height: 0;
@@ -361,7 +373,7 @@ select {
 
 .leader-detail-awards-list li {
   display: grid;
-  grid-template-columns: 44px 1fr;
+  grid-template-columns: 52px 1fr;
   align-items: center;
   gap: 12px;
   font-size: 14px;
@@ -373,8 +385,8 @@ select {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 52px;
+  height: 46.620689392089844px;
   color: #ffdf7a;
   background: transparent;
   border: 0;
@@ -382,8 +394,8 @@ select {
 }
 
 .leader-detail-award-image {
-  width: 32px;
-  height: 32px;
+  width: 52px;
+  height: 46.620689392089844px;
   object-fit: contain;
 }
 
