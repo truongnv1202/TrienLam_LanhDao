@@ -665,10 +665,29 @@ body {
   height: 49px;
   padding: 0 72px;
   transform: none;
+  font-family: var(--font-lato), "Lato", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  font-style: normal;
+  line-height: 120%;
+  letter-spacing: 0;
+  text-align: center;
 }
 
 .exhibition-group-label-ministry {
-  top: 418px;
+  top: 455px;
+  left: 663px;
+  width: 595px;
+  height: 49px;
+  padding: 0 72px;
+  transform: none;
+  font-family: var(--font-lato), "Lato", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  font-style: normal;
+  line-height: 120%;
+  letter-spacing: 0;
+  text-align: center;
 }
 
 .exhibition-row {
