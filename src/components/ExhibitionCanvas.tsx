@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 interface ExhibitionCanvasProps {
   children: React.ReactNode;
@@ -10,22 +10,33 @@ interface ExhibitionCanvasProps {
 export default function ExhibitionCanvas({ children }: ExhibitionCanvasProps) {
   const [scale, setScale] = useState(1);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const update = () => {
-      const sw = window.innerWidth / 1920;
-      const sh = window.innerHeight / 1080;
-      setScale(Math.min(sw, sh));
+      const viewport = window.visualViewport;
+      const width = viewport?.width ?? window.innerWidth;
+      const height = viewport?.height ?? window.innerHeight;
+      const nextScale = Math.min(width / 1920, height / 1080);
+      setScale(Number(nextScale.toFixed(4)));
     };
+
     update();
     window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+    window.visualViewport?.addEventListener("resize", update);
+
+    return () => {
+      window.removeEventListener("resize", update);
+      window.visualViewport?.removeEventListener("resize", update);
+    };
   }, []);
 
   return (
     <div className="exhibition-viewport">
       <div
         className="exhibition-canvas"
-        style={{ transform: `scale(${scale})` }}
+        style={{
+          "--canvas-scale": scale,
+          transform: `scale(${scale})`,
+        } as React.CSSProperties}
       >
         {children}
       </div>
