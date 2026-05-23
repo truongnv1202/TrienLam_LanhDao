@@ -848,7 +848,8 @@ select {
 .leader-card-overlay {
   position: absolute;
   inset: 0;
-  z-index: 5;
+  z-index: 20;
+  display: block;
   width: 162px;
   height: 168px;
   pointer-events: none;
