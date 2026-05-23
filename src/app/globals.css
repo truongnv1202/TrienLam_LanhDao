@@ -284,12 +284,14 @@ select {
   color: #ffd966;
 }
 
+.leader-detail-work-heading,
 .leader-detail-awards-heading {
   width: min(360px, 100%);
   margin: 0 auto 18px;
   line-height: 0;
 }
 
+.leader-detail-work-heading-image,
 .leader-detail-awards-heading-image {
   width: 100%;
   height: auto;

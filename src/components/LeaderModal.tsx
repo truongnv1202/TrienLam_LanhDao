@@ -33,6 +33,7 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
 
   const workEvents = sortWorkEventsNewestFirst(buildWorkEvents(leader));
   const awards = sortAwardsByRank(leader.awards?.length ? leader.awards : buildAwards());
+  const profileMeta = buildProfileMeta(leader.biography);
 
   return (
     <div
@@ -70,14 +71,24 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
               <div className="leader-detail-divider" aria-hidden>
                 <span />
               </div>
-              <p className="leader-detail-meta">
-                {formatPositionNewestFirst(leader.position)}
-              </p>
+              {profileMeta && (
+                <p className="leader-detail-meta">
+                  {profileMeta}
+                </p>
+              )}
             </div>
           </aside>
 
           <section className="leader-detail-work">
-            <SectionBadge>QUÁ TRÌNH CÔNG TÁC</SectionBadge>
+            <h3 className="leader-detail-work-heading">
+              <Image
+                src="/images/work-header.png"
+                alt="QUÁ TRÌNH CÔNG TÁC"
+                width={1024}
+                height={160}
+                className="leader-detail-work-heading-image"
+              />
+            </h3>
             <div className="leader-detail-timeline leader-modal-scroll">
               {workEvents.map((item, index) => (
                 <article
@@ -134,16 +145,6 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
   );
 }
 
-function SectionBadge({ children }: { children: React.ReactNode }) {
-  return (
-    <h3 className="leader-detail-section-badge">
-      <span aria-hidden>❦</span>
-      {children}
-      <span aria-hidden>❦</span>
-    </h3>
-  );
-}
-
 function buildWorkEvents(leader: Leader): TimelineEvent[] {
   if (leader.timeline.length > 0) return leader.timeline;
 
@@ -156,6 +157,16 @@ function buildWorkEvents(leader: Leader): TimelineEvent[] {
       event: line,
       description: line,
     }));
+}
+
+function buildProfileMeta(biography: string): string {
+  const birthYear = biography.match(/sinh\s+năm\s*[:：]?\s*([^;.]+)/i)?.[1]?.trim();
+  const hometown = biography.match(/quê\s+quán\s*[:：]\s*([^;.]+)/i)?.[1]?.trim();
+
+  return [
+    birthYear ? `Năm sinh: ${birthYear}` : "",
+    hometown ? `Quê quán: ${hometown}` : "",
+  ].filter(Boolean).join("\n");
 }
 
 function sortWorkEventsNewestFirst(events: TimelineEvent[]): TimelineEvent[] {
