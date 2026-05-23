@@ -659,7 +659,12 @@ body {
 }
 
 .exhibition-group-label-party {
-  top: 164px;
+  top: 193px;
+  left: 663px;
+  width: 595px;
+  height: 49px;
+  padding: 0 72px;
+  transform: none;
 }
 
 .exhibition-group-label-ministry {
