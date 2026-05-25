@@ -23,6 +23,7 @@ services:
       - ${APP_ROOT:-.}/data:/app/data
       - ${APP_ROOT:-.}/public/uploads:/app/public/uploads
       - ${APP_ROOT:-.}/public/videos:/app/public/videos
+      - ${APP_ROOT:-.}/public/fonts:/app/public/fonts:ro
     healthcheck:
       test: ["CMD", "curl", "-f", "http://127.0.0.1:3000/api/health"]
       interval: 30s

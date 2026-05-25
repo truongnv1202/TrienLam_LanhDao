@@ -16,6 +16,12 @@ mkdir -p \
   "$APP_ROOT/public/fonts"
 # Video nền 16:9: public/videos/home-background.mp4
 
+if [[ ! -f "$APP_ROOT/public/fonts/lato/lato-latin-ext-400-normal.woff2" ]]; then
+  echo "    LỖI: Thiếu font Lato tại $APP_ROOT/public/fonts/lato/"
+  echo "    Hãy cập nhật/copy thư mục public/fonts/lato lên server trước khi deploy."
+  exit 1
+fi
+
 # UID user nextjs trong container Docker
 chown -R 1001:1001 "$APP_ROOT/data" "$APP_ROOT/public/uploads" 2>/dev/null \
   || chmod -R a+rwX "$APP_ROOT/data" "$APP_ROOT/public/uploads"
