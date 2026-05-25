@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import "@fontsource/lato/latin-ext.css";
+import "@fontsource/lato/latin-ext-italic.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
