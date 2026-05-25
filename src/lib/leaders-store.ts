@@ -6,7 +6,9 @@ import { SEED_LEADERS } from "@/lib/seed";
 const DATA_DIR = path.join(process.cwd(), "data");
 const DATA_FILE = path.join(DATA_DIR, "leaders.json");
 const SEED_FILE = path.join(DATA_DIR, "leaders.seed.json");
-const UPLOADS_DIR = path.join(process.cwd(), "public", "uploads", "portraits");
+const UPLOADS_DIR =
+  process.env.LEADER_UPLOADS_DIR?.trim() ||
+  path.join(process.cwd(), "public", "uploads");
 
 async function ensureDataFile(): Promise<void> {
   await fs.mkdir(DATA_DIR, { recursive: true });
@@ -84,12 +86,17 @@ export async function deleteLeader(id: string): Promise<Leader | null> {
 }
 
 export function isLocalPortraitUrl(url: string): boolean {
-  return url.startsWith("/uploads/portraits/");
+  return url.startsWith("/uploads/");
 }
 
 export async function deletePortraitFileIfLocal(portraitUrl: string): Promise<void> {
   if (!isLocalPortraitUrl(portraitUrl)) return;
-  const filePath = path.join(process.cwd(), "public", portraitUrl.replace(/^\//, ""));
+  const relativePath = portraitUrl
+    .replace(/^\/uploads\/?/, "")
+    .split(/[?#]/, 1)[0];
+  const filePath = path.resolve(UPLOADS_DIR, relativePath);
+  const uploadRoot = path.resolve(UPLOADS_DIR);
+  if (!filePath.startsWith(`${uploadRoot}${path.sep}`)) return;
   try {
     await fs.unlink(filePath);
   } catch {
@@ -99,7 +106,8 @@ export async function deletePortraitFileIfLocal(portraitUrl: string): Promise<vo
 
 export async function savePortraitFile(
   file: File,
-  leaderId: string
+  leaderId: string,
+  target: "home" | "popup"
 ): Promise<string> {
   const allowed = ["image/jpeg", "image/png", "image/webp", "image/gif"];
   if (!allowed.includes(file.type)) {
@@ -117,15 +125,18 @@ export async function savePortraitFile(
     "image/gif": ".gif",
   };
   const ext = extMap[file.type] ?? ".jpg";
-  const safeId = leaderId.replace(/[^a-zA-Z0-9-_]/g, "-");
-  const filename = `${safeId}${ext}`;
+  const safeId =
+    leaderId
+      .replace(/^(home|popup)[-_]/i, "")
+      .replace(/[^a-zA-Z0-9-_]/g, "-") || `leader-${Date.now()}`;
+  const filename = `${target}_${safeId}_${Date.now()}${ext}`;
 
   await fs.mkdir(UPLOADS_DIR, { recursive: true });
   const buffer = Buffer.from(await file.arrayBuffer());
   const filePath = path.join(UPLOADS_DIR, filename);
   await fs.writeFile(filePath, buffer);
 
-  return `/uploads/portraits/${filename}`;
+  return `/uploads/${filename}`;
 }
 
 /** Ghi đè data/leaders.json bằng dữ liệu mẫu ảnh */

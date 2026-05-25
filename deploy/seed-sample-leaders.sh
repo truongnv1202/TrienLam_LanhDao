@@ -8,7 +8,7 @@ APP_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SEED_SRC="$APP_ROOT/data/leaders.seed.json"
 DATA_FILE="$APP_ROOT/data/leaders.json"
 
-mkdir -p "$APP_ROOT/data" "$APP_ROOT/public/uploads/portraits"
+mkdir -p "$APP_ROOT/data" "$APP_ROOT/public/uploads"
 
 if [[ -f "$SEED_SRC" ]]; then
   cp "$SEED_SRC" "$DATA_FILE"
@@ -19,4 +19,4 @@ fi
 
 chown 1001:1001 "$DATA_FILE" 2>/dev/null || chmod 664 "$DATA_FILE"
 echo "Đã nạp dữ liệu mẫu: $DATA_FILE"
-echo "Upload ảnh chân dung: public/uploads/portraits/{id}.jpg"
+echo "Upload ảnh chân dung mới: public/uploads/home_{id}.jpg hoặc public/uploads/popup_{id}.jpg"

@@ -9,7 +9,7 @@ cd "$APP_ROOT"
 echo "==> [1/4] Tạo thư mục & phân quyền..."
 mkdir -p \
   "$APP_ROOT/data" \
-  "$APP_ROOT/public/uploads/portraits" \
+  "$APP_ROOT/public/uploads" \
   "$APP_ROOT/public/certbot" \
   "$APP_ROOT/public/videos" \
   "$APP_ROOT/public/images"

@@ -14,7 +14,7 @@ fi
 mkdir -p \
   "$APP_ROOT" \
   "$APP_ROOT/data" \
-  "$APP_ROOT/public/uploads/portraits" \
+  "$APP_ROOT/public/uploads" \
   "$APP_ROOT/public/certbot" \
   "$APP_ROOT/public/videos" \
   "$APP_ROOT/public/images"

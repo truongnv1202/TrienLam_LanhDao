@@ -176,6 +176,7 @@ export default function AdminPage() {
 
   const uploadPortrait = async (
     file: File | null,
+    target: "home" | "popup",
     uploadId: string,
     fallbackUrl: string
   ): Promise<string | null> => {
@@ -184,6 +185,7 @@ export default function AdminPage() {
     const body = new FormData();
     body.append("file", file);
     body.append("leaderId", uploadId);
+    body.append("target", target);
 
     const res = await fetch("/api/leaders/upload", {
       method: "POST",
@@ -313,14 +315,16 @@ export default function AdminPage() {
 
       const uploadedHomePortrait = await uploadPortrait(
         homePortraitFile,
-        `${leaderId}-home`,
+        "home",
+        leaderId,
         homePortraitUrl
       );
       if (uploadedHomePortrait) homePortraitUrl = uploadedHomePortrait;
 
       const uploadedDetailPortrait = await uploadPortrait(
         detailPortraitFile,
-        `${leaderId}-popup`,
+        "popup",
+        leaderId,
         detailPortraitUrl
       );
       if (uploadedDetailPortrait) detailPortraitUrl = uploadedDetailPortrait;
@@ -540,7 +544,7 @@ export default function AdminPage() {
                       setForm((f) => ({ ...f, homePortraitUrl: e.target.value }));
                     }}
                     className="w-full rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-xs text-white outline-none focus:border-[#ffdf7a]"
-                    placeholder="/uploads/portraits/...-home.png"
+                    placeholder="/uploads/home_....png"
                   />
                 </div>
 
@@ -593,13 +597,13 @@ export default function AdminPage() {
                       setForm((f) => ({ ...f, detailPortraitUrl: e.target.value }));
                     }}
                     className="w-full rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-xs text-white outline-none focus:border-[#ffdf7a]"
-                    placeholder="/uploads/portraits/...-popup.png"
+                    placeholder="/uploads/popup_....png"
                   />
                 </div>
               </div>
 
               <p className="text-center text-xs text-[#d4af37]/75">
-                Ảnh sẽ được lưu vào <code>/uploads/portraits</code> với hậu tố <code>-home</code> và <code>-popup</code>.
+                Ảnh sẽ được lưu vào <code>/opt/TrienLam_LanhDao/public/uploads</code> với tiền tố <code>home_</code> hoặc <code>popup_</code>.
               </p>
             </fieldset>
 
