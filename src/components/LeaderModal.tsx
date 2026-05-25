@@ -4,6 +4,7 @@ import { useEffect, useCallback } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { formatPositionNewestFirst } from "@/lib/format-position";
+import { sortTimelineEventsNewestFirst } from "@/lib/sort-timeline";
 import type { Leader, TimelineEvent } from "@/types";
 
 interface LeaderModalProps {
@@ -31,9 +32,10 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
 
   if (!leader) return null;
 
-  const workEvents = sortWorkEventsNewestFirst(buildWorkEvents(leader));
+  const workEvents = sortTimelineEventsNewestFirst(buildWorkEvents(leader));
   const awards = sortAwardsByRank(leader.awards?.length ? leader.awards : buildAwards());
   const profileMeta = buildProfileMeta(leader.biography);
+  const portraitSrc = leader.detailPortraitUrl || leader.portraitUrl;
 
   return (
     <div
@@ -54,7 +56,7 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
           <aside className="leader-detail-profile">
             <div className="leader-detail-portrait">
               <Image
-                src={leader.portraitUrl}
+                src={portraitSrc}
                 alt={leader.name}
                 fill
                 className="leader-detail-portrait-image"
@@ -174,37 +176,6 @@ function buildProfileMeta(biography: string): { birthYear?: string; hometown?: s
 
   if (!birthYear && !hometown) return null;
   return { birthYear, hometown };
-}
-
-function sortWorkEventsNewestFirst(events: TimelineEvent[]): TimelineEvent[] {
-  return events
-    .map((event, index) => ({ event, index }))
-    .sort((a, b) => {
-      const dateDiff = getTimelineSortKey(b.event) - getTimelineSortKey(a.event);
-      return dateDiff || a.index - b.index;
-    })
-    .map(({ event }) => event);
-}
-
-function getTimelineSortKey(item: TimelineEvent): number {
-  const text = `${item.year} ${item.event} ${item.description}`;
-  if (/\b(nay|hiện nay|tu nay|từ nay)\b/i.test(normalizeText(text))) {
-    return Number.MAX_SAFE_INTEGER;
-  }
-
-  const monthYears = [...text.matchAll(/\b(\d{1,2})\/(\d{4})\b/g)].map((match) => ({
-    month: Number(match[1]),
-    year: Number(match[2]),
-  }));
-
-  if (monthYears.length > 0) {
-    return Math.max(...monthYears.map(({ year, month }) => year * 100 + month));
-  }
-
-  const years = [...text.matchAll(/\b(19|20)\d{2}\b/g)].map((match) => Number(match[0]));
-  if (years.length > 0) return Math.max(...years) * 100;
-
-  return 0;
 }
 
 function extractYearLabel(text: string): string {

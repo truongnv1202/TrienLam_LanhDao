@@ -10,6 +10,7 @@ interface LeaderCardProps {
 
 export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
   const isTopTier = leader.tier === "top";
+  const portraitSrc = leader.homePortraitUrl || leader.portraitUrl;
 
   return (
     <button
@@ -24,7 +25,7 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
     >
       <div className="leader-portrait-frame relative w-full shrink-0 overflow-hidden">
         <Image
-          src={leader.portraitUrl}
+          src={portraitSrc}
           alt=""
           fill
           sizes="162px"

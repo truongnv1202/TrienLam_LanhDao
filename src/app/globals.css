@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Lato";
+  src: local("Lato");
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+}
+
 :root {
   --crimson-deep: #4a0000;
   --crimson-mid: #800000;
@@ -7,6 +15,7 @@
   --gold-primary: #d4af37;
   --gold-light: #ffdf7a;
   --gold-muted: rgba(212, 175, 55, 0.45);
+  --font-lato: "Lato", Arial, sans-serif;
 }
 
 html {

@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  deletePortraitFileIfLocal,
-  getLeaderById,
-  isLocalPortraitUrl,
   savePortraitFile,
-  upsertLeader,
 } from "@/lib/leaders-store";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
@@ -24,16 +20,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       (typeof leaderId === "string" && leaderId.trim()) ||
       `leader-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
-    const existing = await getLeaderById(id);
-    if (existing?.portraitUrl && isLocalPortraitUrl(existing.portraitUrl)) {
-      await deletePortraitFileIfLocal(existing.portraitUrl);
-    }
-
     const url = await savePortraitFile(file, id);
-
-    if (existing) {
-      await upsertLeader({ ...existing, portraitUrl: url });
-    }
 
     return NextResponse.json({ url, leaderId: id });
   } catch (err) {

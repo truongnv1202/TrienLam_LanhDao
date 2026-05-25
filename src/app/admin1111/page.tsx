@@ -18,7 +18,8 @@ interface FormState {
   id: string;
   name: string;
   position: string;
-  portraitUrl: string;
+  homePortraitUrl: string;
+  detailPortraitUrl: string;
   biography: string;
   tier: LeaderTier;
   sortOrder: number;
@@ -28,7 +29,8 @@ const EMPTY_FORM: FormState = {
   id: "",
   name: "",
   position: "",
-  portraitUrl: "",
+  homePortraitUrl: "",
+  detailPortraitUrl: "",
   biography: "",
   tier: "bottom",
   sortOrder: 1,
@@ -67,8 +69,10 @@ export default function AdminPage() {
   const [milestoneDraft, setMilestoneDraft] = useState<TimelineEvent>(EMPTY_MILESTONE);
   const [awardDraft, setAwardDraft] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [portraitFile, setPortraitFile] = useState<File | null>(null);
-  const [portraitPreview, setPortraitPreview] = useState<string | null>(null);
+  const [homePortraitFile, setHomePortraitFile] = useState<File | null>(null);
+  const [detailPortraitFile, setDetailPortraitFile] = useState<File | null>(null);
+  const [homePortraitPreview, setHomePortraitPreview] = useState<string | null>(null);
+  const [detailPortraitPreview, setDetailPortraitPreview] = useState<string | null>(null);
 
   const fetchLeaders = useCallback(async () => {
     setLoading(true);
@@ -90,18 +94,26 @@ export default function AdminPage() {
 
   useEffect(() => {
     return () => {
-      if (portraitPreview?.startsWith("blob:")) {
-        URL.revokeObjectURL(portraitPreview);
+      if (homePortraitPreview?.startsWith("blob:")) {
+        URL.revokeObjectURL(homePortraitPreview);
+      }
+      if (detailPortraitPreview?.startsWith("blob:")) {
+        URL.revokeObjectURL(detailPortraitPreview);
       }
     };
-  }, [portraitPreview]);
+  }, [homePortraitPreview, detailPortraitPreview]);
 
   const clearPortraitSelection = () => {
-    if (portraitPreview?.startsWith("blob:")) {
-      URL.revokeObjectURL(portraitPreview);
+    if (homePortraitPreview?.startsWith("blob:")) {
+      URL.revokeObjectURL(homePortraitPreview);
     }
-    setPortraitFile(null);
-    setPortraitPreview(null);
+    if (detailPortraitPreview?.startsWith("blob:")) {
+      URL.revokeObjectURL(detailPortraitPreview);
+    }
+    setHomePortraitFile(null);
+    setDetailPortraitFile(null);
+    setHomePortraitPreview(null);
+    setDetailPortraitPreview(null);
   };
 
   const resetForm = () => {
@@ -120,7 +132,8 @@ export default function AdminPage() {
       id: leader.id,
       name: leader.name,
       position: leader.position,
-      portraitUrl: leader.portraitUrl,
+      homePortraitUrl: leader.homePortraitUrl || leader.portraitUrl,
+      detailPortraitUrl: leader.detailPortraitUrl || leader.portraitUrl,
       biography: leader.biography,
       tier: leader.tier,
       sortOrder: leader.sortOrder ?? 1,
@@ -131,28 +144,45 @@ export default function AdminPage() {
     setAwardDraft("");
     setIsEditing(true);
     clearPortraitSelection();
-    setPortraitPreview(leader.portraitUrl || null);
+    setHomePortraitPreview(leader.homePortraitUrl || leader.portraitUrl || null);
+    setDetailPortraitPreview(leader.detailPortraitUrl || leader.portraitUrl || null);
     setMessage(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handlePortraitFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handlePortraitFileChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    target: "home" | "detail"
+  ) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (portraitPreview?.startsWith("blob:")) {
-      URL.revokeObjectURL(portraitPreview);
+
+    if (target === "home") {
+      if (homePortraitPreview?.startsWith("blob:")) {
+        URL.revokeObjectURL(homePortraitPreview);
+      }
+      setHomePortraitFile(file);
+      setHomePortraitPreview(URL.createObjectURL(file));
+    } else {
+      if (detailPortraitPreview?.startsWith("blob:")) {
+        URL.revokeObjectURL(detailPortraitPreview);
+      }
+      setDetailPortraitFile(file);
+      setDetailPortraitPreview(URL.createObjectURL(file));
     }
-    setPortraitFile(file);
-    setPortraitPreview(URL.createObjectURL(file));
     setMessage(null);
   };
 
-  const uploadPortrait = async (leaderId: string): Promise<string | null> => {
-    if (!portraitFile) return form.portraitUrl.trim() || null;
+  const uploadPortrait = async (
+    file: File | null,
+    uploadId: string,
+    fallbackUrl: string
+  ): Promise<string | null> => {
+    if (!file) return fallbackUrl.trim() || null;
 
     const body = new FormData();
-    body.append("file", portraitFile);
-    body.append("leaderId", leaderId);
+    body.append("file", file);
+    body.append("leaderId", uploadId);
 
     const res = await fetch("/api/leaders/upload", {
       method: "POST",
@@ -277,11 +307,24 @@ export default function AdminPage() {
     const leaderId = form.id.trim() || `leader-${Date.now()}`;
 
     try {
-      let portraitUrl = form.portraitUrl.trim();
-      if (portraitFile) {
-        const uploaded = await uploadPortrait(leaderId);
-        if (uploaded) portraitUrl = uploaded;
-      }
+      let homePortraitUrl = form.homePortraitUrl.trim();
+      let detailPortraitUrl = form.detailPortraitUrl.trim();
+
+      const uploadedHomePortrait = await uploadPortrait(
+        homePortraitFile,
+        `${leaderId}-home`,
+        homePortraitUrl
+      );
+      if (uploadedHomePortrait) homePortraitUrl = uploadedHomePortrait;
+
+      const uploadedDetailPortrait = await uploadPortrait(
+        detailPortraitFile,
+        `${leaderId}-popup`,
+        detailPortraitUrl
+      );
+      if (uploadedDetailPortrait) detailPortraitUrl = uploadedDetailPortrait;
+
+      if (!detailPortraitUrl) detailPortraitUrl = homePortraitUrl;
 
       const payload: Leader = {
         id: leaderId,
@@ -289,8 +332,17 @@ export default function AdminPage() {
         name: form.name.trim(),
         position: form.position.trim(),
         portraitUrl:
-          portraitUrl ||
-          `/images/portraits/${leaderId}.png`,
+          homePortraitUrl ||
+          detailPortraitUrl ||
+          "/images/portrait-placeholder.png",
+        homePortraitUrl:
+          homePortraitUrl ||
+          detailPortraitUrl ||
+          "/images/portrait-placeholder.png",
+        detailPortraitUrl:
+          detailPortraitUrl ||
+          homePortraitUrl ||
+          "/images/portrait-placeholder.png",
         biography: form.biography.trim(),
         tier: form.tier,
         timeline: timeline.map((item) => ({
@@ -320,8 +372,14 @@ export default function AdminPage() {
       if (!isEditing) resetForm();
       else if (typeof data === "object" && data !== null && "portraitUrl" in data) {
         const saved = data as Leader;
-        setForm((f) => ({ ...f, id: saved.id, portraitUrl: saved.portraitUrl }));
-        setPortraitPreview(saved.portraitUrl);
+        setForm((f) => ({
+          ...f,
+          id: saved.id,
+          homePortraitUrl: saved.homePortraitUrl || saved.portraitUrl,
+          detailPortraitUrl: saved.detailPortraitUrl || saved.portraitUrl,
+        }));
+        setHomePortraitPreview(saved.homePortraitUrl || saved.portraitUrl);
+        setDetailPortraitPreview(saved.detailPortraitUrl || saved.portraitUrl);
       }
     } catch (err) {
       setMessage({
@@ -333,7 +391,8 @@ export default function AdminPage() {
     }
   };
 
-  const previewSrc = portraitPreview || form.portraitUrl || null;
+  const homePreviewSrc = homePortraitPreview || form.homePortraitUrl || null;
+  const detailPreviewSrc = detailPortraitPreview || form.detailPortraitUrl || null;
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
@@ -427,39 +486,77 @@ export default function AdminPage() {
             {/* Ảnh chân dung */}
             <fieldset className="rounded-lg border border-dashed border-[#d4af37]/40 p-4">
               <legend className="px-2 text-sm font-semibold text-[#ffdf7a]">
-                Ảnh chân dung
+                Ảnh lãnh đạo
               </legend>
 
-              {previewSrc && (
-                <div className="leader-portrait-frame relative mx-auto mb-3 h-44 w-36 overflow-hidden rounded-lg border border-[#d4af37]/50">
-                  <Image
-                    src={previewSrc}
-                    alt="Xem trước ảnh"
-                    fill
-                    unoptimized={previewSrc.startsWith("blob:")}
-                    className="object-contain object-bottom"
-                    sizes="144px"
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="rounded-lg border border-[#d4af37]/25 bg-[#4a0000]/35 p-3">
+                  <p className="mb-2 text-sm font-semibold text-[#ffdf7a]">
+                    Ảnh ngoài trang chủ
+                  </p>
+                  {homePreviewSrc && (
+                    <div className="leader-portrait-frame relative mx-auto mb-3 h-44 w-36 overflow-hidden rounded-lg border border-[#d4af37]/50">
+                      <Image
+                        src={homePreviewSrc}
+                        alt="Xem trước ảnh trang chủ"
+                        fill
+                        unoptimized={homePreviewSrc.startsWith("blob:")}
+                        className="object-contain object-bottom"
+                        sizes="144px"
+                      />
+                    </div>
+                  )}
+                  <label
+                    htmlFor="homePortraitFile"
+                    className="mb-3 flex cursor-pointer items-center justify-center gap-2 rounded-md border border-[#d4af37]/50 bg-[#800000]/60 py-2.5 text-sm text-[#ffdf7a] transition hover:bg-[#a30000]/60"
+                  >
+                    <Upload className="h-4 w-4" />
+                    {homePortraitFile ? "Đổi ảnh trang chủ" : "Chọn ảnh trang chủ"}
+                  </label>
+                  <input
+                    id="homePortraitFile"
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,image/gif"
+                    className="sr-only"
+                    onChange={(e) => handlePortraitFileChange(e, "home")}
                   />
                 </div>
-              )}
 
-              <label
-                htmlFor="portraitFile"
-                className="mb-3 flex cursor-pointer items-center justify-center gap-2 rounded-md border border-[#d4af37]/50 bg-[#800000]/60 py-2.5 text-sm text-[#ffdf7a] transition hover:bg-[#a30000]/60"
-              >
-                <Upload className="h-4 w-4" />
-                {portraitFile ? "Đổi ảnh tải lên" : "Chọn ảnh từ máy (tối đa 5MB)"}
-              </label>
-              <input
-                id="portraitFile"
-                type="file"
-                accept="image/jpeg,image/png,image/webp,image/gif"
-                className="sr-only"
-                onChange={handlePortraitFileChange}
-              />
+                <div className="rounded-lg border border-[#d4af37]/25 bg-[#4a0000]/35 p-3">
+                  <p className="mb-2 text-sm font-semibold text-[#ffdf7a]">
+                    Ảnh trong popup
+                  </p>
+                  {detailPreviewSrc && (
+                    <div className="leader-portrait-frame relative mx-auto mb-3 h-44 w-36 overflow-hidden rounded-lg border border-[#d4af37]/50">
+                      <Image
+                        src={detailPreviewSrc}
+                        alt="Xem trước ảnh popup"
+                        fill
+                        unoptimized={detailPreviewSrc.startsWith("blob:")}
+                        className="object-contain object-bottom"
+                        sizes="144px"
+                      />
+                    </div>
+                  )}
+                  <label
+                    htmlFor="detailPortraitFile"
+                    className="mb-3 flex cursor-pointer items-center justify-center gap-2 rounded-md border border-[#d4af37]/50 bg-[#800000]/60 py-2.5 text-sm text-[#ffdf7a] transition hover:bg-[#a30000]/60"
+                  >
+                    <Upload className="h-4 w-4" />
+                    {detailPortraitFile ? "Đổi ảnh popup" : "Chọn ảnh popup"}
+                  </label>
+                  <input
+                    id="detailPortraitFile"
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,image/gif"
+                    className="sr-only"
+                    onChange={(e) => handlePortraitFileChange(e, "detail")}
+                  />
+                </div>
+              </div>
 
               <p className="text-center text-xs text-[#d4af37]/75">
-                Ảnh sẽ được lưu vào <code>/uploads/portraits</code> theo ID lãnh đạo.
+                Ảnh sẽ được lưu vào <code>/uploads/portraits</code> với hậu tố <code>-home</code> và <code>-popup</code>.
               </p>
             </fieldset>
 
@@ -711,7 +808,7 @@ export default function AdminPage() {
                   >
                     <div className="leader-portrait-frame relative h-16 w-14 shrink-0 overflow-hidden rounded-md border border-[#d4af37]/40">
                       <Image
-                        src={leader.portraitUrl}
+                        src={leader.homePortraitUrl || leader.portraitUrl}
                         alt={leader.name}
                         fill
                         className="object-contain object-bottom"

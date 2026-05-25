@@ -19,6 +19,10 @@ function isValidLeaderInput(body: unknown): body is LeaderInput {
     Array.isArray(candidate.timeline) &&
     (candidate.portraitUrl === undefined ||
       typeof candidate.portraitUrl === "string") &&
+    (candidate.homePortraitUrl === undefined ||
+      typeof candidate.homePortraitUrl === "string") &&
+    (candidate.detailPortraitUrl === undefined ||
+      typeof candidate.detailPortraitUrl === "string") &&
     (candidate.sortOrder === undefined || typeof candidate.sortOrder === "number") &&
     (candidate.awards === undefined || Array.isArray(candidate.awards))
   );
@@ -39,16 +43,28 @@ function normalizeLeader(input: LeaderInput, existing?: Leader): Leader {
     ? input.awards.map((item) => String(item).trim()).filter(Boolean)
     : existing?.awards;
 
-  const portraitUrl =
+  const legacyPortraitUrl =
     (typeof input.portraitUrl === "string" && input.portraitUrl.trim()) ||
     existing?.portraitUrl ||
-    "https://placehold.co/400x520/800000/d4af37?text=Anh+chan+dung";
+    "";
+  const homePortraitUrl =
+    (typeof input.homePortraitUrl === "string" && input.homePortraitUrl.trim()) ||
+    existing?.homePortraitUrl ||
+    legacyPortraitUrl ||
+    "/images/portrait-placeholder.png";
+  const detailPortraitUrl =
+    (typeof input.detailPortraitUrl === "string" && input.detailPortraitUrl.trim()) ||
+    existing?.detailPortraitUrl ||
+    legacyPortraitUrl ||
+    homePortraitUrl;
 
   return {
     id,
     name: input.name.trim(),
     position: input.position.trim(),
-    portraitUrl,
+    portraitUrl: homePortraitUrl,
+    homePortraitUrl,
+    detailPortraitUrl,
     biography: input.biography.trim(),
     tier: input.tier,
     sortOrder:

@@ -50,6 +50,8 @@ async function mergeSeedLeaders(current: Leader[]): Promise<Leader[]> {
       name: existing.name || seed.name,
       position: existing.position || seed.position,
       portraitUrl: existing.portraitUrl || seed.portraitUrl,
+      homePortraitUrl: existing.homePortraitUrl || existing.portraitUrl || seed.homePortraitUrl || seed.portraitUrl,
+      detailPortraitUrl: existing.detailPortraitUrl || existing.portraitUrl || seed.detailPortraitUrl || seed.portraitUrl,
       biography: existing.biography || seed.biography,
       tier: existing.tier || seed.tier,
       sortOrder:
@@ -114,7 +116,15 @@ export async function deleteLeader(id: string): Promise<Leader | null> {
   if (index < 0) return null;
   const [removed] = leaders.splice(index, 1);
   await writeLeaders(leaders);
-  await deletePortraitFileIfLocal(removed.portraitUrl);
+  await Promise.all(
+    [
+      removed.portraitUrl,
+      removed.homePortraitUrl,
+      removed.detailPortraitUrl,
+    ]
+      .filter((url): url is string => Boolean(url))
+      .map((url) => deletePortraitFileIfLocal(url))
+  );
   return removed;
 }
 
