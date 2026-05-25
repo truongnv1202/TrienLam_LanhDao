@@ -36,8 +36,8 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
   const awards = sortItemsBySort(normalizeAwards(leader.awards?.length ? leader.awards : buildAwards()));
   const profileMeta = buildProfileMeta(leader.biography);
   const portraitSrc = getDetailPortraitUrl(leader);
-  const lineFadeStepMs = 90;
-  const lineFadeDurationMs = 420;
+  const lineFadeStepMs = 270;
+  const lineFadeDurationMs = 1260;
   const awardsFadeStartMs =
     workEvents.length > 0
       ? (workEvents.length - 1) * lineFadeStepMs + lineFadeDurationMs

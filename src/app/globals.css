@@ -423,7 +423,7 @@ select {
   margin-bottom: clamp(14px, 0.75vw, 28px);
   color: #fff5d7;
   opacity: 0;
-  animation: text-line-fade-in-left 420ms ease-out both;
+  animation: text-line-fade-in-left 1260ms ease-out both;
 }
 
 .leader-detail-timeline-item time {
@@ -505,7 +505,7 @@ select {
   line-height: 1.4;
   color: #fff7e6;
   opacity: 0;
-  animation: text-line-fade-in 420ms ease-out both;
+  animation: text-line-fade-in 1260ms ease-out both;
 }
 
 .leader-detail-awards-list li > span:last-child {
@@ -672,8 +672,16 @@ select {
   left: 0;
   right: 0;
   top: 50px;
+  display: flex;
+  justify-content: center;
   text-align: center;
   pointer-events: none;
+}
+
+.exhibition-title-image {
+  width: 1024px;
+  height: auto;
+  object-fit: contain;
 }
 
 .exhibition-title-sub {
