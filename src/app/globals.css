@@ -864,6 +864,12 @@ select {
   line-height: 120%;
   letter-spacing: 0;
   text-align: center;
+  color: transparent;
+  text-shadow: none;
+}
+
+.exhibition-group-label-ministry::before {
+  background-image: url("/images/header-ldbca.png");
 }
 
 .exhibition-row {
