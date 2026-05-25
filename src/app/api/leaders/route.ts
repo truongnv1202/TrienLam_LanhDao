@@ -5,6 +5,7 @@ import {
   sortLeaders,
   upsertLeader,
 } from "@/lib/leaders-store";
+import { sortTimelineEventsNewestFirst } from "@/lib/sort-timeline";
 import type { Leader, LeaderInput } from "@/types";
 
 function isValidLeaderInput(body: unknown): body is LeaderInput {
@@ -34,11 +35,13 @@ function normalizeLeader(input: LeaderInput, existing?: Leader): Leader {
     existing?.id ||
     `leader-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
-  const timeline = input.timeline.map((item) => ({
-    year: String(item.year).trim(),
-    event: String(item.event).trim(),
-    description: String(item.description).trim(),
-  }));
+  const timeline = sortTimelineEventsNewestFirst(
+    input.timeline.map((item) => ({
+      year: String(item.year).trim(),
+      event: String(item.event).trim(),
+      description: String(item.description).trim(),
+    }))
+  );
   const awards = Array.isArray(input.awards)
     ? input.awards.map((item) => String(item).trim()).filter(Boolean)
     : existing?.awards;
