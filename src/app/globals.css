@@ -271,9 +271,11 @@ select {
 .leader-detail-name {
   margin-top: 2px;
   font-family: var(--font-lato), "Lato", sans-serif;
-  font-size: clamp(27px, 1.42vw, 54px);
-  font-weight: 800;
-  line-height: 1.15;
+  font-size: clamp(64px, 3.3333vw, 128px);
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1.4;
+  letter-spacing: 0;
   color: #ffd84f;
 }
 
@@ -831,10 +833,10 @@ select {
   left: 663px;
   width: 595px;
   height: 49px;
-  padding: 20px 72px 0;
+  padding: 0 72px;
   transform: none;
   font-family: var(--font-lato), "Lato", sans-serif;
-  font-size: 20px;
+  font-size: clamp(40px, 2.0833vw, 80px);
   font-weight: 800;
   font-style: normal;
   line-height: 120%;
@@ -847,10 +849,10 @@ select {
   left: 663px;
   width: 595px;
   height: 49px;
-  padding: 20px 72px 0;
+  padding: 0 72px;
   transform: none;
   font-family: var(--font-lato), "Lato", sans-serif;
-  font-size: 20px;
+  font-size: clamp(40px, 2.0833vw, 80px);
   font-weight: 800;
   font-style: normal;
   line-height: 120%;
