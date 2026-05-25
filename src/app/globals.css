@@ -168,6 +168,17 @@ select {
   }
 }
 
+@keyframes text-line-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .modal-animate {
   animation: modal-in 0.35s ease-out forwards;
 }
@@ -400,6 +411,8 @@ select {
   padding-bottom: clamp(14px, 0.75vw, 28px);
   margin-bottom: clamp(14px, 0.75vw, 28px);
   color: #fff5d7;
+  opacity: 0;
+  animation: text-line-fade-in 420ms ease-out both;
 }
 
 .leader-detail-timeline-item time {
@@ -438,9 +451,11 @@ select {
 }
 
 .leader-detail-timeline-item p {
+  display: block;
   font-size: clamp(14px, 0.74vw, 28px);
   line-height: 1.4;
   color: #fff7e6;
+  white-space: pre-line;
 }
 
 .leader-detail-timeline-item::after {
@@ -478,6 +493,13 @@ select {
   font-size: clamp(14px, 0.74vw, 28px);
   line-height: 1.4;
   color: #fff7e6;
+  opacity: 0;
+  animation: text-line-fade-in 420ms ease-out both;
+}
+
+.leader-detail-awards-list li > span:last-child {
+  display: block;
+  white-space: pre-line;
 }
 
 .leader-detail-awards-list li::after {
@@ -849,7 +871,7 @@ select {
 }
 
 .exhibition-group-label-party::before {
-  background-image: url("/images/header-lddnn.png");
+  background-image: url("/images/header-lddnn-clean.png");
 }
 
 .exhibition-group-label-ministry {

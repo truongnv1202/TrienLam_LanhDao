@@ -114,6 +114,7 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
                 <article
                   className="leader-detail-timeline-item"
                   key={`${item.year}-${item.event}-${index}`}
+                  style={{ animationDelay: `${index * 90}ms` }}
                 >
                   <time>{item.year}</time>
                   <span aria-hidden />
@@ -135,7 +136,10 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
             </h3>
             <ul className="leader-detail-awards-list leader-modal-scroll">
               {awards.map((award, index) => (
-                <li key={`${award.title}-${index}`}>
+                <li
+                  key={`${award.title}-${index}`}
+                  style={{ animationDelay: `${index * 90}ms` }}
+                >
                   <span className="leader-detail-award-icon" aria-hidden>
                     <Image
                       src="/images/award-icon.png"
