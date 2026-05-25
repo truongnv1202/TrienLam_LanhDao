@@ -293,7 +293,7 @@ select {
 .leader-detail-name {
   margin-top: 2px;
   font-family: var(--font-lato), "Lato", sans-serif;
-  font-size: clamp(32px, 1.6667vw, 64px);
+  font-size: clamp(28px, 1.4583vw, 56px);
   font-weight: 700;
   font-style: normal;
   line-height: 1.4;
