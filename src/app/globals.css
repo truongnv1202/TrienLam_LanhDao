@@ -1,13 +1,5 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: "Lato";
-  src: local("Lato");
-  font-style: normal;
-  font-weight: 400 900;
-  font-display: swap;
-}
-
 :root {
   --crimson-deep: #4a0000;
   --crimson-mid: #800000;
@@ -20,12 +12,13 @@
 
 html {
   scroll-behavior: smooth;
+  font-family: var(--font-lato);
 }
 
 body {
   min-height: 100vh;
   color: #fff8e7;
-  font-family: var(--font-lato), "Lato", sans-serif;
+  font-family: var(--font-lato);
   background: linear-gradient(
     145deg,
     var(--crimson-mid) 0%,
