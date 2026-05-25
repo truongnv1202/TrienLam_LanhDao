@@ -19,7 +19,7 @@ fi
 [[ -d "$APP_ROOT" ]] || { echo "Thiếu $APP_ROOT"; exit 1; }
 
 mkdir -p "$SNIPPETS_DIR" "$CONF_D_DIR" "$APP_ROOT/public/certbot" \
-  "$APP_ROOT/data" "$APP_ROOT/public/uploads"
+  "$APP_ROOT/data" "$APP_ROOT/public/uploads" "$APP_ROOT/public/fonts"
 chown -R 1001:1001 "$APP_ROOT/data" "$APP_ROOT/public/uploads" 2>/dev/null \
   || chmod -R a+rwX "$APP_ROOT/data" "$APP_ROOT/public/uploads"
 

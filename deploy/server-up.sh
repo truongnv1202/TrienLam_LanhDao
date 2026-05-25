@@ -12,7 +12,8 @@ mkdir -p \
   "$APP_ROOT/public/uploads" \
   "$APP_ROOT/public/certbot" \
   "$APP_ROOT/public/videos" \
-  "$APP_ROOT/public/images"
+  "$APP_ROOT/public/images" \
+  "$APP_ROOT/public/fonts"
 # Video nền 16:9: public/videos/home-background.mp4
 
 # UID user nextjs trong container Docker

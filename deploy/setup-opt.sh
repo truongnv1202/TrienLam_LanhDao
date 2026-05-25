@@ -17,7 +17,8 @@ mkdir -p \
   "$APP_ROOT/public/uploads" \
   "$APP_ROOT/public/certbot" \
   "$APP_ROOT/public/videos" \
-  "$APP_ROOT/public/images"
+  "$APP_ROOT/public/images" \
+  "$APP_ROOT/public/fonts"
 
 chown -R "$APP_USER:$APP_USER" "$APP_ROOT"
 chown -R 1001:1001 "$APP_ROOT/data" "$APP_ROOT/public/uploads" 2>/dev/null || true
