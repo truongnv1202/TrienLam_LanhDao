@@ -168,9 +168,8 @@ select {
 
 .leader-detail-portrait {
   position: relative;
-  width: 296px;
-  height: 320px;
-  max-width: calc(100% - clamp(32px, 1.7vw, 64px));
+  width: clamp(296px, 15.4167vw, 592px);
+  height: clamp(320px, 29.6296vh, 640px);
   margin: clamp(16px, 0.85vw, 32px) auto 0;
   flex-shrink: 0;
   overflow: hidden;
@@ -183,16 +182,19 @@ select {
 }
 
 .leader-detail-portrait-image {
-  position: absolute !important;
-  inset: auto auto 0 50% !important;
-  z-index: 1;
+  left: 50% !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: 0 !important;
   width: auto !important;
   height: 100% !important;
   min-width: 0 !important;
   max-width: none !important;
   transform: translateX(-50%);
+  z-index: 1;
   object-fit: contain;
   object-position: center bottom;
+  padding: 0 1px;
 }
 
 .leader-detail-profile-info {
@@ -921,7 +923,6 @@ select {
   text-align: center;
   overflow: hidden;
   display: -webkit-box;
-  line-clamp: 4;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
@@ -934,7 +935,6 @@ select {
 .exhibition-card-bottom .exhibition-position {
   font-size: 6.4px;
   line-height: 1.16;
-  line-clamp: 4;
   -webkit-line-clamp: 4;
 }
 

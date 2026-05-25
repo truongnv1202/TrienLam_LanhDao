@@ -61,7 +61,7 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
                 alt={leader.name}
                 fill
                 className="leader-detail-portrait-image"
-                sizes="296px"
+                sizes="15.4167vw"
                 priority
               />
             </div>
