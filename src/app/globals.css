@@ -179,6 +179,17 @@ select {
   }
 }
 
+@keyframes text-line-fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .modal-animate {
   animation: modal-in 0.35s ease-out forwards;
 }
@@ -412,7 +423,7 @@ select {
   margin-bottom: clamp(14px, 0.75vw, 28px);
   color: #fff5d7;
   opacity: 0;
-  animation: text-line-fade-in 420ms ease-out both;
+  animation: text-line-fade-in-left 420ms ease-out both;
 }
 
 .leader-detail-timeline-item time {

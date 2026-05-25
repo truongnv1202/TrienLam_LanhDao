@@ -36,6 +36,12 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
   const awards = sortItemsBySort(normalizeAwards(leader.awards?.length ? leader.awards : buildAwards()));
   const profileMeta = buildProfileMeta(leader.biography);
   const portraitSrc = getDetailPortraitUrl(leader);
+  const lineFadeStepMs = 90;
+  const lineFadeDurationMs = 420;
+  const awardsFadeStartMs =
+    workEvents.length > 0
+      ? (workEvents.length - 1) * lineFadeStepMs + lineFadeDurationMs
+      : 0;
 
   return (
     <div
@@ -114,7 +120,7 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
                 <article
                   className="leader-detail-timeline-item"
                   key={`${item.year}-${item.event}-${index}`}
-                  style={{ animationDelay: `${index * 90}ms` }}
+                  style={{ animationDelay: `${index * lineFadeStepMs}ms` }}
                 >
                   <time>{item.year}</time>
                   <span aria-hidden />
@@ -138,7 +144,9 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
               {awards.map((award, index) => (
                 <li
                   key={`${award.title}-${index}`}
-                  style={{ animationDelay: `${index * 90}ms` }}
+                  style={{
+                    animationDelay: `${awardsFadeStartMs + index * lineFadeStepMs}ms`,
+                  }}
                 >
                   <span className="leader-detail-award-icon" aria-hidden>
                     <Image
