@@ -28,52 +28,7 @@ export async function readLeaders(): Promise<Leader[]> {
   const raw = await fs.readFile(DATA_FILE, "utf-8");
   const parsed: unknown = JSON.parse(raw);
   if (!Array.isArray(parsed)) return [...SEED_LEADERS];
-  return await mergeSeedLeaders(parsed as Leader[]);
-}
-
-async function mergeSeedLeaders(current: Leader[]): Promise<Leader[]> {
-  let changed = false;
-  const byId = new Map(current.map((leader) => [leader.id, leader]));
-  const merged = [...current];
-
-  for (const seed of SEED_LEADERS) {
-    const existing = byId.get(seed.id);
-
-    if (!existing) {
-      merged.push(seed);
-      changed = true;
-      continue;
-    }
-
-    const normalized: Leader = {
-      ...existing,
-      name: existing.name || seed.name,
-      position: existing.position || seed.position,
-      portraitUrl: existing.portraitUrl || seed.portraitUrl,
-      homePortraitUrl: existing.homePortraitUrl || existing.portraitUrl || seed.homePortraitUrl || seed.portraitUrl,
-      detailPortraitUrl: existing.detailPortraitUrl || existing.portraitUrl || seed.detailPortraitUrl || seed.portraitUrl,
-      biography: existing.biography || seed.biography,
-      tier: existing.tier || seed.tier,
-      sortOrder:
-        typeof existing.sortOrder === "number" && existing.sortOrder > 0
-          ? existing.sortOrder
-          : seed.sortOrder,
-      timeline: Array.isArray(existing.timeline) ? existing.timeline : seed.timeline,
-      awards: Array.isArray(existing.awards) ? existing.awards : seed.awards,
-    };
-
-    if (JSON.stringify(existing) !== JSON.stringify(normalized)) {
-      const index = merged.findIndex((leader) => leader.id === seed.id);
-      merged[index] = normalized;
-      changed = true;
-    }
-  }
-
-  if (changed) {
-    await fs.writeFile(DATA_FILE, JSON.stringify(merged, null, 2), "utf-8");
-  }
-
-  return merged;
+  return parsed as Leader[];
 }
 
 export async function writeLeaders(leaders: Leader[]): Promise<void> {

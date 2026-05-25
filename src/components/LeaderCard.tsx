@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { getHomePortraitUrl } from "@/lib/leader-images";
 import type { Leader } from "@/types";
 
 interface LeaderCardProps {
@@ -10,7 +11,7 @@ interface LeaderCardProps {
 
 export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
   const isTopTier = leader.tier === "top";
-  const portraitSrc = leader.homePortraitUrl || leader.portraitUrl;
+  const portraitSrc = getHomePortraitUrl(leader);
 
   return (
     <button

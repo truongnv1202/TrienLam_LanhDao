@@ -12,6 +12,7 @@ import {
   RotateCcw,
   Upload,
 } from "lucide-react";
+import { getDetailPortraitUrl, getHomePortraitUrl } from "@/lib/leader-images";
 import type { Leader, LeaderTier, TimelineEvent } from "@/types";
 
 interface FormState {
@@ -132,8 +133,8 @@ export default function AdminPage() {
       id: leader.id,
       name: leader.name,
       position: leader.position,
-      homePortraitUrl: leader.homePortraitUrl || leader.portraitUrl,
-      detailPortraitUrl: leader.detailPortraitUrl || leader.portraitUrl,
+      homePortraitUrl: getHomePortraitUrl(leader),
+      detailPortraitUrl: getDetailPortraitUrl(leader),
       biography: leader.biography,
       tier: leader.tier,
       sortOrder: leader.sortOrder ?? 1,
@@ -144,8 +145,8 @@ export default function AdminPage() {
     setAwardDraft("");
     setIsEditing(true);
     clearPortraitSelection();
-    setHomePortraitPreview(leader.homePortraitUrl || leader.portraitUrl || null);
-    setDetailPortraitPreview(leader.detailPortraitUrl || leader.portraitUrl || null);
+    setHomePortraitPreview(getHomePortraitUrl(leader));
+    setDetailPortraitPreview(getDetailPortraitUrl(leader));
     setMessage(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -375,11 +376,11 @@ export default function AdminPage() {
         setForm((f) => ({
           ...f,
           id: saved.id,
-          homePortraitUrl: saved.homePortraitUrl || saved.portraitUrl,
-          detailPortraitUrl: saved.detailPortraitUrl || saved.portraitUrl,
+          homePortraitUrl: getHomePortraitUrl(saved),
+          detailPortraitUrl: getDetailPortraitUrl(saved),
         }));
-        setHomePortraitPreview(saved.homePortraitUrl || saved.portraitUrl);
-        setDetailPortraitPreview(saved.detailPortraitUrl || saved.portraitUrl);
+        setHomePortraitPreview(getHomePortraitUrl(saved));
+        setDetailPortraitPreview(getDetailPortraitUrl(saved));
       }
     } catch (err) {
       setMessage({
@@ -520,6 +521,27 @@ export default function AdminPage() {
                     className="sr-only"
                     onChange={(e) => handlePortraitFileChange(e, "home")}
                   />
+                  <label
+                    htmlFor="homePortraitUrl"
+                    className="mb-1 block text-xs font-medium text-[#d4af37]"
+                  >
+                    Trường lưu ảnh trang chủ
+                  </label>
+                  <input
+                    id="homePortraitUrl"
+                    type="text"
+                    value={form.homePortraitUrl}
+                    onChange={(e) => {
+                      if (homePortraitPreview?.startsWith("blob:")) {
+                        URL.revokeObjectURL(homePortraitPreview);
+                      }
+                      setHomePortraitFile(null);
+                      setHomePortraitPreview(null);
+                      setForm((f) => ({ ...f, homePortraitUrl: e.target.value }));
+                    }}
+                    className="w-full rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-xs text-white outline-none focus:border-[#ffdf7a]"
+                    placeholder="/uploads/portraits/...-home.png"
+                  />
                 </div>
 
                 <div className="rounded-lg border border-[#d4af37]/25 bg-[#4a0000]/35 p-3">
@@ -551,6 +573,27 @@ export default function AdminPage() {
                     accept="image/jpeg,image/png,image/webp,image/gif"
                     className="sr-only"
                     onChange={(e) => handlePortraitFileChange(e, "detail")}
+                  />
+                  <label
+                    htmlFor="detailPortraitUrl"
+                    className="mb-1 block text-xs font-medium text-[#d4af37]"
+                  >
+                    Trường lưu ảnh trong popup
+                  </label>
+                  <input
+                    id="detailPortraitUrl"
+                    type="text"
+                    value={form.detailPortraitUrl}
+                    onChange={(e) => {
+                      if (detailPortraitPreview?.startsWith("blob:")) {
+                        URL.revokeObjectURL(detailPortraitPreview);
+                      }
+                      setDetailPortraitFile(null);
+                      setDetailPortraitPreview(null);
+                      setForm((f) => ({ ...f, detailPortraitUrl: e.target.value }));
+                    }}
+                    className="w-full rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-xs text-white outline-none focus:border-[#ffdf7a]"
+                    placeholder="/uploads/portraits/...-popup.png"
                   />
                 </div>
               </div>
@@ -808,7 +851,7 @@ export default function AdminPage() {
                   >
                     <div className="leader-portrait-frame relative h-16 w-14 shrink-0 overflow-hidden rounded-md border border-[#d4af37]/40">
                       <Image
-                        src={leader.homePortraitUrl || leader.portraitUrl}
+                        src={getHomePortraitUrl(leader)}
                         alt={leader.name}
                         fill
                         className="object-contain object-bottom"

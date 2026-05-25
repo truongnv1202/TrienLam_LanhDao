@@ -4,6 +4,7 @@ import { useEffect, useCallback } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { formatPositionNewestFirst } from "@/lib/format-position";
+import { getDetailPortraitUrl } from "@/lib/leader-images";
 import { sortTimelineEventsNewestFirst } from "@/lib/sort-timeline";
 import type { Leader, TimelineEvent } from "@/types";
 
@@ -35,7 +36,7 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
   const workEvents = sortTimelineEventsNewestFirst(buildWorkEvents(leader));
   const awards = sortAwardsByRank(leader.awards?.length ? leader.awards : buildAwards());
   const profileMeta = buildProfileMeta(leader.biography);
-  const portraitSrc = leader.detailPortraitUrl || leader.portraitUrl;
+  const portraitSrc = getDetailPortraitUrl(leader);
 
   return (
     <div
