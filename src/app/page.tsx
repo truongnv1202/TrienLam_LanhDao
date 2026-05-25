@@ -64,9 +64,10 @@ export default function HomePage() {
             <div className="exhibition-board">
               {topTier.length > 0 && (
                 <>
-                  <div className="exhibition-group-label exhibition-group-label-party">
-                    LÃNH ĐẠO ĐẢNG, NHÀ NƯỚC
-                  </div>
+                  <div
+                    className="exhibition-group-label exhibition-group-label-party"
+                    aria-label="Lãnh đạo Đảng, Nhà nước"
+                  />
                   <section
                     aria-label="Lãnh đạo Đảng, Nhà nước"
                     className="exhibition-row exhibition-row-top"
@@ -84,9 +85,10 @@ export default function HomePage() {
 
               {bottomTier.length > 0 && (
                 <>
-                  <div className="exhibition-group-label exhibition-group-label-ministry">
-                    LÃNH ĐẠO BỘ CÔNG AN
-                  </div>
+                  <div
+                    className="exhibition-group-label exhibition-group-label-ministry"
+                    aria-label="Lãnh đạo Bộ Công an"
+                  />
                   {ministryRows.map((row, index) =>
                     row.length > 0 ? (
                       <section
