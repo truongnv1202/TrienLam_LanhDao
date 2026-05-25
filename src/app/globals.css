@@ -173,7 +173,7 @@ select {
   margin: clamp(16px, 0.85vw, 32px) auto 0;
   flex-shrink: 0;
   overflow: hidden;
-  background: #8b1009;
+  background: transparent url("/images/popup-portrait-bg.png") center / 100% 100% no-repeat;
   isolation: isolate;
 }
 
@@ -923,6 +923,7 @@ select {
   text-align: center;
   overflow: hidden;
   display: -webkit-box;
+  line-clamp: 4;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
@@ -935,6 +936,7 @@ select {
 .exhibition-card-bottom .exhibition-position {
   font-size: 6.4px;
   line-height: 1.16;
+  line-clamp: 4;
   -webkit-line-clamp: 4;
 }
 
