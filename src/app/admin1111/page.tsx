@@ -13,7 +13,7 @@ import {
   Upload,
 } from "lucide-react";
 import { getDetailPortraitUrl, getHomePortraitUrl } from "@/lib/leader-images";
-import type { Leader, LeaderTier, TimelineEvent } from "@/types";
+import type { AwardItem, Leader, LeaderTier, TimelineEvent } from "@/types";
 
 interface FormState {
   id: string;
@@ -41,6 +41,12 @@ const EMPTY_MILESTONE: TimelineEvent = {
   year: "",
   event: "",
   description: "",
+  sort: 1,
+};
+
+const EMPTY_AWARD: AwardItem = {
+  title: "",
+  sort: 1,
 };
 
 function parseApiError(data: unknown, fallback: string): string {
@@ -55,6 +61,14 @@ function parseApiError(data: unknown, fallback: string): string {
   return fallback;
 }
 
+function normalizeAwardsForForm(awards: Leader["awards"]): AwardItem[] {
+  return (awards ?? []).map((award, index) =>
+    typeof award === "string"
+      ? { title: award, sort: index + 1 }
+      : { title: award.title, sort: award.sort ?? index + 1 }
+  );
+}
+
 export default function AdminPage() {
   const [leaders, setLeaders] = useState<Leader[]>([]);
   const [loading, setLoading] = useState(true);
@@ -66,9 +80,9 @@ export default function AdminPage() {
 
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [timeline, setTimeline] = useState<TimelineEvent[]>([]);
-  const [awards, setAwards] = useState<string[]>([]);
+  const [awards, setAwards] = useState<AwardItem[]>([]);
   const [milestoneDraft, setMilestoneDraft] = useState<TimelineEvent>(EMPTY_MILESTONE);
-  const [awardDraft, setAwardDraft] = useState("");
+  const [awardDraft, setAwardDraft] = useState<AwardItem>(EMPTY_AWARD);
   const [isEditing, setIsEditing] = useState(false);
   const [homePortraitFile, setHomePortraitFile] = useState<File | null>(null);
   const [detailPortraitFile, setDetailPortraitFile] = useState<File | null>(null);
@@ -122,7 +136,7 @@ export default function AdminPage() {
     setTimeline([]);
     setAwards([]);
     setMilestoneDraft(EMPTY_MILESTONE);
-    setAwardDraft("");
+    setAwardDraft(EMPTY_AWARD);
     setIsEditing(false);
     clearPortraitSelection();
     setMessage(null);
@@ -139,10 +153,15 @@ export default function AdminPage() {
       tier: leader.tier,
       sortOrder: leader.sortOrder ?? 1,
     });
-    setTimeline([...leader.timeline]);
-    setAwards([...(leader.awards ?? [])]);
-    setMilestoneDraft(EMPTY_MILESTONE);
-    setAwardDraft("");
+    setTimeline(
+      leader.timeline.map((item, index) => ({
+        ...item,
+        sort: item.sort ?? index + 1,
+      }))
+    );
+    setAwards(normalizeAwardsForForm(leader.awards));
+    setMilestoneDraft({ ...EMPTY_MILESTONE, sort: leader.timeline.length + 1 });
+    setAwardDraft({ ...EMPTY_AWARD, sort: (leader.awards?.length ?? 0) + 1 });
     setIsEditing(true);
     clearPortraitSelection();
     setHomePortraitPreview(getHomePortraitUrl(leader));
@@ -208,13 +227,12 @@ export default function AdminPage() {
 
   const addMilestone = () => {
     if (
-      !milestoneDraft.year.trim() ||
       !milestoneDraft.event.trim() ||
       !milestoneDraft.description.trim()
     ) {
       setMessage({
         type: "err",
-        text: "Vui lòng nhập đầy đủ Năm, Sự kiện và Mô tả trước khi thêm mốc.",
+        text: "Vui lòng nhập đầy đủ Sự kiện và Mô tả trước khi thêm mốc.",
       });
       return;
     }
@@ -224,9 +242,10 @@ export default function AdminPage() {
         year: milestoneDraft.year.trim(),
         event: milestoneDraft.event.trim(),
         description: milestoneDraft.description.trim(),
+        sort: milestoneDraft.sort,
       },
     ]);
-    setMilestoneDraft(EMPTY_MILESTONE);
+    setMilestoneDraft({ ...EMPTY_MILESTONE, sort: timeline.length + 2 });
     setMessage(null);
   };
 
@@ -237,7 +256,7 @@ export default function AdminPage() {
   const updateMilestone = (
     index: number,
     field: keyof TimelineEvent,
-    value: string
+    value: string | number | undefined
   ) => {
     setTimeline((prev) =>
       prev.map((item, i) => (i === index ? { ...item, [field]: value } : item))
@@ -245,7 +264,7 @@ export default function AdminPage() {
   };
 
   const addAward = () => {
-    const value = awardDraft.trim();
+    const value = awardDraft.title.trim();
     if (!value) {
       setMessage({
         type: "err",
@@ -254,13 +273,19 @@ export default function AdminPage() {
       return;
     }
 
-    setAwards((prev) => [...prev, value]);
-    setAwardDraft("");
+    setAwards((prev) => [...prev, { title: value, sort: awardDraft.sort }]);
+    setAwardDraft({ ...EMPTY_AWARD, sort: awards.length + 2 });
     setMessage(null);
   };
 
-  const updateAward = (index: number, value: string) => {
-    setAwards((prev) => prev.map((item, i) => (i === index ? value : item)));
+  const updateAward = (
+    index: number,
+    field: keyof AwardItem,
+    value: string | number | undefined
+  ) => {
+    setAwards((prev) =>
+      prev.map((item, i) => (i === index ? { ...item, [field]: value } : item))
+    );
   };
 
   const removeAward = (index: number) => {
@@ -354,8 +379,14 @@ export default function AdminPage() {
           year: item.year.trim(),
           event: item.event.trim(),
           description: item.description.trim(),
+          sort: item.sort,
         })),
-        awards: awards.map((item) => item.trim()).filter(Boolean),
+        awards: awards
+          .map((item) => ({
+            title: item.title.trim(),
+            sort: item.sort,
+          }))
+          .filter((item) => item.title.length > 0),
       };
 
       const res = await fetch("/api/leaders", {
@@ -670,7 +701,19 @@ export default function AdminPage() {
                 Mốc Timeline
               </legend>
 
-              <div className="mt-2 grid gap-3 sm:grid-cols-3">
+              <div className="mt-2 grid gap-3 sm:grid-cols-4">
+                <input
+                  type="number"
+                  placeholder="Sort"
+                  value={milestoneDraft.sort ?? ""}
+                  onChange={(e) =>
+                    setMilestoneDraft((m) => ({
+                      ...m,
+                      sort: e.target.value === "" ? undefined : Number(e.target.value),
+                    }))
+                  }
+                  className="rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white"
+                />
                 <input
                   type="text"
                   placeholder="Năm"
@@ -699,7 +742,7 @@ export default function AdminPage() {
                       description: e.target.value,
                     }))
                   }
-                  className="rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white sm:col-span-3"
+                  className="rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white sm:col-span-4"
                 />
               </div>
 
@@ -732,7 +775,20 @@ export default function AdminPage() {
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
-                      <div className="grid gap-2 sm:grid-cols-3">
+                      <div className="grid gap-2 sm:grid-cols-4">
+                        <input
+                          type="number"
+                          value={item.sort ?? ""}
+                          onChange={(e) =>
+                            updateMilestone(
+                              index,
+                              "sort",
+                              e.target.value === "" ? undefined : Number(e.target.value)
+                            )
+                          }
+                          className="rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white"
+                          placeholder="Sort"
+                        />
                         <input
                           type="text"
                           value={item.year}
@@ -753,7 +809,7 @@ export default function AdminPage() {
                           onChange={(e) =>
                             updateMilestone(index, "description", e.target.value)
                           }
-                          className="rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white sm:col-span-3"
+                          className="rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white sm:col-span-4"
                           placeholder="Mô tả"
                         />
                       </div>
@@ -768,12 +824,26 @@ export default function AdminPage() {
                 Phần thưởng cao quý
               </legend>
 
-              <div className="mt-2 flex gap-2">
+              <div className="mt-2 grid gap-2 sm:grid-cols-[100px_minmax(0,1fr)_auto]">
+                <input
+                  type="number"
+                  placeholder="Sort"
+                  value={awardDraft.sort ?? ""}
+                  onChange={(e) =>
+                    setAwardDraft((item) => ({
+                      ...item,
+                      sort: e.target.value === "" ? undefined : Number(e.target.value),
+                    }))
+                  }
+                  className="rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white"
+                />
                 <input
                   type="text"
                   placeholder="Nhập phần thưởng"
-                  value={awardDraft}
-                  onChange={(e) => setAwardDraft(e.target.value)}
+                  value={awardDraft.title}
+                  onChange={(e) =>
+                    setAwardDraft((item) => ({ ...item, title: e.target.value }))
+                  }
                   className="min-w-0 flex-1 rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white"
                 />
                 <button
@@ -806,13 +876,28 @@ export default function AdminPage() {
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
-                      <textarea
-                        rows={2}
-                        value={award}
-                        onChange={(e) => updateAward(index, e.target.value)}
-                        className="w-full rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white"
-                        placeholder="Nội dung phần thưởng"
-                      />
+                      <div className="grid gap-2 sm:grid-cols-[100px_minmax(0,1fr)]">
+                        <input
+                          type="number"
+                          value={award.sort ?? ""}
+                          onChange={(e) =>
+                            updateAward(
+                              index,
+                              "sort",
+                              e.target.value === "" ? undefined : Number(e.target.value)
+                            )
+                          }
+                          className="rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white"
+                          placeholder="Sort"
+                        />
+                        <textarea
+                          rows={2}
+                          value={award.title}
+                          onChange={(e) => updateAward(index, "title", e.target.value)}
+                          className="w-full rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white"
+                          placeholder="Nội dung phần thưởng"
+                        />
+                      </div>
                     </div>
                   ))}
                 </div>

@@ -5,8 +5,7 @@ import Image from "next/image";
 import { X } from "lucide-react";
 import { formatPositionNewestFirst } from "@/lib/format-position";
 import { getDetailPortraitUrl } from "@/lib/leader-images";
-import { sortTimelineEventsNewestFirst } from "@/lib/sort-timeline";
-import type { Leader, TimelineEvent } from "@/types";
+import type { AwardItem, Leader, TimelineEvent } from "@/types";
 
 interface LeaderModalProps {
   leader: Leader | null;
@@ -33,8 +32,8 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
 
   if (!leader) return null;
 
-  const workEvents = sortTimelineEventsNewestFirst(buildWorkEvents(leader));
-  const awards = sortAwardsByRank(leader.awards?.length ? leader.awards : buildAwards());
+  const workEvents = sortItemsBySort(buildWorkEvents(leader));
+  const awards = sortItemsBySort(normalizeAwards(leader.awards?.length ? leader.awards : buildAwards()));
   const profileMeta = buildProfileMeta(leader.biography);
   const portraitSrc = getDetailPortraitUrl(leader);
 
@@ -56,6 +55,15 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
         <div className="leader-detail-panel">
           <aside className="leader-detail-profile">
             <div className="leader-detail-portrait">
+              <Image
+                src="/images/popup-portrait-bg.png"
+                alt=""
+                fill
+                className="leader-detail-portrait-bg"
+                sizes="15.4167vw"
+                aria-hidden
+                priority
+              />
               <Image
                 src={portraitSrc}
                 alt={leader.name}
@@ -126,8 +134,8 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
               />
             </h3>
             <ul className="leader-detail-awards-list leader-modal-scroll">
-              {awards.map((award) => (
-                <li key={award}>
+              {awards.map((award, index) => (
+                <li key={`${award.title}-${index}`}>
                   <span className="leader-detail-award-icon" aria-hidden>
                     <Image
                       src="/images/award-icon.png"
@@ -137,7 +145,7 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
                       className="leader-detail-award-image"
                     />
                   </span>
-                  <span>{award}</span>
+                  <span>{award.title}</span>
                 </li>
               ))}
             </ul>
@@ -164,10 +172,11 @@ function buildWorkEvents(leader: Leader): TimelineEvent[] {
     .split("\n")
     .map((line) => line.trim())
     .filter(Boolean)
-    .map((line) => ({
+    .map((line, index) => ({
       year: extractYearLabel(line),
       event: line,
       description: line,
+      sort: index + 1,
     }));
 }
 
@@ -190,61 +199,30 @@ function extractYearLabel(text: string): string {
   return year?.[0] ?? "";
 }
 
-function sortAwardsByRank(awards: string[]): string[] {
-  return awards
-    .map((award, index) => ({ award, index, rank: getAwardRank(award) }))
-    .sort((a, b) => a.rank - b.rank || a.index - b.index)
-    .map(({ award }) => award);
+function normalizeAwards(awards: Array<string | AwardItem>): AwardItem[] {
+  return awards.map((award, index) =>
+    typeof award === "string"
+      ? { title: award, sort: index + 1 }
+      : { title: award.title, sort: award.sort ?? index + 1 }
+  );
 }
 
-function getAwardRank(award: string): number {
-  const text = normalizeText(award);
-  if (text.includes("nhieu phan thuong")) return 990;
-
-  const awardLevels = [
-    ["huan chuong sao vang", 0],
-    ["huan chuong ho chi minh", 10],
-    ["anh hung luc luong vu trang", 20],
-    ["anh hung lao dong", 21],
-    ["huy hieu 50 nam", 30],
-    ["huan chuong doc lap", 40],
-    ["huan chuong quan cong", 50],
-    ["huan chuong lao dong", 60],
-    ["huan chuong chien cong", 70],
-    ["huan chuong khang chien", 80],
-    ["huan chuong huu nghi", 90],
-    ["huan chuong tu do", 91],
-    ["sahametrei", 92],
-    ["6 thang 6", 93],
-    ["huy chuong", 110],
-    ["bang khen", 130],
-  ] as const;
-
-  const baseRank = awardLevels.find(([keyword]) => text.includes(keyword))?.[1] ?? 150;
-  return baseRank + getAwardClassRank(text);
+function sortItemsBySort<T extends { sort?: number }>(items: T[]): T[] {
+  return items
+    .map((item, index) => ({ item, index }))
+    .sort((a, b) => {
+      const sortA = typeof a.item.sort === "number" ? a.item.sort : a.index + 1;
+      const sortB = typeof b.item.sort === "number" ? b.item.sort : b.index + 1;
+      return sortA - sortB || a.index - b.index;
+    })
+    .map(({ item }) => item);
 }
 
-function getAwardClassRank(text: string): number {
-  if (text.includes("hang nhat")) return 0;
-  if (text.includes("hang nhi")) return 1;
-  if (text.includes("hang ba")) return 2;
-  return 5;
-}
-
-function normalizeText(value: string): string {
-  return value
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/đ/g, "d")
-    .replace(/Đ/g, "D")
-    .toLowerCase();
-}
-
-function buildAwards(): string[] {
+function buildAwards(): AwardItem[] {
   return [
-    "Huân chương chiến công hạng Nhất",
-    "Huân chương chiến công hạng Ba",
-    "02 Bằng khen của Thủ tướng Chính phủ",
-    "Nhiều phần thưởng cao quý khác",
+    { title: "Huân chương chiến công hạng Nhất", sort: 1 },
+    { title: "Huân chương chiến công hạng Ba", sort: 2 },
+    { title: "02 Bằng khen của Thủ tướng Chính phủ", sort: 3 },
+    { title: "Nhiều phần thưởng cao quý khác", sort: 4 },
   ];
 }

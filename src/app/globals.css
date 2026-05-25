@@ -178,15 +178,14 @@ select {
 }
 
 .leader-detail-portrait::before {
-  content: "";
-  position: absolute;
-  inset: 0;
+  content: none;
+}
+
+.leader-detail-portrait-bg {
   z-index: 0;
-  background-image: url("/images/popup-portrait-bg.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  object-fit: fill;
   pointer-events: none;
+  user-select: none;
 }
 
 .leader-detail-portrait-image {

@@ -5,8 +5,7 @@ import {
   sortLeaders,
   upsertLeader,
 } from "@/lib/leaders-store";
-import { sortTimelineEventsNewestFirst } from "@/lib/sort-timeline";
-import type { Leader, LeaderInput } from "@/types";
+import type { AwardItem, Leader, LeaderInput, TimelineEvent } from "@/types";
 
 function isValidLeaderInput(body: unknown): body is LeaderInput {
   if (!body || typeof body !== "object") return false;
@@ -35,15 +34,13 @@ function normalizeLeader(input: LeaderInput, existing?: Leader): Leader {
     existing?.id ||
     `leader-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
-  const timeline = sortTimelineEventsNewestFirst(
-    input.timeline.map((item) => ({
-      year: String(item.year).trim(),
-      event: String(item.event).trim(),
-      description: String(item.description).trim(),
-    }))
+  const timeline = input.timeline.map((item, index) =>
+    normalizeTimelineEvent(item, existing?.timeline?.[index])
   );
   const awards = Array.isArray(input.awards)
-    ? input.awards.map((item) => String(item).trim()).filter(Boolean)
+    ? input.awards
+        .map((item, index) => normalizeAwardItem(item, existing?.awards?.[index], index))
+        .filter((item) => item.title.length > 0)
     : existing?.awards;
 
   const legacyPortraitUrl =
@@ -77,6 +74,48 @@ function normalizeLeader(input: LeaderInput, existing?: Leader): Leader {
     timeline,
     awards,
   };
+}
+
+function normalizeTimelineEvent(
+  item: TimelineEvent,
+  existing?: TimelineEvent
+): TimelineEvent {
+  const sort = normalizeSortValue(item.sort, existing?.sort);
+  return {
+    year: String(item.year ?? "").trim(),
+    event: String(item.event ?? "").trim(),
+    description: String(item.description ?? "").trim(),
+    ...(sort !== undefined ? { sort } : {}),
+  };
+}
+
+function normalizeAwardItem(
+  item: string | AwardItem,
+  existing: string | AwardItem | undefined,
+  index: number
+): AwardItem {
+  if (typeof item === "string") {
+    const existingSort =
+      typeof existing === "object" && existing !== null ? existing.sort : undefined;
+    return {
+      title: item.trim(),
+      sort: normalizeSortValue(undefined, existingSort) ?? index + 1,
+    };
+  }
+
+  const sort = normalizeSortValue(
+    item.sort,
+    typeof existing === "object" && existing !== null ? existing.sort : undefined
+  );
+  return {
+    title: String(item.title ?? "").trim(),
+    ...(sort !== undefined ? { sort } : {}),
+  };
+}
+
+function normalizeSortValue(value: unknown, fallback?: number): number | undefined {
+  const candidate = typeof value === "number" ? value : fallback;
+  return typeof candidate === "number" && Number.isFinite(candidate) ? candidate : undefined;
 }
 
 export async function GET(): Promise<NextResponse<Leader[]>> {

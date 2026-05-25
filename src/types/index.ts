@@ -2,6 +2,14 @@ export interface TimelineEvent {
   year: string;
   event: string;
   description: string;
+  /** Chỉ dùng để sắp xếp, không hiển thị ở giao diện popup. */
+  sort?: number;
+}
+
+export interface AwardItem {
+  title: string;
+  /** Chỉ dùng để sắp xếp, không hiển thị ở giao diện popup. */
+  sort?: number;
 }
 
 export type LeaderTier = "top" | "bottom";
@@ -21,7 +29,7 @@ export interface Leader {
   /** Thứ tự hiển thị trong hàng (1–6 trên, 1–7 dưới) */
   sortOrder: number;
   timeline: TimelineEvent[];
-  awards?: string[];
+  awards?: Array<string | AwardItem>;
 }
 
 export type LeaderInput = Omit<Leader, "id" | "portraitUrl"> & {
