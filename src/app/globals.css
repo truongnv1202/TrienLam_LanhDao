@@ -173,12 +173,20 @@ select {
   margin: clamp(16px, 0.85vw, 32px) auto 0;
   flex-shrink: 0;
   overflow: hidden;
-  background: transparent url("/images/popup-portrait-bg.png") center / 100% 100% no-repeat;
+  background: transparent;
   isolation: isolate;
 }
 
 .leader-detail-portrait::before {
-  content: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("/images/popup-portrait-bg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  pointer-events: none;
 }
 
 .leader-detail-portrait-image {
