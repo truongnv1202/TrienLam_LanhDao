@@ -8,7 +8,7 @@ APP_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SEED_SRC="$APP_ROOT/data/leaders.seed.json"
 DATA_FILE="$APP_ROOT/data/leaders.json"
 
-mkdir -p "$APP_ROOT/data" "$APP_ROOT/public/uploads"
+mkdir -p "$APP_ROOT/data" "$APP_ROOT/public/uploads" "$APP_ROOT/public/fonts"
 
 if [[ -f "$SEED_SRC" ]]; then
   cp "$SEED_SRC" "$DATA_FILE"

@@ -35,7 +35,7 @@ if ! command -v certbot >/dev/null; then
   apt-get install -y certbot
 fi
 
-mkdir -p "$APP_ROOT/public/certbot" "$SNIPPETS_DIR" "$CONF_D_DIR"
+mkdir -p "$APP_ROOT/public/certbot" "$APP_ROOT/public/fonts" "$SNIPPETS_DIR" "$CONF_D_DIR"
 chown -R 1001:1001 "$APP_ROOT/data" "$APP_ROOT/public/uploads" 2>/dev/null || true
 
 cp "$SCRIPT_DIR/conf.d/lanhdao-upstream.conf" "$CONF_D_DIR/lanhdao-upstream.conf"
