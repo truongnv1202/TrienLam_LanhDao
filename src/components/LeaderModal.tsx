@@ -92,7 +92,7 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
                 <div className="leader-detail-meta">
                   {profileMeta.birthYear && (
                     <p>
-                      <strong>Năm sinh:</strong> {profileMeta.birthYear}
+                      <strong>{profileMeta.birthLabel}:</strong> {profileMeta.birthYear}
                     </p>
                   )}
                   {profileMeta.hometown && (
@@ -192,12 +192,19 @@ function buildWorkEvents(leader: Leader): TimelineEvent[] {
     }));
 }
 
-function buildProfileMeta(biography: string): { birthYear?: string; hometown?: string } | null {
-  const birthYear = biography.match(/sinh\s+năm\s*[:：]?\s*([^;.]+)/i)?.[1]?.trim();
+function buildProfileMeta(
+  biography: string
+): { birthLabel?: string; birthYear?: string; hometown?: string } | null {
+  const birthDeath = biography.match(/năm\s*sinh\s*[-–—]\s*mất\s*[:：]?\s*([^;.]+)/i)?.[1]?.trim();
+  const birthOnly =
+    biography.match(/năm\s*sinh\s*[:：]?\s*([^;.]+)/i)?.[1]?.trim() ||
+    biography.match(/sinh\s+năm\s*[:：]?\s*([^;.]+)/i)?.[1]?.trim();
+  const birthYear = birthDeath || birthOnly;
+  const birthLabel = birthDeath ? "Năm sinh - mất" : "Năm sinh";
   const hometown = biography.match(/quê\s+quán\s*[:：]\s*([^;.]+)/i)?.[1]?.trim();
 
   if (!birthYear && !hometown) return null;
-  return { birthYear, hometown };
+  return { birthLabel, birthYear, hometown };
 }
 
 function extractYearLabel(text: string): string {
