@@ -639,7 +639,7 @@ select {
   transform-origin: center center;
 }
 
-/* Header — tọa độ Figma 1920×1080 */
+/* Header — canvas 1920×1080, tương ứng 3840×2160 khi scale 2x */
 .exhibition-header {
   position: absolute;
   top: 0;
@@ -675,12 +675,12 @@ select {
 
 .exhibition-header-titles {
   position: absolute;
-  left: 622px;
-  top: 80px;
+  left: 311px;
+  top: 40px;
   display: flex;
-  width: 2597px;
-  height: 248px;
-  gap: 8px;
+  width: 1298.5px;
+  height: 124px;
+  gap: 4px;
   justify-content: center;
   opacity: 1;
   pointer-events: none;
