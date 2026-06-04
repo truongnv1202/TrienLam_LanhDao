@@ -9,6 +9,23 @@ import ExhibitionHeader from "@/components/ExhibitionHeader";
 import ExhibitionCanvas from "@/components/ExhibitionCanvas";
 import type { Leader } from "@/types";
 
+const TOP_LAYOUT_ORDER = [
+  "to-lam",
+  "pham-hung",
+  "tran-dai-quang",
+  "pham-minh-chinh",
+];
+
+function orderTopLeadersForLayout(leaders: Leader[]): Leader[] {
+  return [...leaders].sort((a, b) => {
+    const orderA = TOP_LAYOUT_ORDER.indexOf(a.id);
+    const orderB = TOP_LAYOUT_ORDER.indexOf(b.id);
+    const safeOrderA = orderA >= 0 ? orderA : TOP_LAYOUT_ORDER.length + (a.sortOrder ?? 999);
+    const safeOrderB = orderB >= 0 ? orderB : TOP_LAYOUT_ORDER.length + (b.sortOrder ?? 999);
+    return safeOrderA - safeOrderB;
+  });
+}
+
 export default function HomePage() {
   const [leaders, setLeaders] = useState<Leader[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,12 +51,11 @@ export default function HomePage() {
     void fetchLeaders();
   }, [fetchLeaders]);
 
-  const topTier = leaders.filter((l) => l.tier === "top");
+  const topTier = orderTopLeadersForLayout(leaders.filter((l) => l.tier === "top"));
   const bottomTier = leaders.filter((l) => l.tier === "bottom");
   const ministryRows = [
-    bottomTier.slice(0, 7),
-    bottomTier.slice(7, 13),
-    bottomTier.slice(13, 20),
+    bottomTier.slice(0, 11),
+    bottomTier.slice(11, 20),
   ];
 
   return (

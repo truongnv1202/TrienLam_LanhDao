@@ -25,12 +25,46 @@ async function ensureDataFile(): Promise<void> {
   }
 }
 
+function normalizeLeaderName(name: string): string {
+  return name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/đ/g, "d")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function mergeMissingSeedLeaders(leaders: Leader[]): {
+  leaders: Leader[];
+  changed: boolean;
+} {
+  const existingIds = new Set(leaders.map((leader) => leader.id));
+  const existingNames = new Set(
+    leaders.map((leader) => normalizeLeaderName(leader.name))
+  );
+  const missing = SEED_LEADERS.filter(
+    (seed) =>
+      !existingIds.has(seed.id) &&
+      !existingNames.has(normalizeLeaderName(seed.name))
+  );
+
+  return {
+    leaders: missing.length > 0 ? [...leaders, ...missing] : leaders,
+    changed: missing.length > 0,
+  };
+}
+
 export async function readLeaders(): Promise<Leader[]> {
   await ensureDataFile();
   const raw = await fs.readFile(DATA_FILE, "utf-8");
   const parsed: unknown = JSON.parse(raw);
   if (!Array.isArray(parsed)) return [...SEED_LEADERS];
-  return parsed as Leader[];
+  const merged = mergeMissingSeedLeaders(parsed as Leader[]);
+  if (merged.changed) {
+    await fs.writeFile(DATA_FILE, JSON.stringify(merged.leaders, null, 2), "utf-8");
+  }
+  return merged.leaders;
 }
 
 export async function writeLeaders(leaders: Leader[]): Promise<void> {

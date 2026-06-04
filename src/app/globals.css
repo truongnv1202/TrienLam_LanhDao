@@ -651,11 +651,33 @@ select {
   pointer-events: none;
 }
 
+.exhibition-header-flag-layer {
+  position: absolute;
+  top: 0;
+  left: 1154px;
+  z-index: 1;
+  width: 766px;
+  height: 422px;
+  overflow: visible;
+  opacity: 1;
+  pointer-events: none;
+  transform: rotate(0deg);
+}
+
+.exhibition-header-flag {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  opacity: 1;
+  transform: none;
+}
+
 .exhibition-header-art-layer {
   position: absolute;
   top: 52px;
   left: 138.5px;
-  z-index: 1;
+  z-index: 2;
   width: 151px;
   height: 119px;
   overflow: visible;
@@ -914,7 +936,7 @@ select {
 }
 
 .exhibition-group-label-ministry {
-  top: 455px;
+  top: 645px;
   left: 663px;
   width: 595px;
   height: 49px;
@@ -948,19 +970,21 @@ select {
 }
 
 .exhibition-row-top {
-  top: 261px;
+  top: 258px;
+  display: block;
+  height: 347px;
 }
 
 .exhibition-row-ministry-1 {
-  top: 522px;
+  top: 711px;
 }
 
 .exhibition-row-ministry-2 {
-  top: 704px;
+  top: 893px;
 }
 
 .exhibition-row-ministry-3 {
-  top: 886px;
+  top: 1075px;
 }
 
 .exhibition-row .exhibition-leader-card {
@@ -970,6 +994,30 @@ select {
   width: var(--home-card-w) !important;
   height: var(--home-card-h) !important;
   pointer-events: auto;
+}
+
+.exhibition-row-top .exhibition-leader-card {
+  position: absolute !important;
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(1) {
+  top: 0 !important;
+  left: 879px !important;
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(2) {
+  top: 180px !important;
+  left: 702px !important;
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(3) {
+  top: 180px !important;
+  left: 879px !important;
+}
+
+.exhibition-row-top .exhibition-leader-card:nth-child(4) {
+  top: 180px !important;
+  left: 1056px !important;
 }
 
 /* Thẻ lãnh đạo — nền ảnh đỏ + viền vàng */
