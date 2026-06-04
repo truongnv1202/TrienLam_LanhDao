@@ -5,10 +5,10 @@ export default function ExhibitionHeader() {
     <>
       <div className="exhibition-header-art-layer" aria-hidden>
         <Image
-          src="/images/header-decor.png"
+          src="/images/police-badge-transparent-20260604-1851.png"
           alt=""
-          width={1532}
-          height={844}
+          width={302}
+          height={238}
           sizes="100vw"
           className="exhibition-header-art"
           priority

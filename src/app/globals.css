@@ -653,14 +653,15 @@ select {
 
 .exhibition-header-art-layer {
   position: absolute;
-  top: 0;
-  left: 1154px;
+  top: 52px;
+  left: 138.5px;
   z-index: 1;
-  width: 766px;
-  height: 422px;
+  width: 151px;
+  height: 119px;
   overflow: visible;
   opacity: 1;
   pointer-events: none;
+  transform: rotate(0deg);
 }
 
 .exhibition-header-art {
@@ -670,7 +671,6 @@ select {
   object-fit: fill;
   opacity: 1;
   transform: none;
-  mix-blend-mode: screen;
 }
 
 .exhibition-header-titles {
