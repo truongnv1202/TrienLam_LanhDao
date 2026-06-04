@@ -7,7 +7,8 @@ export default function ExhibitionHeader() {
         <Image
           src="/images/header-decor.png"
           alt=""
-          fill
+          width={1532}
+          height={844}
           sizes="100vw"
           className="exhibition-header-art"
           priority
