@@ -628,7 +628,7 @@ select {
 .exhibition-canvas {
   --home-card-w: 162px;
   --home-card-h: 168px;
-  --home-card-gap: 15px;
+  --home-card-gap: 4.5px;
   --card-portrait-h: 122px;
   --card-info-h: 46px;
 
@@ -1007,7 +1007,7 @@ select {
 
 .exhibition-row-top .exhibition-leader-card:nth-child(2) {
   top: 180px !important;
-  left: 702px !important;
+  left: 712.5px !important;
 }
 
 .exhibition-row-top .exhibition-leader-card:nth-child(3) {
@@ -1017,7 +1017,7 @@ select {
 
 .exhibition-row-top .exhibition-leader-card:nth-child(4) {
   top: 180px !important;
-  left: 1056px !important;
+  left: 1045.5px !important;
 }
 
 /* Thẻ lãnh đạo — nền ảnh đỏ + viền vàng */
