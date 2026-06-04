@@ -17,8 +17,14 @@ export default function ExhibitionHeader() {
       <header className="exhibition-header">
         <div className="exhibition-header-titles">
           <h1 className="exhibition-title-text">
-            <span>TỪ LỰC LƯỢNG AN NINH NHÂN DÂN</span>
-            <span>ĐẾN NHỮNG CƯƠNG VỊ LÃNH ĐẠO CHỦ CHỐT</span>
+            <Image
+              src="/images/exhibition-title-text.png"
+              alt="Từ lãnh đạo cục thuộc lực lượng An ninh nhân dân đến những cương vị lãnh đạo chủ chốt"
+              width={2597}
+              height={248}
+              className="exhibition-title-image"
+              priority
+            />
           </h1>
         </div>
       </header>
