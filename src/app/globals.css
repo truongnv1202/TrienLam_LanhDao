@@ -675,16 +675,17 @@ select {
 
 .exhibition-header-titles {
   position: absolute;
-  left: calc(622px / 2);
-  top: calc(80px / 2);
+  left: 622px;
+  top: 80px;
   display: flex;
-  width: calc(2597px / 2);
-  height: calc(248px / 2);
-  gap: calc(8px / 2);
+  width: 2597px;
+  height: 248px;
+  gap: 8px;
   justify-content: center;
   opacity: 1;
   pointer-events: none;
   background: transparent;
+  transform: rotate(0deg);
 }
 
 .exhibition-title-text {

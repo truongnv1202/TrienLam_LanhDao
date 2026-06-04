@@ -19,7 +19,7 @@ export default function ExhibitionHeader() {
         <div className="exhibition-header-titles">
           <h1 className="exhibition-title-text">
             <Image
-              src="/images/exhibition-title-text-transparent.svg?v=20260604-title-transparent-svg"
+              src="/images/exhibition-title-transparent-20260604-1702.png"
               alt="Từ lãnh đạo cục thuộc lực lượng An ninh nhân dân đến những cương vị lãnh đạo chủ chốt"
               width={2597}
               height={248}
