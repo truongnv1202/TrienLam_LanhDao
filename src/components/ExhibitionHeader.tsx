@@ -31,10 +31,10 @@ export default function ExhibitionHeader() {
         <div className="exhibition-header-titles">
           <h1 className="exhibition-title-text">
             <Image
-              src="/images/exhibition-title-transparent-20260604-1723.png"
-              alt="Từ lãnh đạo cục thuộc lực lượng An ninh nhân dân đến những cương vị lãnh đạo chủ chốt"
-              width={2597}
-              height={248}
+              src="/images/exhibition-title-transparent-20260608-2006.svg"
+              alt="Từ lãnh đạo Cục Lực lượng An ninh nhân dân đến những cương vị lãnh đạo Đảng, Nhà nước và Bộ Công an"
+              width={2048}
+              height={190}
               unoptimized
               className="exhibition-title-image"
               priority
