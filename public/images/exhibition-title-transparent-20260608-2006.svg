@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 190" role="img" aria-labelledby="title desc">
-  <title id="title">Të lãnh ¡o Cåc Lñc l°ãng An ninh nhân dân ¿n nhïng c°¡ng vË lãnh ¡o £ng, Nhà n°Ûc và BÙ Công an</title>
-  <desc id="desc">Tiêu Á triÃn lãm nÁn trong suÑt, chï vàng.</desc>
+  <title id="title">T&#7915; l&#227;nh &#273;&#7841;o C&#7909;c L&#7921;c l&#432;&#7907;ng An ninh nh&#226;n d&#226;n &#273;&#7871;n nh&#7919;ng c&#432;&#417;ng v&#7883; l&#227;nh &#273;&#7841;o &#272;&#7843;ng, Nh&#224; n&#432;&#7899;c v&#224; B&#7897; C&#244;ng an</title>
+  <desc id="desc">Ti&#234;u &#273;&#7873; tri&#7875;n l&#227;m n&#7873;n trong su&#7889;t, ch&#7919; v&#224;ng.</desc>
   <defs>
     <linearGradient id="titleGold" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#fff4a8"/>
@@ -14,10 +14,10 @@
   <g filter="url(#softShadow)" fill="url(#titleGold)" text-anchor="middle"
      font-family="Lato, Arial, Helvetica, sans-serif" font-weight="800">
     <text x="1024" y="48" font-size="44" letter-spacing="0.4">
-      Tê LÃNH  O CäC LðC L¯âNG AN NINH NHÂN DÂN ¾N
+      T&#7914; L&#195;NH &#272;&#7840;O C&#7908;C L&#7920;C L&#431;&#7906;NG AN NINH NH&#194;N D&#194;N &#272;&#7870;N
     </text>
     <text x="1024" y="132" font-size="66" letter-spacing="0.2">
-      NHîNG C¯ NG VÊ LÃNH  O ¢NG, NHÀ N¯ÚC VÀ BØ CÔNG AN
+      NH&#7918;NG C&#431;&#416;NG V&#7882; L&#195;NH &#272;&#7840;O &#272;&#7842;NG, NH&#192; N&#431;&#7898;C V&#192; B&#7896; C&#212;NG AN
     </text>
   </g>
 </svg>
