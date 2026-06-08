@@ -9,20 +9,51 @@ import ExhibitionHeader from "@/components/ExhibitionHeader";
 import ExhibitionCanvas from "@/components/ExhibitionCanvas";
 import type { Leader } from "@/types";
 
-const TOP_LAYOUT_ORDER = [
-  "to-lam",
+const PARTY_LEADER_IDS = [
+  "tran-quoc-hoan",
   "pham-hung",
   "tran-dai-quang",
+  "to-lam",
   "pham-minh-chinh",
 ];
 
-function orderTopLeadersForLayout(leaders: Leader[]): Leader[] {
-  return [...leaders].sort((a, b) => {
-    const orderA = TOP_LAYOUT_ORDER.indexOf(a.id);
-    const orderB = TOP_LAYOUT_ORDER.indexOf(b.id);
-    const safeOrderA = orderA >= 0 ? orderA : TOP_LAYOUT_ORDER.length + (a.sortOrder ?? 999);
-    const safeOrderB = orderB >= 0 ? orderB : TOP_LAYOUT_ORDER.length + (b.sortOrder ?? 999);
-    return safeOrderA - safeOrderB;
+const MINISTER_IDS = [
+  "le-gian",
+  "mai-chi-tho",
+  "bui-thien-ngo",
+  "le-minh-huong",
+  "le-hong-anh",
+  "luong-tam-quang",
+];
+
+const DEPUTY_ROWS = [
+  [
+    "tran-quoc-huong",
+    "le-quoc-than",
+    "tran-quyet",
+    "vien-chi",
+    "hoang-thao",
+    "cao-dang-chiem",
+    "nguyen-tai",
+    "nguyen-minh-tien",
+  ],
+  [
+    "vo-viet-thanh",
+    "nguyen-khanh-toan",
+    "nguyen-van-huong",
+    "thi-van-tam",
+    "bui-van-nam",
+    "pham-dung",
+    "pham-the-tung",
+    "dang-hong-duc",
+  ],
+];
+
+function pickLeadersById(leaders: Leader[], ids: string[]): Leader[] {
+  const byId = new Map(leaders.map((leader) => [leader.id, leader]));
+  return ids.flatMap((id) => {
+    const leader = byId.get(id);
+    return leader ? [leader] : [];
   });
 }
 
@@ -51,12 +82,9 @@ export default function HomePage() {
     void fetchLeaders();
   }, [fetchLeaders]);
 
-  const topTier = orderTopLeadersForLayout(leaders.filter((l) => l.tier === "top"));
-  const bottomTier = leaders.filter((l) => l.tier === "bottom");
-  const ministryRows = [
-    bottomTier.slice(0, 11),
-    bottomTier.slice(11, 20),
-  ];
+  const partyLeaders = pickLeadersById(leaders, PARTY_LEADER_IDS);
+  const ministerLeaders = pickLeadersById(leaders, MINISTER_IDS);
+  const deputyRows = DEPUTY_ROWS.map((row) => pickLeadersById(leaders, row));
 
   return (
     <div className="exhibition-page relative h-[100dvh] overflow-hidden">
@@ -78,7 +106,7 @@ export default function HomePage() {
         {!loading && !error && (
           <main className="exhibition-stage">
             <div className="exhibition-board">
-              {topTier.length > 0 && (
+              {partyLeaders.length > 0 && (
                 <>
                   <div
                     className="exhibition-group-label exhibition-group-label-party"
@@ -88,7 +116,7 @@ export default function HomePage() {
                     aria-label="Lãnh đạo Đảng, Nhà nước"
                     className="exhibition-row exhibition-row-top"
                   >
-                    {topTier.slice(0, 4).map((leader) => (
+                    {partyLeaders.map((leader) => (
                       <LeaderCard
                         key={leader.id}
                         leader={leader}
@@ -99,18 +127,43 @@ export default function HomePage() {
                 </>
               )}
 
-              {bottomTier.length > 0 && (
+              {ministerLeaders.length > 0 && (
                 <>
                   <div
-                    className="exhibition-group-label exhibition-group-label-ministry"
-                    aria-label="Lãnh đạo Bộ Công an"
-                  />
-                  {ministryRows.map((row, index) =>
+                    className="exhibition-group-label exhibition-group-label-minister"
+                    aria-label="Bộ trưởng"
+                  >
+                    Bộ trưởng
+                  </div>
+                  <section
+                    aria-label="Bộ trưởng"
+                    className="exhibition-row exhibition-row-minister"
+                  >
+                    {ministerLeaders.map((leader) => (
+                      <LeaderCard
+                        key={leader.id}
+                        leader={leader}
+                        onClick={setSelectedLeader}
+                      />
+                    ))}
+                  </section>
+                </>
+              )}
+
+              {deputyRows.some((row) => row.length > 0) && (
+                <>
+                  <div
+                    className="exhibition-group-label exhibition-group-label-deputy"
+                    aria-label="Thứ trưởng"
+                  >
+                    Thứ trưởng
+                  </div>
+                  {deputyRows.map((row, index) =>
                     row.length > 0 ? (
                       <section
-                        key={`ministry-row-${index + 1}`}
-                        aria-label={`Lãnh đạo Bộ Công an hàng ${index + 1}`}
-                        className={`exhibition-row exhibition-row-ministry exhibition-row-ministry-${index + 1}`}
+                        key={`deputy-row-${index + 1}`}
+                        aria-label={`Thứ trưởng hàng ${index + 1}`}
+                        className={`exhibition-row exhibition-row-deputy exhibition-row-deputy-${index + 1}`}
                       >
                         {row.map((leader) => (
                           <LeaderCard

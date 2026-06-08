@@ -1,7 +1,10 @@
 import { promises as fs } from "fs";
 import path from "path";
 import type { Leader } from "@/types";
+import { LAYOUT_SEED_LEADERS } from "@/lib/layout-seed";
 import { SEED_LEADERS } from "@/lib/seed";
+
+const DEFAULT_LEADERS = [...SEED_LEADERS, ...LAYOUT_SEED_LEADERS];
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const DATA_FILE = path.join(DATA_DIR, "leaders.json");
@@ -20,7 +23,7 @@ async function ensureDataFile(): Promise<void> {
       const seedRaw = await fs.readFile(SEED_FILE, "utf-8");
       await fs.writeFile(DATA_FILE, seedRaw, "utf-8");
     } catch {
-      await fs.writeFile(DATA_FILE, JSON.stringify(SEED_LEADERS, null, 2), "utf-8");
+      await fs.writeFile(DATA_FILE, JSON.stringify(DEFAULT_LEADERS, null, 2), "utf-8");
     }
   }
 }
@@ -43,7 +46,7 @@ function mergeMissingSeedLeaders(leaders: Leader[]): {
   const existingNames = new Set(
     leaders.map((leader) => normalizeLeaderName(leader.name))
   );
-  const missing = SEED_LEADERS.filter(
+  const missing = DEFAULT_LEADERS.filter(
     (seed) =>
       !existingIds.has(seed.id) &&
       !existingNames.has(normalizeLeaderName(seed.name))
@@ -59,7 +62,7 @@ export async function readLeaders(): Promise<Leader[]> {
   await ensureDataFile();
   const raw = await fs.readFile(DATA_FILE, "utf-8");
   const parsed: unknown = JSON.parse(raw);
-  if (!Array.isArray(parsed)) return [...SEED_LEADERS];
+  if (!Array.isArray(parsed)) return [...DEFAULT_LEADERS];
   const merged = mergeMissingSeedLeaders(parsed as Leader[]);
   if (merged.changed) {
     await fs.writeFile(DATA_FILE, JSON.stringify(merged.leaders, null, 2), "utf-8");
@@ -176,7 +179,7 @@ export async function savePortraitFile(
 /** Ghi đè data/leaders.json bằng dữ liệu mẫu ảnh */
 export async function resetToSampleLeaders(): Promise<Leader[]> {
   await ensureDataFile();
-  await fs.writeFile(DATA_FILE, JSON.stringify(SEED_LEADERS, null, 2), "utf-8");
-  await fs.writeFile(SEED_FILE, JSON.stringify(SEED_LEADERS, null, 2), "utf-8");
-  return SEED_LEADERS;
+  await fs.writeFile(DATA_FILE, JSON.stringify(DEFAULT_LEADERS, null, 2), "utf-8");
+  await fs.writeFile(SEED_FILE, JSON.stringify(DEFAULT_LEADERS, null, 2), "utf-8");
+  return DEFAULT_LEADERS;
 }

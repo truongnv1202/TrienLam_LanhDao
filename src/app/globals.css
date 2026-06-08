@@ -932,29 +932,42 @@ select {
 }
 
 .exhibition-group-label-party::before {
-  background-image: url("/images/header-lddnn-clean.png");
+  background-image: url("/images/group-label-party-transparent-20260608-1211.png");
 }
 
-.exhibition-group-label-ministry {
-  top: 645px;
+.exhibition-group-label-minister,
+.exhibition-group-label-deputy {
   left: 663px;
   width: 595px;
   height: 49px;
   padding: 0 72px;
   transform: none;
   font-family: var(--font-lato), "Lato", sans-serif;
-  font-size: clamp(40px, 2.0833vw, 80px);
+  font-size: 22px;
   font-weight: 800;
   font-style: normal;
   line-height: 120%;
   letter-spacing: 0;
   text-align: center;
+  text-transform: uppercase;
   color: transparent;
   text-shadow: none;
 }
 
-.exhibition-group-label-ministry::before {
-  background-image: url("/images/header-ldbca.png");
+.exhibition-group-label-minister {
+  top: 414px;
+}
+
+.exhibition-group-label-deputy {
+  top: 658px;
+}
+
+.exhibition-group-label-minister::before {
+  background-image: url("/images/group-label-minister-transparent-20260608-1211.png");
+}
+
+.exhibition-group-label-deputy::before {
+  background-image: url("/images/group-label-deputy-transparent-20260608-1211.png");
 }
 
 .exhibition-row {
@@ -970,21 +983,19 @@ select {
 }
 
 .exhibition-row-top {
-  top: 258px;
-  display: block;
-  height: 347px;
+  top: 232px;
 }
 
-.exhibition-row-ministry-1 {
-  top: 711px;
+.exhibition-row-minister {
+  top: 474px;
 }
 
-.exhibition-row-ministry-2 {
-  top: 893px;
+.exhibition-row-deputy-1 {
+  top: 716px;
 }
 
-.exhibition-row-ministry-3 {
-  top: 1075px;
+.exhibition-row-deputy-2 {
+  top: 889px;
 }
 
 .exhibition-row .exhibition-leader-card {
@@ -997,27 +1008,9 @@ select {
 }
 
 .exhibition-row-top .exhibition-leader-card {
-  position: absolute !important;
-}
-
-.exhibition-row-top .exhibition-leader-card:nth-child(1) {
-  top: 0 !important;
-  left: 879px !important;
-}
-
-.exhibition-row-top .exhibition-leader-card:nth-child(2) {
-  top: 180px !important;
-  left: 712.5px !important;
-}
-
-.exhibition-row-top .exhibition-leader-card:nth-child(3) {
-  top: 180px !important;
-  left: 879px !important;
-}
-
-.exhibition-row-top .exhibition-leader-card:nth-child(4) {
-  top: 180px !important;
-  left: 1045.5px !important;
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
 }
 
 /* Thẻ lãnh đạo — nền ảnh đỏ + viền vàng */
