@@ -287,7 +287,7 @@ select {
   font-family: var(--font-lato), "Lato", sans-serif;
   font-size: clamp(16px, 0.85vw, 32px);
   line-height: 1.2;
-  color: #b88900;
+  color: #ffd700;
   text-align: left;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
 }
@@ -1083,7 +1083,7 @@ select {
   letter-spacing: 0;
   text-align: center;
   vertical-align: middle;
-  color: #ffd700;
+  color: #b88900;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
 }
 
@@ -1108,7 +1108,7 @@ select {
   font-size: 8px;
   font-weight: 500;
   line-height: 1.12;
-  color: #ffd700;
+  color: #b88900;
   white-space: normal;
   text-align: center;
   overflow: hidden;
