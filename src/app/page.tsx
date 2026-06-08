@@ -160,10 +160,6 @@ export default function HomePage() {
             <div className="exhibition-board">
               {partyLeaders.length > 0 && (
                 <>
-                  <div
-                    className="exhibition-group-label exhibition-group-label-party"
-                    aria-label="Lãnh đạo Đảng, Nhà nước"
-                  />
                   <section
                     aria-label="Lãnh đạo Đảng, Nhà nước"
                     className="exhibition-row exhibition-row-top"
@@ -181,12 +177,6 @@ export default function HomePage() {
 
               {ministerLeaders.length > 0 && (
                 <>
-                  <div
-                    className="exhibition-group-label exhibition-group-label-minister"
-                    aria-label="Bộ trưởng"
-                  >
-                    Bộ trưởng
-                  </div>
                   <section
                     aria-label="Bộ trưởng"
                     className="exhibition-row exhibition-row-minister"
@@ -204,12 +194,6 @@ export default function HomePage() {
 
               {deputyRows.some((row) => row.length > 0) && (
                 <>
-                  <div
-                    className="exhibition-group-label exhibition-group-label-deputy"
-                    aria-label="Thứ trưởng"
-                  >
-                    Thứ trưởng
-                  </div>
                   {deputyRows.map((row, index) =>
                     row.length > 0 ? (
                       <section
