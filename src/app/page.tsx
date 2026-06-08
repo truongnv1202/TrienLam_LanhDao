@@ -12,8 +12,8 @@ import type { Leader } from "@/types";
 const PARTY_LEADER_IDS = [
   "tran-quoc-hoan",
   "pham-hung",
-  "tran-dai-quang",
   "to-lam",
+  "tran-dai-quang",
   "pham-minh-chinh",
 ];
 
