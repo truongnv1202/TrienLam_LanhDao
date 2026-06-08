@@ -641,10 +641,10 @@ select {
 
 .exhibition-canvas {
   --home-card-w: 162px;
-  --home-card-h: 188px;
+  --home-card-h: 187px;
   --home-card-gap: 4.5px;
   --card-portrait-h: 122px;
-  --card-info-h: 66px;
+  --card-info-h: 65px;
 
   position: relative;
   width: 1920px;
@@ -999,19 +999,19 @@ select {
 }
 
 .exhibition-row-top {
-  top: 194px;
+  top: 190px;
 }
 
 .exhibition-row-minister {
-  top: 435px;
+  top: 425px;
 }
 
 .exhibition-row-deputy-1 {
-  top: 676px;
+  top: 660px;
 }
 
 .exhibition-row-deputy-2 {
-  top: 854px;
+  top: 890px;
 }
 
 .exhibition-row .exhibition-leader-card {
@@ -1051,7 +1051,7 @@ select {
   pointer-events: none;
   opacity: 1;
   background-image: url("/images/card.png");
-  background-size: 162px 188px;
+  background-size: 162px 187px;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -1069,31 +1069,31 @@ select {
   height: var(--card-info-h);
   flex: 0 0 var(--card-info-h);
   min-height: 0;
-  padding: 4px 7px 5px;
+  padding: 6px 8px 6px;
   background: transparent;
   border-radius: 0;
 }
 
 .exhibition-label {
   font-family: var(--font-lato), "Lato", sans-serif;
-  font-size: 8px;
+  font-size: 8.5px;
   font-weight: 400;
   font-style: normal;
   line-height: 1.4;
   letter-spacing: 0;
   text-align: center;
   vertical-align: middle;
-  color: #b88900;
+  color: #ffd700;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
 }
 
 .exhibition-name {
-  margin-top: 0;
+  margin-top: 2px;
   font-family: var(--font-lato), "Lato", sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   font-style: normal;
-  line-height: 1.18;
+  line-height: 1.12;
   letter-spacing: 0;
   text-align: center;
   vertical-align: middle;
@@ -1102,13 +1102,13 @@ select {
 }
 
 .exhibition-position {
-  margin-top: 2px;
+  margin-top: 4px;
   width: 100%;
   font-family: var(--font-lato), "Lato", sans-serif;
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 500;
-  line-height: 1.18;
-  color: #fff8e7;
+  line-height: 1.12;
+  color: #ffd700;
   white-space: normal;
   text-align: center;
   overflow: hidden;
@@ -1124,8 +1124,8 @@ select {
 }
 
 .exhibition-card-bottom .exhibition-position {
-  font-size: 7px;
-  line-height: 1.16;
+  font-size: 8px;
+  line-height: 1.12;
   line-clamp: 2;
   -webkit-line-clamp: 2;
 }
@@ -1158,11 +1158,11 @@ select {
 
 .exhibition-leader-card .leader-portrait-image {
   width: 162px !important;
-  height: 122px !important;
+  height: 126px !important;
   z-index: 1;
   border-radius: 0 !important;
   background: transparent;
   object-fit: contain;
   object-position: center bottom;
-  padding: 0 1px;
+  padding: 0;
 }
