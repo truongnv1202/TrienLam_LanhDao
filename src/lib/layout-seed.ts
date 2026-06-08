@@ -22,6 +22,46 @@ export const LAYOUT_SEED_LEADERS: Leader[] = [
     awards: [],
   },
   {
+    id: "ngo-ngoc-du",
+    name: "Ngô Ngọc Du",
+    position: "Thứ trưởng Bộ Công an",
+    portraitUrl: "/uploads/portraits/ngo-ngoc-du.jpg",
+    homePortraitUrl: "/uploads/portraits/ngo-ngoc-du.jpg",
+    detailPortraitUrl: "/uploads/portraits/ngo-ngoc-du.jpg",
+    biography: "Thông tin tiểu sử đồng chí Ngô Ngọc Du đang được cập nhật.",
+    tier: "bottom",
+    sortOrder: 22,
+    timeline: [
+      {
+        year: "",
+        event: "Thứ trưởng Bộ Công an",
+        description: "Thứ trưởng Bộ Công an",
+        sort: 1,
+      },
+    ],
+    awards: [],
+  },
+  {
+    id: "nguyen-quang-viet",
+    name: "Nguyễn Quang Việt",
+    position: "Thứ trưởng Bộ Công an",
+    portraitUrl: "/uploads/portraits/nguyen-quang-viet.jpg",
+    homePortraitUrl: "/uploads/portraits/nguyen-quang-viet.jpg",
+    detailPortraitUrl: "/uploads/portraits/nguyen-quang-viet.jpg",
+    biography: "Thông tin tiểu sử đồng chí Nguyễn Quang Việt đang được cập nhật.",
+    tier: "bottom",
+    sortOrder: 23,
+    timeline: [
+      {
+        year: "",
+        event: "Thứ trưởng Bộ Công an",
+        description: "Thứ trưởng Bộ Công an",
+        sort: 1,
+      },
+    ],
+    awards: [],
+  },
+  {
     id: "nguyen-minh-tien",
     name: "Nguyễn Minh Tiến",
     position: "Thứ trưởng Bộ Công an",
@@ -30,7 +70,27 @@ export const LAYOUT_SEED_LEADERS: Leader[] = [
     detailPortraitUrl: "/uploads/portraits/nguyen-minh-tien.jpg",
     biography: "Thông tin tiểu sử đồng chí Nguyễn Minh Tiến đang được cập nhật.",
     tier: "bottom",
-    sortOrder: 22,
+    sortOrder: 24,
+    timeline: [
+      {
+        year: "",
+        event: "Thứ trưởng Bộ Công an",
+        description: "Thứ trưởng Bộ Công an",
+        sort: 1,
+      },
+    ],
+    awards: [],
+  },
+  {
+    id: "lam-van-ta",
+    name: "Lâm Văn Tà",
+    position: "Thứ trưởng Bộ Công an",
+    portraitUrl: "/uploads/portraits/lam-van-ta.jpg",
+    homePortraitUrl: "/uploads/portraits/lam-van-ta.jpg",
+    detailPortraitUrl: "/uploads/portraits/lam-van-ta.jpg",
+    biography: "Thông tin tiểu sử đồng chí Lâm Văn Tà đang được cập nhật.",
+    tier: "bottom",
+    sortOrder: 25,
     timeline: [
       {
         year: "",
@@ -50,7 +110,7 @@ export const LAYOUT_SEED_LEADERS: Leader[] = [
     detailPortraitUrl: "/uploads/portraits/dang-hong-duc.jpg",
     biography: "Thông tin tiểu sử đồng chí Đặng Hồng Đức đang được cập nhật.",
     tier: "bottom",
-    sortOrder: 23,
+    sortOrder: 26,
     timeline: [
       {
         year: "",

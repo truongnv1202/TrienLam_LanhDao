@@ -38,6 +38,7 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
       <div className="exhibition-leader-info flex w-full shrink-0 flex-col items-center justify-center">
         <p className="exhibition-label">ĐỒNG CHÍ</p>
         <h3 className="exhibition-name">{leader.name}</h3>
+        <p className="exhibition-position">{leader.position}</p>
       </div>
     </button>
   );
