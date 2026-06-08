@@ -9,6 +9,36 @@ import ExhibitionHeader from "@/components/ExhibitionHeader";
 import ExhibitionCanvas from "@/components/ExhibitionCanvas";
 import type { Leader } from "@/types";
 
+const LEADER_NAME_BY_ID: Record<string, string> = {
+  "tran-quoc-hoan": "Trần Quốc Hoàn",
+  "pham-hung": "Phạm Hùng",
+  "to-lam": "Tô Lâm",
+  "tran-dai-quang": "Trần Đại Quang",
+  "pham-minh-chinh": "Phạm Minh Chính",
+  "le-gian": "Lê Giản",
+  "mai-chi-tho": "Mai Chí Thọ",
+  "bui-thien-ngo": "Bùi Thiện Ngộ",
+  "le-minh-huong": "Lê Minh Hương",
+  "le-hong-anh": "Lê Hồng Anh",
+  "luong-tam-quang": "Lương Tam Quang",
+  "tran-quoc-huong": "Trần Quốc Hương",
+  "le-quoc-than": "Lê Quốc Thân",
+  "tran-quyet": "Trần Quyết",
+  "vien-chi": "Viễn Chi",
+  "hoang-thao": "Hoàng Thao",
+  "cao-dang-chiem": "Cao Đăng Chiếm",
+  "nguyen-tai": "Nguyễn Tài",
+  "nguyen-minh-tien": "Nguyễn Minh Tiến",
+  "vo-viet-thanh": "Võ Viết Thanh",
+  "nguyen-khanh-toan": "Nguyễn Khánh Toàn",
+  "nguyen-van-huong": "Nguyễn Văn Hưởng",
+  "thi-van-tam": "Thi Văn Tám",
+  "bui-van-nam": "Bùi Văn Nam",
+  "pham-dung": "Phạm Dũng",
+  "pham-the-tung": "Phạm Thế Tùng",
+  "dang-hong-duc": "Đặng Hồng Đức",
+};
+
 const PARTY_LEADER_IDS = [
   "tran-quoc-hoan",
   "pham-hung",
@@ -49,10 +79,26 @@ const DEPUTY_ROWS = [
   ],
 ];
 
+function normalizeLeaderName(name: string): string {
+  return name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/đ/g, "d")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function pickLeadersById(leaders: Leader[], ids: string[]): Leader[] {
   const byId = new Map(leaders.map((leader) => [leader.id, leader]));
+  const byName = new Map(
+    leaders.map((leader) => [normalizeLeaderName(leader.name), leader])
+  );
   return ids.flatMap((id) => {
-    const leader = byId.get(id);
+    const expectedName = LEADER_NAME_BY_ID[id];
+    const leader =
+      byId.get(id) ||
+      (expectedName ? byName.get(normalizeLeaderName(expectedName)) : undefined);
     return leader ? [leader] : [];
   });
 }
