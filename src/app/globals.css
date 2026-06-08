@@ -287,7 +287,9 @@ select {
   font-family: var(--font-lato), "Lato", sans-serif;
   font-size: clamp(16px, 0.85vw, 32px);
   line-height: 1.2;
-  color: #f8d96c;
+  color: #b88900;
+  text-align: left;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
 }
 
 .leader-detail-name {
@@ -298,9 +300,21 @@ select {
   font-style: normal;
   line-height: 1.4;
   letter-spacing: 0;
-  text-align: center;
+  text-align: left;
   vertical-align: middle;
   color: #ffd84f;
+}
+
+.leader-detail-position {
+  margin-top: clamp(6px, 0.32vw, 12px);
+  font-family: var(--font-lato), "Lato", Arial, sans-serif;
+  font-size: clamp(14px, 0.74vw, 28px);
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: justify;
+  color: #fff2c4;
+  white-space: pre-line;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
 }
 
 .leader-detail-divider {
@@ -308,7 +322,7 @@ select {
   align-items: center;
   justify-content: center;
   gap: clamp(8px, 0.42vw, 16px);
-  margin: clamp(12px, 0.65vw, 24px) 0 clamp(10px, 0.55vw, 20px);
+  margin: clamp(10px, 0.55vw, 20px) 0 clamp(10px, 0.55vw, 20px);
   color: #ffdf7a;
 }
 

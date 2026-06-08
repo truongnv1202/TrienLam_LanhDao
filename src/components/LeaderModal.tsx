@@ -85,6 +85,7 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
               <h2 id="leader-modal-title" className="leader-detail-name">
                 {leader.name}
               </h2>
+              <p className="leader-detail-position">{leader.position}</p>
               <div className="leader-detail-divider" aria-hidden>
                 <span />
               </div>
