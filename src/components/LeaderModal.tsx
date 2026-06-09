@@ -62,15 +62,6 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
           <aside className="leader-detail-profile">
             <div className="leader-detail-portrait">
               <Image
-                src="/images/popup-portrait-bg.png"
-                alt=""
-                fill
-                className="leader-detail-portrait-bg"
-                sizes="15.4167vw"
-                aria-hidden
-                priority
-              />
-              <Image
                 src={portraitSrc}
                 alt={leader.name}
                 fill

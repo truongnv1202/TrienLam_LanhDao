@@ -244,19 +244,15 @@ select {
   margin: clamp(16px, 0.85vw, 32px) auto 0;
   flex-shrink: 0;
   overflow: hidden;
-  background: transparent;
+  background-image: url("/images/popup-portrait-bg-transparent-20260609-1513.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   isolation: isolate;
 }
 
 .leader-detail-portrait::before {
   content: none;
-}
-
-.leader-detail-portrait-bg {
-  z-index: 0;
-  object-fit: fill;
-  pointer-events: none;
-  user-select: none;
 }
 
 .leader-detail-portrait-image {

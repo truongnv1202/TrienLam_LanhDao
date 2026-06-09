@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="592" height="640" viewBox="0 0 592 640" fill="none">
+  <defs>
+    <pattern id="gold-stripes" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45 296 320)">
+      <rect x="0" y="-320" width="11" height="1280" fill="#f4cc4d"/>
+      <rect x="11" y="-320" width="1.5" height="1280" fill="#ffe785" opacity="0.75"/>
+    </pattern>
+    <linearGradient id="gold-shade" x1="0" y1="0" x2="592" y2="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffe27a" stop-opacity="0.96"/>
+      <stop offset="0.55" stop-color="#f3c23d" stop-opacity="0.96"/>
+      <stop offset="1" stop-color="#c98f1d" stop-opacity="0.92"/>
+    </linearGradient>
+    <mask id="stripe-mask">
+      <rect width="592" height="640" fill="url(#gold-stripes)"/>
+    </mask>
+  </defs>
+  <rect width="592" height="640" fill="url(#gold-shade)" mask="url(#stripe-mask)"/>
+</svg>
