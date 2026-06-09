@@ -1,114 +1,66 @@
 import type { Leader } from "@/types";
+import { DEPUTY_TAB_LEADER_IDS, LEADER_NAME_BY_ID } from "@/lib/display-layout";
 
-export const LAYOUT_SEED_LEADERS: Leader[] = [
-  {
-    id: "ngo-ngoc-du",
-    name: "Ngô Ngọc Du",
-    position: "Thứ trưởng Bộ Công an",
-    portraitUrl: "/uploads/portraits/ngo-ngoc-du.jpg",
-    homePortraitUrl: "/uploads/portraits/ngo-ngoc-du.jpg",
-    detailPortraitUrl: "/uploads/portraits/ngo-ngoc-du.jpg",
-    biography: "Thông tin tiểu sử đồng chí Ngô Ngọc Du đang được cập nhật.",
-    tier: "bottom",
-    sortOrder: 22,
-    displaySection: "deputy-1",
-    displayOrder: 2,
-    timeline: [
-      {
-        year: "",
-        event: "Thứ trưởng Bộ Công an",
-        description: "Thứ trưởng Bộ Công an",
-        sort: 1,
-      },
-    ],
-    awards: [],
-  },
-  {
-    id: "nguyen-quang-viet",
-    name: "Nguyễn Quang Việt",
-    position: "Thứ trưởng Bộ Công an",
-    portraitUrl: "/uploads/portraits/nguyen-quang-viet.jpg",
-    homePortraitUrl: "/uploads/portraits/nguyen-quang-viet.jpg",
-    detailPortraitUrl: "/uploads/portraits/nguyen-quang-viet.jpg",
-    biography: "Thông tin tiểu sử đồng chí Nguyễn Quang Việt đang được cập nhật.",
-    tier: "bottom",
-    sortOrder: 23,
-    displaySection: "deputy-1",
-    displayOrder: 3,
-    timeline: [
-      {
-        year: "",
-        event: "Thứ trưởng Bộ Công an",
-        description: "Thứ trưởng Bộ Công an",
-        sort: 1,
-      },
-    ],
-    awards: [],
-  },
-  {
-    id: "nguyen-minh-tien",
-    name: "Nguyễn Minh Tiến",
-    position: "Thứ trưởng Bộ Công an",
-    portraitUrl: "/uploads/portraits/nguyen-minh-tien.jpg",
-    homePortraitUrl: "/uploads/portraits/nguyen-minh-tien.jpg",
-    detailPortraitUrl: "/uploads/portraits/nguyen-minh-tien.jpg",
-    biography: "Thông tin tiểu sử đồng chí Nguyễn Minh Tiến đang được cập nhật.",
-    tier: "bottom",
-    sortOrder: 24,
-    displaySection: "deputy-1",
-    displayOrder: 9,
-    timeline: [
-      {
-        year: "",
-        event: "Thứ trưởng Bộ Công an",
-        description: "Thứ trưởng Bộ Công an",
-        sort: 1,
-      },
-    ],
-    awards: [],
-  },
-  {
-    id: "lam-van-ta",
-    name: "Lâm Văn Tà",
-    position: "Thứ trưởng Bộ Công an",
-    portraitUrl: "/uploads/portraits/lam-van-ta.jpg",
-    homePortraitUrl: "/uploads/portraits/lam-van-ta.jpg",
-    detailPortraitUrl: "/uploads/portraits/lam-van-ta.jpg",
-    biography: "Thông tin tiểu sử đồng chí Lâm Văn Tà đang được cập nhật.",
-    tier: "bottom",
-    sortOrder: 25,
-    displaySection: "deputy-2",
-    displayOrder: 1,
-    timeline: [
-      {
-        year: "",
-        event: "Thứ trưởng Bộ Công an",
-        description: "Thứ trưởng Bộ Công an",
-        sort: 1,
-      },
-    ],
-    awards: [],
-  },
-  {
-    id: "dang-hong-duc",
-    name: "Đặng Hồng Đức",
-    position: "Thứ trưởng Bộ Công an",
-    portraitUrl: "/uploads/portraits/dang-hong-duc.jpg",
-    homePortraitUrl: "/uploads/portraits/dang-hong-duc.jpg",
-    detailPortraitUrl: "/uploads/portraits/dang-hong-duc.jpg",
-    biography: "Thông tin tiểu sử đồng chí Đặng Hồng Đức đang được cập nhật.",
-    tier: "bottom",
-    sortOrder: 26,
-    displaySection: "deputy-2",
-    displayOrder: 9,
-    timeline: [
-      {
-        year: "",
-        event: "Thứ trưởng Bộ Công an",
-        description: "Thứ trưởng Bộ Công an",
-        sort: 1,
-      },
-    ],
-    awards: [],
-  },
+const EXTRA_DEPUTY_LEADER_IDS = [
+  "pham-trong-tue",
+  "ngo-ngoc-du",
+  "dang-ky",
+  "nguyen-quang-viet",
+  "nguyen-minh-tien",
+  "tran-dong",
+  "nguyen-van-duc",
+  "lam-van-the",
+  "pham-tam-long",
+  "vu-thai-hoa",
+  "nguyen-tan-dung",
+  "le-the-tiem",
+  "nguyen-van-tinh",
+  "nguyen-van-ro",
+  "dang-van-hieu",
+  "le-quy-vuong",
+  "pham-quy-ngo",
+  "bui-quang-ben",
+  "nguyen-van-thanh",
+  "nguyen-van-son",
+  "nguyen-ngoc-duy",
+  "le-quoc-hung",
+  "le-tan-toi",
+  "tran-quoc-to",
+  "le-van-tuyen",
+  "nguyen-van-long",
+  "nguyen-ngoc-lam",
+  "dang-hong-duc",
 ];
+
+function makeDeputySeedLeader(id: string): Leader {
+  const order = DEPUTY_TAB_LEADER_IDS.indexOf(id) + 1;
+  const portraitUrl = `/uploads/portraits/${id}.jpg`;
+  const name = LEADER_NAME_BY_ID[id] ?? id;
+
+  return {
+    id,
+    name,
+    position: "Thứ trưởng Bộ Công an",
+    portraitUrl,
+    homePortraitUrl: portraitUrl,
+    detailPortraitUrl: portraitUrl,
+    biography: `Thông tin tiểu sử đồng chí ${name} đang được cập nhật.`,
+    tier: "bottom",
+    sortOrder: order,
+    displaySection: order <= 22 ? "deputy-1" : "deputy-2",
+    displayOrder: order,
+    timeline: [
+      {
+        year: "",
+        event: "Thứ trưởng Bộ Công an",
+        description: "Thứ trưởng Bộ Công an",
+        sort: 1,
+      },
+    ],
+    awards: [],
+  };
+}
+
+export const LAYOUT_SEED_LEADERS: Leader[] = EXTRA_DEPUTY_LEADER_IDS.map(
+  makeDeputySeedLeader
+);

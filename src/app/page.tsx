@@ -1,6 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import { Loader2 } from "lucide-react";
 import LeaderCard from "@/components/LeaderCard";
 import LeaderModal from "@/components/LeaderModal";
@@ -8,38 +14,35 @@ import HomeExhibitionBackground from "@/components/HomeExhibitionBackground";
 import ExhibitionHeader from "@/components/ExhibitionHeader";
 import ExhibitionCanvas from "@/components/ExhibitionCanvas";
 import {
-  getDefaultDisplayConfig,
-  isVisibleDisplaySection,
-  type VisibleLeaderDisplaySection,
+  EXHIBITION_TABS,
+  LEADER_NAME_BY_ID,
+  normalizeLeaderName,
+  type ExhibitionTabDefinition,
+  type ExhibitionTabId,
 } from "@/lib/display-layout";
 import type { Leader } from "@/types";
 
-function getDisplayConfig(leader: Leader):
-  | { section: VisibleLeaderDisplaySection; order: number }
-  | undefined {
-  if (leader.displaySection === "hidden") return undefined;
-  if (isVisibleDisplaySection(leader.displaySection)) {
-    return {
-      section: leader.displaySection,
-      order: leader.displayOrder ?? leader.sortOrder ?? 999,
-    };
-  }
-  return getDefaultDisplayConfig(leader);
-}
+const DEFAULT_TAB_ID: ExhibitionTabId = "ministers";
+const INACTIVITY_RESET_MS = 60_000;
 
-function getSectionLeaders(
+function getTabLeaders(
   leaders: Leader[],
-  section: VisibleLeaderDisplaySection
+  tab: ExhibitionTabDefinition
 ): Leader[] {
-  return leaders
-    .map((leader, index) => ({ leader, index, config: getDisplayConfig(leader) }))
-    .filter((item) => item.config?.section === section)
-    .sort((a, b) => {
-      const orderA = a.config?.order ?? 999;
-      const orderB = b.config?.order ?? 999;
-      return orderA - orderB || a.index - b.index;
+  const byId = new Map(leaders.map((leader) => [leader.id, leader]));
+  const byName = new Map(
+    leaders.map((leader) => [normalizeLeaderName(leader.name), leader])
+  );
+
+  return tab.leaderIds
+    .map((id) => {
+      const configuredName = LEADER_NAME_BY_ID[id];
+      return (
+        byId.get(id) ||
+        (configuredName ? byName.get(normalizeLeaderName(configuredName)) : undefined)
+      );
     })
-    .map(({ leader }) => leader);
+    .filter((leader): leader is Leader => Boolean(leader));
 }
 
 export default function HomePage() {
@@ -47,6 +50,8 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedLeader, setSelectedLeader] = useState<Leader | null>(null);
+  const [activeTabId, setActiveTabId] = useState<ExhibitionTabId>(DEFAULT_TAB_ID);
+  const idleTimerRef = useRef<ReturnType<typeof window.setTimeout> | null>(null);
 
   const fetchLeaders = useCallback(async () => {
     setLoading(true);
@@ -67,12 +72,43 @@ export default function HomePage() {
     void fetchLeaders();
   }, [fetchLeaders]);
 
-  const partyLeaders = getSectionLeaders(leaders, "party");
-  const ministerLeaders = getSectionLeaders(leaders, "minister");
-  const deputyRows = [
-    getSectionLeaders(leaders, "deputy-1"),
-    getSectionLeaders(leaders, "deputy-2"),
-  ];
+  const resetIdleTimer = useCallback(() => {
+    if (idleTimerRef.current) {
+      window.clearTimeout(idleTimerRef.current);
+    }
+
+    idleTimerRef.current = window.setTimeout(() => {
+      setActiveTabId(DEFAULT_TAB_ID);
+      setSelectedLeader(null);
+    }, INACTIVITY_RESET_MS);
+  }, []);
+
+  useEffect(() => {
+    resetIdleTimer();
+    const events = ["pointerdown", "mousemove", "keydown", "touchstart"];
+    events.forEach((eventName) => {
+      window.addEventListener(eventName, resetIdleTimer, { passive: true });
+    });
+
+    return () => {
+      if (idleTimerRef.current) {
+        window.clearTimeout(idleTimerRef.current);
+      }
+      events.forEach((eventName) => {
+        window.removeEventListener(eventName, resetIdleTimer);
+      });
+    };
+  }, [resetIdleTimer]);
+
+  const activeTab =
+    EXHIBITION_TABS.find((tab) => tab.id === activeTabId) ?? EXHIBITION_TABS[0];
+  const tabLeaders = getTabLeaders(leaders, activeTab);
+
+  const handleTabChange = (tabId: ExhibitionTabId) => {
+    setActiveTabId(tabId);
+    setSelectedLeader(null);
+    resetIdleTimer();
+  };
 
   return (
     <div className="exhibition-page relative h-[100dvh] overflow-hidden">
@@ -94,64 +130,46 @@ export default function HomePage() {
         {!loading && !error && (
           <main className="exhibition-stage">
             <div className="exhibition-board">
-              {partyLeaders.length > 0 && (
-                <>
-                  <section
-                    aria-label="Lãnh đạo Đảng, Nhà nước"
-                    className="exhibition-row exhibition-row-top"
+              <nav className="exhibition-tab-list" aria-label="Chọn nhóm lãnh đạo">
+                {EXHIBITION_TABS.map((tab) => (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    className={[
+                      "exhibition-tab-button",
+                      activeTab.id === tab.id ? "exhibition-tab-button-active" : "",
+                    ].join(" ")}
+                    aria-pressed={activeTab.id === tab.id}
+                    onClick={() => handleTabChange(tab.id)}
                   >
-                    {partyLeaders.map((leader) => (
-                      <LeaderCard
-                        key={leader.id}
-                        leader={leader}
-                        onClick={setSelectedLeader}
-                      />
-                    ))}
-                  </section>
-                </>
-              )}
+                    <span aria-hidden>★</span>
+                    {tab.label}
+                    <span aria-hidden>★</span>
+                  </button>
+                ))}
+              </nav>
 
-              {ministerLeaders.length > 0 && (
-                <>
-                  <section
-                    aria-label="Bộ trưởng"
-                    className="exhibition-row exhibition-row-minister"
-                  >
-                    {ministerLeaders.map((leader) => (
-                      <LeaderCard
-                        key={leader.id}
-                        leader={leader}
-                        onClick={setSelectedLeader}
-                      />
-                    ))}
-                  </section>
-                </>
-              )}
-
-              {deputyRows.some((row) => row.length > 0) && (
-                <>
-                  {deputyRows.map((row, index) =>
-                    row.length > 0 ? (
-                      <section
-                        key={`deputy-row-${index + 1}`}
-                        aria-label={`Thứ trưởng hàng ${index + 1}`}
-                        className={`exhibition-row exhibition-row-deputy exhibition-row-deputy-${index + 1}`}
-                      >
-                        {row.map((leader) => (
-                          <LeaderCard
-                            key={leader.id}
-                            leader={leader}
-                            onClick={setSelectedLeader}
-                          />
-                        ))}
-                      </section>
-                    ) : null
-                  )}
-                </>
-              )}
+              <section
+                aria-label={activeTab.label}
+                className={`exhibition-tab-panel exhibition-tab-panel-${activeTab.id}`}
+                style={{ "--tab-columns": activeTab.columns } as CSSProperties}
+              >
+                {tabLeaders.map((leader) => (
+                  <LeaderCard
+                    key={leader.id}
+                    leader={leader}
+                    displayPosition={
+                      activeTab.id === "ministers"
+                        ? "Bộ trưởng Bộ Công an"
+                        : "Thứ trưởng Bộ Công an"
+                    }
+                    onClick={setSelectedLeader}
+                  />
+                ))}
+              </section>
             </div>
 
-            {leaders.length === 0 && (
+            {tabLeaders.length === 0 && (
               <p className="text-center text-lg text-white/75">Chưa có dữ liệu lãnh đạo.</p>
             )}
           </main>

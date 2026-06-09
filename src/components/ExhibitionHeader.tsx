@@ -30,15 +30,9 @@ export default function ExhibitionHeader() {
       <header className="exhibition-header">
         <div className="exhibition-header-titles">
           <h1 className="exhibition-title-text">
-            <Image
-              src="/images/exhibition-title-transparent-20260608-2036.png"
-              alt="Từ lãnh đạo Cục Lực lượng An ninh nhân dân đến những cương vị lãnh đạo Đảng, Nhà nước và Bộ Công an"
-              width={1024}
-              height={72}
-              unoptimized
-              className="exhibition-title-image"
-              priority
-            />
+            <span className="exhibition-title-eyebrow">Chân dung</span>
+            <span className="exhibition-title-main">Lãnh đạo Bộ Công an</span>
+            <span className="exhibition-title-main">qua các thời kỳ</span>
           </h1>
         </div>
       </header>

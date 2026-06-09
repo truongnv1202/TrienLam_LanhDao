@@ -7,9 +7,14 @@ import type { Leader } from "@/types";
 interface LeaderCardProps {
   leader: Leader;
   onClick: (leader: Leader) => void;
+  displayPosition?: string;
 }
 
-export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
+export default function LeaderCard({
+  leader,
+  onClick,
+  displayPosition,
+}: LeaderCardProps) {
   const isTopTier = leader.tier === "top";
   const portraitSrc = getHomePortraitUrl(leader);
 
@@ -39,7 +44,7 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
       <div className="exhibition-leader-info flex w-full shrink-0 flex-col items-center justify-center">
         <p className="exhibition-label">Đồng Chí</p>
         <h3 className="exhibition-name">{leader.name}</h3>
-        <p className="exhibition-position">{leader.position}</p>
+        <p className="exhibition-position">{displayPosition ?? leader.position}</p>
       </div>
     </button>
   );
