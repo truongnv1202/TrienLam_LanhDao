@@ -176,7 +176,7 @@ export const DEFAULT_DISPLAY_BY_ID: Record<
     DEPUTY_TAB_LEADER_IDS.map((id, index) => [
       id,
       {
-        section: (index < 22 ? "deputy-1" : "deputy-2") as const,
+        section: index < 22 ? "deputy-1" : "deputy-2",
         order: index + 1,
       },
     ])
