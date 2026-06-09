@@ -7,106 +7,39 @@ import LeaderModal from "@/components/LeaderModal";
 import HomeExhibitionBackground from "@/components/HomeExhibitionBackground";
 import ExhibitionHeader from "@/components/ExhibitionHeader";
 import ExhibitionCanvas from "@/components/ExhibitionCanvas";
+import {
+  getDefaultDisplayConfig,
+  isVisibleDisplaySection,
+  type VisibleLeaderDisplaySection,
+} from "@/lib/display-layout";
 import type { Leader } from "@/types";
 
-const LEADER_NAME_BY_ID: Record<string, string> = {
-  "tran-quoc-hoan": "Trần Quốc Hoàn",
-  "pham-hung": "Phạm Hùng",
-  "to-lam": "Tô Lâm",
-  "tran-dai-quang": "Trần Đại Quang",
-  "pham-minh-chinh": "Phạm Minh Chính",
-  "le-gian": "Lê Giản",
-  "mai-chi-tho": "Mai Chí Thọ",
-  "bui-thien-ngo": "Bùi Thiện Ngộ",
-  "le-minh-huong": "Lê Minh Hương",
-  "le-hong-anh": "Lê Hồng Anh",
-  "luong-tam-quang": "Lương Tam Quang",
-  "tran-quoc-huong": "Trần Quốc Hương",
-  "le-quoc-than": "Lê Quốc Thân",
-  "ngo-ngoc-du": "Ngô Ngọc Du",
-  "nguyen-quang-viet": "Nguyễn Quang Việt",
-  "tran-quyet": "Trần Quyết",
-  "vien-chi": "Viễn Chi",
-  "hoang-thao": "Hoàng Thao",
-  "cao-dang-chiem": "Cao Đăng Chiếm",
-  "nguyen-tai": "Nguyễn Tài",
-  "nguyen-minh-tien": "Nguyễn Minh Tiến",
-  "lam-van-ta": "Lâm Văn Tà",
-  "vo-viet-thanh": "Võ Viết Thanh",
-  "nguyen-khanh-toan": "Nguyễn Khánh Toàn",
-  "nguyen-van-huong": "Nguyễn Văn Hưởng",
-  "thi-van-tam": "Thi Văn Tám",
-  "bui-van-nam": "Bùi Văn Nam",
-  "pham-dung": "Phạm Dũng",
-  "pham-the-tung": "Phạm Thế Tùng",
-  "dang-hong-duc": "Đặng Hồng Đức",
-};
-
-const PARTY_LEADER_IDS = [
-  "tran-quoc-hoan",
-  "pham-hung",
-  "to-lam",
-  "tran-dai-quang",
-  "pham-minh-chinh",
-];
-
-const MINISTER_IDS = [
-  "le-gian",
-  "mai-chi-tho",
-  "bui-thien-ngo",
-  "le-minh-huong",
-  "le-hong-anh",
-  "luong-tam-quang",
-];
-
-const DEPUTY_ROWS = [
-  [
-    "tran-quoc-huong",
-    "le-quoc-than",
-    "ngo-ngoc-du",
-    "nguyen-quang-viet",
-    "tran-quyet",
-    "vien-chi",
-    "hoang-thao",
-    "cao-dang-chiem",
-    "nguyen-tai",
-    "nguyen-minh-tien",
-  ],
-  [
-    "lam-van-ta",
-    "vo-viet-thanh",
-    "nguyen-khanh-toan",
-    "nguyen-van-huong",
-    "thi-van-tam",
-    "bui-van-nam",
-    "pham-dung",
-    "pham-the-tung",
-    "dang-hong-duc",
-  ],
-];
-
-function normalizeLeaderName(name: string): string {
-  return name
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/đ/g, "d")
-    .replace(/\s+/g, " ")
-    .trim();
+function getDisplayConfig(leader: Leader):
+  | { section: VisibleLeaderDisplaySection; order: number }
+  | undefined {
+  if (leader.displaySection === "hidden") return undefined;
+  if (isVisibleDisplaySection(leader.displaySection)) {
+    return {
+      section: leader.displaySection,
+      order: leader.displayOrder ?? leader.sortOrder ?? 999,
+    };
+  }
+  return getDefaultDisplayConfig(leader);
 }
 
-function pickLeadersById(leaders: Leader[], ids: string[]): Leader[] {
-  const byId = new Map(leaders.map((leader) => [leader.id, leader]));
-  const byName = new Map(
-    leaders.map((leader) => [normalizeLeaderName(leader.name), leader])
-  );
-  return ids.flatMap((id) => {
-    const expectedName = LEADER_NAME_BY_ID[id];
-    const leader =
-      byId.get(id) ||
-      (expectedName ? byName.get(normalizeLeaderName(expectedName)) : undefined);
-    return leader ? [leader] : [];
-  });
+function getSectionLeaders(
+  leaders: Leader[],
+  section: VisibleLeaderDisplaySection
+): Leader[] {
+  return leaders
+    .map((leader, index) => ({ leader, index, config: getDisplayConfig(leader) }))
+    .filter((item) => item.config?.section === section)
+    .sort((a, b) => {
+      const orderA = a.config?.order ?? 999;
+      const orderB = b.config?.order ?? 999;
+      return orderA - orderB || a.index - b.index;
+    })
+    .map(({ leader }) => leader);
 }
 
 export default function HomePage() {
@@ -134,9 +67,12 @@ export default function HomePage() {
     void fetchLeaders();
   }, [fetchLeaders]);
 
-  const partyLeaders = pickLeadersById(leaders, PARTY_LEADER_IDS);
-  const ministerLeaders = pickLeadersById(leaders, MINISTER_IDS);
-  const deputyRows = DEPUTY_ROWS.map((row) => pickLeadersById(leaders, row));
+  const partyLeaders = getSectionLeaders(leaders, "party");
+  const ministerLeaders = getSectionLeaders(leaders, "minister");
+  const deputyRows = [
+    getSectionLeaders(leaders, "deputy-1"),
+    getSectionLeaders(leaders, "deputy-2"),
+  ];
 
   return (
     <div className="exhibition-page relative h-[100dvh] overflow-hidden">

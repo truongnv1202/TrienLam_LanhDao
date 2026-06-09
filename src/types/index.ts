@@ -13,6 +13,12 @@ export interface AwardItem {
 }
 
 export type LeaderTier = "top" | "bottom";
+export type LeaderDisplaySection =
+  | "party"
+  | "minister"
+  | "deputy-1"
+  | "deputy-2"
+  | "hidden";
 
 export interface Leader {
   id: string;
@@ -28,6 +34,10 @@ export interface Leader {
   tier: LeaderTier;
   /** Thứ tự hiển thị trong hàng (1–6 trên, 1–7 dưới) */
   sortOrder: number;
+  /** Khu vực hiển thị trên màn chờ. */
+  displaySection?: LeaderDisplaySection;
+  /** Thứ tự trong khu vực hiển thị trên màn chờ. */
+  displayOrder?: number;
   timeline: TimelineEvent[];
   awards?: Array<string | AwardItem>;
 }

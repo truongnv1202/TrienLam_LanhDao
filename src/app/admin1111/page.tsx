@@ -12,8 +12,18 @@ import {
   RotateCcw,
   Upload,
 } from "lucide-react";
+import {
+  DISPLAY_SECTION_LABELS,
+  getDefaultDisplayConfig,
+} from "@/lib/display-layout";
 import { getDetailPortraitUrl, getHomePortraitUrl } from "@/lib/leader-images";
-import type { AwardItem, Leader, LeaderTier, TimelineEvent } from "@/types";
+import type {
+  AwardItem,
+  Leader,
+  LeaderDisplaySection,
+  LeaderTier,
+  TimelineEvent,
+} from "@/types";
 
 interface FormState {
   id: string;
@@ -24,6 +34,8 @@ interface FormState {
   biography: string;
   tier: LeaderTier;
   sortOrder: number;
+  displaySection: LeaderDisplaySection;
+  displayOrder: number;
 }
 
 const EMPTY_FORM: FormState = {
@@ -35,6 +47,8 @@ const EMPTY_FORM: FormState = {
   biography: "",
   tier: "bottom",
   sortOrder: 1,
+  displaySection: "hidden",
+  displayOrder: 1,
 };
 
 const EMPTY_MILESTONE: TimelineEvent = {
@@ -67,6 +81,14 @@ function normalizeAwardsForForm(awards: Leader["awards"]): AwardItem[] {
       ? { title: award, sort: index + 1 }
       : { title: award.title, sort: award.sort ?? index + 1 }
   );
+}
+
+function getLeaderDisplayText(leader: Leader): string {
+  const defaultDisplay = getDefaultDisplayConfig(leader);
+  const section = leader.displaySection ?? defaultDisplay?.section ?? "hidden";
+  const order = leader.displayOrder ?? defaultDisplay?.order;
+  const label = DISPLAY_SECTION_LABELS[section];
+  return section === "hidden" ? label : `${label} #${order ?? "?"}`;
 }
 
 export default function AdminPage() {
@@ -143,6 +165,7 @@ export default function AdminPage() {
   };
 
   const handleEdit = (leader: Leader) => {
+    const defaultDisplay = getDefaultDisplayConfig(leader);
     setForm({
       id: leader.id,
       name: leader.name,
@@ -152,6 +175,10 @@ export default function AdminPage() {
       biography: leader.biography,
       tier: leader.tier,
       sortOrder: leader.sortOrder ?? 1,
+      displaySection:
+        leader.displaySection ?? defaultDisplay?.section ?? "hidden",
+      displayOrder:
+        leader.displayOrder ?? defaultDisplay?.order ?? leader.sortOrder ?? 1,
     });
     setTimeline(
       leader.timeline.map((item, index) => ({
@@ -375,6 +402,8 @@ export default function AdminPage() {
           "/images/portrait-placeholder.png",
         biography: form.biography.trim(),
         tier: form.tier,
+        displaySection: form.displaySection,
+        displayOrder: form.displayOrder,
         timeline: timeline.map((item) => ({
           year: item.year.trim(),
           event: item.event.trim(),
@@ -696,6 +725,65 @@ export default function AdminPage() {
               </select>
             </div>
 
+            <fieldset className="rounded-lg border border-[#d4af37]/30 bg-[#4a0000]/35 p-4">
+              <legend className="px-2 text-sm font-semibold text-[#ffdf7a]">
+                Vị trí màn chờ
+              </legend>
+              <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_140px]">
+                <div>
+                  <label
+                    htmlFor="displaySection"
+                    className="mb-1 block text-xs font-medium text-[#d4af37]"
+                  >
+                    Khu vực / hàng hiển thị
+                  </label>
+                  <select
+                    id="displaySection"
+                    value={form.displaySection}
+                    onChange={(e) =>
+                      setForm((f) => ({
+                        ...f,
+                        displaySection: e.target.value as LeaderDisplaySection,
+                      }))
+                    }
+                    className="w-full rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white outline-none focus:border-[#ffdf7a]"
+                  >
+                    {Object.entries(DISPLAY_SECTION_LABELS).map(([value, label]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="displayOrder"
+                    className="mb-1 block text-xs font-medium text-[#d4af37]"
+                  >
+                    Thứ tự
+                  </label>
+                  <input
+                    id="displayOrder"
+                    type="number"
+                    min={1}
+                    max={99}
+                    value={form.displayOrder}
+                    onChange={(e) =>
+                      setForm((f) => ({
+                        ...f,
+                        displayOrder: Number(e.target.value) || 1,
+                      }))
+                    }
+                    className="w-full rounded-md border border-[#d4af37]/40 bg-[#4a0000]/70 px-3 py-2 text-sm text-white outline-none focus:border-[#ffdf7a]"
+                  />
+                </div>
+              </div>
+              <p className="mt-2 text-xs text-white/65">
+                Chọn “Không hiển thị” để giữ thông tin trong CMS nhưng ẩn khỏi màn chờ.
+              </p>
+            </fieldset>
+
             <fieldset className="rounded-lg border border-dashed border-[#d4af37]/40 p-4">
               <legend className="px-2 text-sm font-semibold text-[#ffdf7a]">
                 Mốc Timeline
@@ -756,7 +844,7 @@ export default function AdminPage() {
               </button>
 
               {timeline.length > 0 && (
-                <div className="mt-4 space-y-3">
+                <div className="mt-4 max-h-[420px] space-y-3 overflow-y-auto pr-1">
                   {timeline.map((item, index) => (
                     <div
                       key={`timeline-${index}`}
@@ -857,7 +945,7 @@ export default function AdminPage() {
               </div>
 
               {awards.length > 0 && (
-                <div className="mt-4 space-y-3">
+                <div className="mt-4 max-h-[320px] space-y-3 overflow-y-auto pr-1">
                   {awards.map((award, index) => (
                     <div
                       key={`award-${index}`}
@@ -956,7 +1044,7 @@ export default function AdminPage() {
                           {leader.position}
                         </p>
                         <p className="mt-1 text-[10px] uppercase text-[#d4af37]/80">
-                          {leader.tier === "top" ? "Hàng trên" : "Hàng dưới"} ·{" "}
+                          {getLeaderDisplayText(leader)} ·{" "}
                           {leader.timeline.length} mốc · {leader.awards?.length ?? 0} phần thưởng
                         </p>
                       </div>

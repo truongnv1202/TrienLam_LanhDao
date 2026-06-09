@@ -5,7 +5,19 @@ import {
   sortLeaders,
   upsertLeader,
 } from "@/lib/leaders-store";
-import type { AwardItem, Leader, LeaderInput, TimelineEvent } from "@/types";
+import { VISIBLE_DISPLAY_SECTIONS } from "@/lib/display-layout";
+import type {
+  AwardItem,
+  Leader,
+  LeaderDisplaySection,
+  LeaderInput,
+  TimelineEvent,
+} from "@/types";
+
+const DISPLAY_SECTIONS: LeaderDisplaySection[] = [
+  ...VISIBLE_DISPLAY_SECTIONS,
+  "hidden",
+];
 
 function isValidLeaderInput(body: unknown): body is LeaderInput {
   if (!body || typeof body !== "object") return false;
@@ -24,6 +36,10 @@ function isValidLeaderInput(body: unknown): body is LeaderInput {
     (candidate.detailPortraitUrl === undefined ||
       typeof candidate.detailPortraitUrl === "string") &&
     (candidate.sortOrder === undefined || typeof candidate.sortOrder === "number") &&
+    (candidate.displaySection === undefined ||
+      (typeof candidate.displaySection === "string" &&
+        DISPLAY_SECTIONS.includes(candidate.displaySection as LeaderDisplaySection))) &&
+    (candidate.displayOrder === undefined || typeof candidate.displayOrder === "number") &&
     (candidate.awards === undefined || Array.isArray(candidate.awards))
   );
 }
@@ -71,6 +87,15 @@ function normalizeLeader(input: LeaderInput, existing?: Leader): Leader {
       typeof input.sortOrder === "number" && input.sortOrder > 0
         ? input.sortOrder
         : (existing?.sortOrder ?? 1),
+    displaySection:
+      typeof input.displaySection === "string" &&
+      DISPLAY_SECTIONS.includes(input.displaySection)
+        ? input.displaySection
+        : existing?.displaySection,
+    displayOrder:
+      typeof input.displayOrder === "number" && input.displayOrder > 0
+        ? input.displayOrder
+        : existing?.displayOrder,
     timeline,
     awards,
   };

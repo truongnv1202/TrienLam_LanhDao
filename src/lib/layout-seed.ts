@@ -2,26 +2,6 @@ import type { Leader } from "@/types";
 
 export const LAYOUT_SEED_LEADERS: Leader[] = [
   {
-    id: "tran-quoc-huong",
-    name: "Trần Quốc Hương",
-    position: "Thứ trưởng Bộ Công an",
-    portraitUrl: "/uploads/portraits/tran-quoc-huong.jpg",
-    homePortraitUrl: "/uploads/portraits/tran-quoc-huong.jpg",
-    detailPortraitUrl: "/uploads/portraits/tran-quoc-huong.jpg",
-    biography: "Thông tin tiểu sử đồng chí Trần Quốc Hương đang được cập nhật.",
-    tier: "bottom",
-    sortOrder: 21,
-    timeline: [
-      {
-        year: "",
-        event: "Thứ trưởng Bộ Công an",
-        description: "Thứ trưởng Bộ Công an",
-        sort: 1,
-      },
-    ],
-    awards: [],
-  },
-  {
     id: "ngo-ngoc-du",
     name: "Ngô Ngọc Du",
     position: "Thứ trưởng Bộ Công an",
@@ -31,6 +11,8 @@ export const LAYOUT_SEED_LEADERS: Leader[] = [
     biography: "Thông tin tiểu sử đồng chí Ngô Ngọc Du đang được cập nhật.",
     tier: "bottom",
     sortOrder: 22,
+    displaySection: "deputy-1",
+    displayOrder: 2,
     timeline: [
       {
         year: "",
@@ -51,6 +33,8 @@ export const LAYOUT_SEED_LEADERS: Leader[] = [
     biography: "Thông tin tiểu sử đồng chí Nguyễn Quang Việt đang được cập nhật.",
     tier: "bottom",
     sortOrder: 23,
+    displaySection: "deputy-1",
+    displayOrder: 3,
     timeline: [
       {
         year: "",
@@ -71,6 +55,8 @@ export const LAYOUT_SEED_LEADERS: Leader[] = [
     biography: "Thông tin tiểu sử đồng chí Nguyễn Minh Tiến đang được cập nhật.",
     tier: "bottom",
     sortOrder: 24,
+    displaySection: "deputy-1",
+    displayOrder: 9,
     timeline: [
       {
         year: "",
@@ -91,6 +77,8 @@ export const LAYOUT_SEED_LEADERS: Leader[] = [
     biography: "Thông tin tiểu sử đồng chí Lâm Văn Tà đang được cập nhật.",
     tier: "bottom",
     sortOrder: 25,
+    displaySection: "deputy-2",
+    displayOrder: 1,
     timeline: [
       {
         year: "",
@@ -111,6 +99,8 @@ export const LAYOUT_SEED_LEADERS: Leader[] = [
     biography: "Thông tin tiểu sử đồng chí Đặng Hồng Đức đang được cập nhật.",
     tier: "bottom",
     sortOrder: 26,
+    displaySection: "deputy-2",
+    displayOrder: 9,
     timeline: [
       {
         year: "",

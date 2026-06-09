@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
-import type { Leader } from "@/types";
+import type { Leader, LeaderDisplaySection } from "@/types";
+import { getDefaultDisplayConfig } from "@/lib/display-layout";
 import { LAYOUT_SEED_LEADERS } from "@/lib/layout-seed";
 import { SEED_LEADERS } from "@/lib/seed";
 
@@ -12,6 +13,13 @@ const SEED_FILE = path.join(DATA_DIR, "leaders.seed.json");
 const UPLOADS_DIR =
   process.env.LEADER_UPLOADS_DIR?.trim() ||
   path.join(process.cwd(), "public", "uploads");
+const DISPLAY_SECTION_RANK: Record<LeaderDisplaySection, number> = {
+  party: 1,
+  minister: 2,
+  "deputy-1": 3,
+  "deputy-2": 4,
+  hidden: 99,
+};
 
 async function ensureDataFile(): Promise<void> {
   await fs.mkdir(DATA_DIR, { recursive: true });
@@ -58,16 +66,45 @@ function mergeMissingSeedLeaders(leaders: Leader[]): {
   };
 }
 
+function mergeDefaultDisplayMetadata(leaders: Leader[]): {
+  leaders: Leader[];
+  changed: boolean;
+} {
+  let changed = false;
+  const next = leaders.map((leader) => {
+    const defaultDisplay = getDefaultDisplayConfig(leader);
+    if (!defaultDisplay) return leader;
+
+    const needsSection = leader.displaySection === undefined;
+    const needsOrder = leader.displayOrder === undefined;
+    if (!needsSection && !needsOrder) return leader;
+
+    changed = true;
+    return {
+      ...leader,
+      ...(needsSection ? { displaySection: defaultDisplay.section } : {}),
+      ...(needsOrder ? { displayOrder: defaultDisplay.order } : {}),
+    };
+  });
+
+  return { leaders: next, changed };
+}
+
 export async function readLeaders(): Promise<Leader[]> {
   await ensureDataFile();
   const raw = await fs.readFile(DATA_FILE, "utf-8");
   const parsed: unknown = JSON.parse(raw);
   if (!Array.isArray(parsed)) return [...DEFAULT_LEADERS];
   const merged = mergeMissingSeedLeaders(parsed as Leader[]);
-  if (merged.changed) {
-    await fs.writeFile(DATA_FILE, JSON.stringify(merged.leaders, null, 2), "utf-8");
+  const withDisplayMetadata = mergeDefaultDisplayMetadata(merged.leaders);
+  if (merged.changed || withDisplayMetadata.changed) {
+    await fs.writeFile(
+      DATA_FILE,
+      JSON.stringify(withDisplayMetadata.leaders, null, 2),
+      "utf-8"
+    );
   }
-  return merged.leaders;
+  return withDisplayMetadata.leaders;
 }
 
 export async function writeLeaders(leaders: Leader[]): Promise<void> {
@@ -77,6 +114,20 @@ export async function writeLeaders(leaders: Leader[]): Promise<void> {
 
 export function sortLeaders(leaders: Leader[]): Leader[] {
   return [...leaders].sort((a, b) => {
+    const displayA = a.displaySection
+      ? { section: a.displaySection, order: a.displayOrder ?? 999 }
+      : getDefaultDisplayConfig(a);
+    const displayB = b.displaySection
+      ? { section: b.displaySection, order: b.displayOrder ?? 999 }
+      : getDefaultDisplayConfig(b);
+
+    const rankA = displayA ? DISPLAY_SECTION_RANK[displayA.section] : 99;
+    const rankB = displayB ? DISPLAY_SECTION_RANK[displayB.section] : 99;
+    if (rankA !== rankB) return rankA - rankB;
+    if (displayA?.order !== displayB?.order) {
+      return (displayA?.order ?? 999) - (displayB?.order ?? 999);
+    }
+
     if (a.tier !== b.tier) return a.tier === "top" ? -1 : 1;
     const orderA = a.sortOrder ?? 999;
     const orderB = b.sortOrder ?? 999;
