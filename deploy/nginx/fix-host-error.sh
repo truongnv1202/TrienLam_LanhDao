@@ -1,11 +1,11 @@
 #!/bin/bash
-# Sửa Host Error 502 — sudo bash /opt/TrienLam_LanhDao_v2/deploy/nginx/fix-host-error.sh
+# Sửa Host Error 502 — sudo bash /opt/TrienLam_LanhDao/deploy/nginx/fix-host-error.sh
 set -euo pipefail
 
-APP_ROOT="/opt/TrienLam_LanhDao_v2"
+APP_ROOT="/opt/TrienLam_LanhDao"
 DOMAIN="lanhdao.gamegiaoduc.co"
 OLD_DOMAIN="lanhdao2.gamegiaoduc.co"
-APP_PORT="5007"
+APP_PORT="5006"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SITE_CONF="$DOMAIN.conf"
 CERT="/etc/letsencrypt/live/$DOMAIN/fullchain.pem"
@@ -17,9 +17,9 @@ echo " OK"
 HAS_SSL=0
 [[ -f "$CERT" ]] && HAS_SSL=1
 
-cp "$SCRIPT_DIR/conf.d/lanhdao2-upstream.conf" /etc/nginx/conf.d/lanhdao2-upstream.conf
-cp "$SCRIPT_DIR/snippets/lanhdao2-proxy.conf" /etc/nginx/snippets/lanhdao2-proxy.conf
-cp "$SCRIPT_DIR/snippets/lanhdao2-locations.conf" /etc/nginx/snippets/lanhdao2-locations.conf
+cp "$SCRIPT_DIR/conf.d/lanhdao-upstream.conf" /etc/nginx/conf.d/lanhdao-upstream.conf
+cp "$SCRIPT_DIR/snippets/lanhdao-proxy.conf" /etc/nginx/snippets/lanhdao-proxy.conf
+cp "$SCRIPT_DIR/snippets/lanhdao-locations.conf" /etc/nginx/snippets/lanhdao-locations.conf
 
 if [[ "$HAS_SSL" -eq 1 ]]; then
   cp "$SCRIPT_DIR/$DOMAIN.conf" "/etc/nginx/sites-available/$SITE_CONF"

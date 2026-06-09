@@ -1,6 +1,6 @@
 #!/bin/bash
 # Tạo / cập nhật ADMIN_PASSWORD và ADMIN_SESSION_SECRET trên server
-# Chạy: sudo bash /opt/TrienLam_LanhDao_v2/deploy/setup-admin-env.sh
+# Chạy: sudo bash /opt/TrienLam_LanhDao/deploy/setup-admin-env.sh
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -17,9 +17,9 @@ if [[ $EUID -ne 0 ]] && [[ ! -w "$(dirname "$ENV_FILE")" ]]; then
 fi
 
 # Đảm bảo APP_ROOT / APP_PORT
-grep -q '^APP_ROOT=' "$ENV_FILE" || echo 'APP_ROOT=/opt/TrienLam_LanhDao_v2' >>"$ENV_FILE"
-grep -q '^APP_PORT=' "$ENV_FILE" || echo 'APP_PORT=5007' >>"$ENV_FILE"
-grep -q '^APP_IMAGE=' "$ENV_FILE" || echo 'APP_IMAGE=trienlam-lanhdao2:latest' >>"$ENV_FILE"
+grep -q '^APP_ROOT=' "$ENV_FILE" || echo 'APP_ROOT=/opt/TrienLam_LanhDao' >>"$ENV_FILE"
+grep -q '^APP_PORT=' "$ENV_FILE" || echo 'APP_PORT=5006' >>"$ENV_FILE"
+grep -q '^APP_IMAGE=' "$ENV_FILE" || echo 'APP_IMAGE=trienlam-lanhdao:latest' >>"$ENV_FILE"
 
 generate_secret() {
   if command -v openssl >/dev/null; then
@@ -66,8 +66,8 @@ else
 fi
 
 update_var "APP_ROOT" "$APP_ROOT"
-update_var "APP_PORT" "5007"
-update_var "APP_IMAGE" "trienlam-lanhdao2:latest"
+update_var "APP_PORT" "5006"
+update_var "APP_IMAGE" "trienlam-lanhdao:latest"
 update_var "ADMIN_PASSWORD" "$NEW_PW"
 update_var "ADMIN_SESSION_SECRET" "$NEW_SECRET"
 

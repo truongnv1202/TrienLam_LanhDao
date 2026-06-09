@@ -1,9 +1,9 @@
 #!/bin/bash
-# Khởi tạo thư mục /opt/TrienLam_LanhDao_v2 trên server (chạy 1 lần)
+# Khởi tạo thư mục /opt/TrienLam_LanhDao trên server (chạy 1 lần)
 # Usage: sudo bash deploy/setup-opt.sh
 set -euo pipefail
 
-APP_ROOT="/opt/TrienLam_LanhDao_v2"
+APP_ROOT="/opt/TrienLam_LanhDao"
 APP_USER="${SUDO_USER:-$(whoami)}"
 
 if [[ $EUID -ne 0 ]]; then

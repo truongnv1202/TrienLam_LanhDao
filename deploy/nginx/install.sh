@@ -1,9 +1,9 @@
 #!/bin/bash
 # Cài Nginx — domain chính lanhdao.gamegiaoduc.co (CMS tại /admin1111)
-# sudo bash /opt/TrienLam_LanhDao_v2/deploy/nginx/install.sh
+# sudo bash /opt/TrienLam_LanhDao/deploy/nginx/install.sh
 set -euo pipefail
 
-APP_ROOT="/opt/TrienLam_LanhDao_v2"
+APP_ROOT="/opt/TrienLam_LanhDao"
 DOMAIN="lanhdao.gamegiaoduc.co"
 OLD_DOMAIN="lanhdao2.gamegiaoduc.co"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -26,10 +26,10 @@ mkdir -p "$SNIPPETS_DIR" "$CONF_D_DIR" "$APP_ROOT/public/certbot" \
 chown -R 1001:1001 "$APP_ROOT/data" "$APP_ROOT/public/uploads" 2>/dev/null \
   || chmod -R a+rwX "$APP_ROOT/data" "$APP_ROOT/public/uploads"
 
-cp "$SCRIPT_DIR/conf.d/lanhdao2-upstream.conf" "$CONF_D_DIR/lanhdao2-upstream.conf"
+cp "$SCRIPT_DIR/conf.d/lanhdao-upstream.conf" "$CONF_D_DIR/lanhdao-upstream.conf"
 cp "$SCRIPT_DIR/cloudflare.conf" "$SNIPPETS_DIR/cloudflare-realip.conf"
-cp "$SCRIPT_DIR/snippets/lanhdao2-proxy.conf" "$SNIPPETS_DIR/lanhdao2-proxy.conf"
-cp "$SCRIPT_DIR/snippets/lanhdao2-locations.conf" "$SNIPPETS_DIR/lanhdao2-locations.conf"
+cp "$SCRIPT_DIR/snippets/lanhdao-proxy.conf" "$SNIPPETS_DIR/lanhdao-proxy.conf"
+cp "$SCRIPT_DIR/snippets/lanhdao-locations.conf" "$SNIPPETS_DIR/lanhdao-locations.conf"
 
 if [[ -f "$CERT_PATH" ]]; then
   cp "$SCRIPT_DIR/$DOMAIN.conf" "$SITES_AVAILABLE/$SITE_CONF"

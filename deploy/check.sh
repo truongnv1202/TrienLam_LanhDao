@@ -1,9 +1,9 @@
 #!/bin/bash
-# Chẩn đoán nhanh — bash /opt/TrienLam_LanhDao_v2/deploy/check.sh
-APP_ROOT="/opt/TrienLam_LanhDao_v2"
+# Chẩn đoán nhanh — bash /opt/TrienLam_LanhDao/deploy/check.sh
+APP_ROOT="/opt/TrienLam_LanhDao"
 DOMAIN="lanhdao.gamegiaoduc.co"
-APP_PORT="5007"
-CONTAINER_NAME="trienlam-lanhdao2"
+APP_PORT="5006"
+CONTAINER_NAME="trienlam-lanhdao"
 
 echo "=== Docker ==="
 docker ps -a --filter name="$CONTAINER_NAME" 2>/dev/null || echo "Docker không chạy?"

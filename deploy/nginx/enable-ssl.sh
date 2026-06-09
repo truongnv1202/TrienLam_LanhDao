@@ -3,7 +3,7 @@
 # CMS: https://lanhdao.gamegiaoduc.co/admin1111/login
 set -euo pipefail
 
-APP_ROOT="/opt/TrienLam_LanhDao_v2"
+APP_ROOT="/opt/TrienLam_LanhDao"
 DOMAIN="lanhdao.gamegiaoduc.co"
 OLD_DOMAIN="lanhdao2.gamegiaoduc.co"
 EMAIL="${CERTBOT_EMAIL:-}"
@@ -26,8 +26,8 @@ if [[ ! -d "$APP_ROOT" ]]; then
   exit 1
 fi
 
-echo "==> Kiểm tra Docker (cổng 5007)..."
-if ! curl -sf "http://127.0.0.1:5007/api/health" >/dev/null; then
+echo "==> Kiểm tra Docker (cổng 5006)..."
+if ! curl -sf "http://127.0.0.1:5006/api/health" >/dev/null; then
   echo "App chưa chạy: cd $APP_ROOT && docker compose --env-file deploy/env.server up -d"
   exit 1
 fi
@@ -40,9 +40,9 @@ fi
 mkdir -p "$APP_ROOT/public/certbot" "$APP_ROOT/public/fonts" "$SNIPPETS_DIR" "$CONF_D_DIR"
 chown -R 1001:1001 "$APP_ROOT/data" "$APP_ROOT/public/uploads" 2>/dev/null || true
 
-cp "$SCRIPT_DIR/conf.d/lanhdao2-upstream.conf" "$CONF_D_DIR/lanhdao2-upstream.conf"
-cp "$SCRIPT_DIR/snippets/lanhdao2-proxy.conf" "$SNIPPETS_DIR/lanhdao2-proxy.conf"
-cp "$SCRIPT_DIR/snippets/lanhdao2-locations.conf" "$SNIPPETS_DIR/lanhdao2-locations.conf"
+cp "$SCRIPT_DIR/conf.d/lanhdao-upstream.conf" "$CONF_D_DIR/lanhdao-upstream.conf"
+cp "$SCRIPT_DIR/snippets/lanhdao-proxy.conf" "$SNIPPETS_DIR/lanhdao-proxy.conf"
+cp "$SCRIPT_DIR/snippets/lanhdao-locations.conf" "$SNIPPETS_DIR/lanhdao-locations.conf"
 
 deploy_site() {
   local src="$1"

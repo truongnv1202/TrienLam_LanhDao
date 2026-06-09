@@ -1,13 +1,10 @@
 #!/bin/bash
 # Khởi động toàn bộ stack trên server — chạy 1 lệnh:
-#   sudo bash /opt/TrienLam_LanhDao_v2/deploy/server-up.sh
+#   sudo bash /opt/TrienLam_LanhDao/deploy/server-up.sh
 set -euo pipefail
 
-APP_ROOT="/opt/TrienLam_LanhDao_v2"
+APP_ROOT="/opt/TrienLam_LanhDao"
 DOMAIN="lanhdao.gamegiaoduc.co"
-APP_PORT="5007"
-APP_IMAGE="trienlam-lanhdao2:latest"
-IMAGE_TAR="$APP_ROOT/deploy/offline/trienlam-lanhdao2.tar"
 cd "$APP_ROOT"
 
 echo "==> [1/4] Tạo thư mục & phân quyền..."
@@ -46,19 +43,8 @@ if [[ ! -f "$APP_ROOT/deploy/env.server" ]] || [[ "$PW_LEN" -lt 7 ]] || [[ "$SEC
   fi
 fi
 
-echo "==> [3/5] Load image offline & start Docker..."
-if [[ -f "$IMAGE_TAR" ]]; then
-  docker load -i "$IMAGE_TAR"
-fi
-
-if ! docker image inspect "$APP_IMAGE" >/dev/null 2>&1; then
-  echo "    LỖI: Chưa có Docker image $APP_IMAGE trên server offline."
-  echo "    Hãy build ở máy có internet: bash deploy/package-offline.sh"
-  echo "    Sau đó copy deploy/offline/trienlam-lanhdao2.tar lên $APP_ROOT/deploy/offline/"
-  exit 1
-fi
-
-docker compose --env-file "$APP_ROOT/deploy/env.server" up -d --no-build
+echo "==> [3/5] Build & start Docker..."
+docker compose --env-file "$APP_ROOT/deploy/env.server" up -d --build
 
 echo "==> [4/5] Đợi app sẵn sàng..."
 for i in $(seq 1 30); do

@@ -18,9 +18,9 @@ if [[ -f "$EXAMPLE" ]]; then
   echo "Đã tạo $ENV_FILE từ env.server.example"
 else
   cat >"$ENV_FILE" <<'EOF'
-APP_ROOT=/opt/TrienLam_LanhDao_v2
-APP_PORT=5007
-APP_IMAGE=trienlam-lanhdao2:latest
+APP_ROOT=/opt/TrienLam_LanhDao
+APP_PORT=5006
+APP_IMAGE=trienlam-lanhdao:latest
 ADMIN_PASSWORD=
 ADMIN_SESSION_SECRET=
 EOF
