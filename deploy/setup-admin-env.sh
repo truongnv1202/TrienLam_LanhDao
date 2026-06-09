@@ -5,7 +5,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 APP_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-DOMAIN="lanhdao2.gamegiaoduc.co"
+DOMAIN="lanhdao.gamegiaoduc.co"
 ENV_FILE="$APP_ROOT/deploy/env.server"
 EXAMPLE="$APP_ROOT/deploy/env.server.example"
 

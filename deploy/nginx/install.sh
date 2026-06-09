@@ -1,11 +1,11 @@
 #!/bin/bash
-# Cài Nginx — chỉ lanhdao2.gamegiaoduc.co (CMS tại /admin1111)
+# Cài Nginx — domain chính lanhdao.gamegiaoduc.co (CMS tại /admin1111)
 # sudo bash /opt/TrienLam_LanhDao_v2/deploy/nginx/install.sh
 set -euo pipefail
 
 APP_ROOT="/opt/TrienLam_LanhDao_v2"
-DOMAIN="lanhdao2.gamegiaoduc.co"
-OLD_DOMAIN="lanhdao.gamegiaoduc.co"
+DOMAIN="lanhdao.gamegiaoduc.co"
+OLD_DOMAIN="lanhdao2.gamegiaoduc.co"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SNIPPETS_DIR="/etc/nginx/snippets"
 CONF_D_DIR="/etc/nginx/conf.d"
@@ -38,7 +38,7 @@ else
 fi
 
 ln -sf "$SITES_AVAILABLE/$SITE_CONF" "$SITES_ENABLED/$SITE_CONF"
-rm -f "$SITES_ENABLED/$OLD_DOMAIN.conf" "$SITES_ENABLED/admin.$OLD_DOMAIN.conf" 2>/dev/null || true
+rm -f "$SITES_ENABLED/$OLD_DOMAIN.conf" "$SITES_ENABLED/admin.$DOMAIN.conf" "$SITES_ENABLED/admin.$OLD_DOMAIN.conf" 2>/dev/null || true
 
 nginx -t && systemctl reload nginx
 

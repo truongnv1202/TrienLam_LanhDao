@@ -4,7 +4,7 @@
 set -euo pipefail
 
 APP_ROOT="/opt/TrienLam_LanhDao_v2"
-DOMAIN="lanhdao2.gamegiaoduc.co"
+DOMAIN="lanhdao.gamegiaoduc.co"
 APP_PORT="5007"
 APP_IMAGE="trienlam-lanhdao2:latest"
 IMAGE_TAR="$APP_ROOT/deploy/offline/trienlam-lanhdao2.tar"

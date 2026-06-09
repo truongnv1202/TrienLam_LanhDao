@@ -1,14 +1,16 @@
 #!/bin/bash
-# Chẩn đoán nhanh — bash /opt/TrienLam_LanhDao/deploy/check.sh
-APP_ROOT="/opt/TrienLam_LanhDao"
-DOMAIN="lanhdao2.gamegiaoduc.co"
+# Chẩn đoán nhanh — bash /opt/TrienLam_LanhDao_v2/deploy/check.sh
+APP_ROOT="/opt/TrienLam_LanhDao_v2"
+DOMAIN="lanhdao.gamegiaoduc.co"
+APP_PORT="5007"
+CONTAINER_NAME="trienlam-lanhdao2"
 
 echo "=== Docker ==="
-docker ps -a --filter name=trienlam-lanhdao 2>/dev/null || echo "Docker không chạy?"
+docker ps -a --filter name="$CONTAINER_NAME" 2>/dev/null || echo "Docker không chạy?"
 
 echo ""
-echo "=== Cổng 5006 ==="
-curl -sf -o /dev/null -w "HTTP %{http_code}\n" http://127.0.0.1:5006/api/health 2>/dev/null || echo "Không kết nối được 127.0.0.1:5006"
+echo "=== Cổng $APP_PORT ==="
+curl -sf -o /dev/null -w "HTTP %{http_code}\n" "http://127.0.0.1:$APP_PORT/api/health" 2>/dev/null || echo "Không kết nối được 127.0.0.1:$APP_PORT"
 
 echo ""
 echo "=== Nginx config ==="
@@ -20,7 +22,7 @@ curl -sf -o /dev/null -w "HTTP %{http_code}\n" -H "Host: $DOMAIN" http://127.0.0
 
 echo ""
 echo "=== Log Docker (20 dòng cuối) ==="
-docker logs trienlam-lanhdao --tail=20 2>/dev/null || true
+docker logs "$CONTAINER_NAME" --tail=20 2>/dev/null || true
 
 echo ""
 echo "=== Log Nginx error ==="
