@@ -1,10 +1,11 @@
 #!/bin/bash
 # Tạo / cập nhật ADMIN_PASSWORD và ADMIN_SESSION_SECRET trên server
-# Chạy: sudo bash /opt/TrienLam_LanhDao/deploy/setup-admin-env.sh
+# Chạy: sudo bash /opt/TrienLam_LanhDao_v2/deploy/setup-admin-env.sh
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 APP_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+DOMAIN="lanhdao2.gamegiaoduc.co"
 ENV_FILE="$APP_ROOT/deploy/env.server"
 EXAMPLE="$APP_ROOT/deploy/env.server.example"
 
@@ -16,8 +17,9 @@ if [[ $EUID -ne 0 ]] && [[ ! -w "$(dirname "$ENV_FILE")" ]]; then
 fi
 
 # Đảm bảo APP_ROOT / APP_PORT
-grep -q '^APP_ROOT=' "$ENV_FILE" || echo 'APP_ROOT=/opt/TrienLam_LanhDao' >>"$ENV_FILE"
-grep -q '^APP_PORT=' "$ENV_FILE" || echo 'APP_PORT=5006' >>"$ENV_FILE"
+grep -q '^APP_ROOT=' "$ENV_FILE" || echo 'APP_ROOT=/opt/TrienLam_LanhDao_v2' >>"$ENV_FILE"
+grep -q '^APP_PORT=' "$ENV_FILE" || echo 'APP_PORT=5007' >>"$ENV_FILE"
+grep -q '^APP_IMAGE=' "$ENV_FILE" || echo 'APP_IMAGE=trienlam-lanhdao2:latest' >>"$ENV_FILE"
 
 generate_secret() {
   if command -v openssl >/dev/null; then
@@ -64,7 +66,8 @@ else
 fi
 
 update_var "APP_ROOT" "$APP_ROOT"
-update_var "APP_PORT" "5006"
+update_var "APP_PORT" "5007"
+update_var "APP_IMAGE" "trienlam-lanhdao2:latest"
 update_var "ADMIN_PASSWORD" "$NEW_PW"
 update_var "ADMIN_SESSION_SECRET" "$NEW_SECRET"
 
@@ -76,4 +79,4 @@ echo ""
 echo "Khởi động lại Docker để áp dụng:"
 echo "  cd $APP_ROOT && docker compose --env-file deploy/env.server up -d"
 echo ""
-echo "Đăng nhập tại: https://lanhdao.gamegiaoduc.co/admin1111/login"
+echo "Đăng nhập tại: https://$DOMAIN/admin1111/login"

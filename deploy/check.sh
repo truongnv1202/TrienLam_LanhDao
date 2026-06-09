@@ -1,6 +1,7 @@
 #!/bin/bash
 # Chẩn đoán nhanh — bash /opt/TrienLam_LanhDao/deploy/check.sh
 APP_ROOT="/opt/TrienLam_LanhDao"
+DOMAIN="lanhdao2.gamegiaoduc.co"
 
 echo "=== Docker ==="
 docker ps -a --filter name=trienlam-lanhdao 2>/dev/null || echo "Docker không chạy?"
@@ -15,7 +16,7 @@ sudo nginx -t 2>&1 || true
 
 echo ""
 echo "=== Nginx proxy (Host header) ==="
-curl -sf -o /dev/null -w "HTTP %{http_code}\n" -H "Host: lanhdao.gamegiaoduc.co" http://127.0.0.1/ 2>/dev/null || echo "Nginx proxy lỗi"
+curl -sf -o /dev/null -w "HTTP %{http_code}\n" -H "Host: $DOMAIN" http://127.0.0.1/ 2>/dev/null || echo "Nginx proxy lỗi"
 
 echo ""
 echo "=== Log Docker (20 dòng cuối) ==="

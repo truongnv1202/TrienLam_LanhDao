@@ -1,18 +1,18 @@
-# Local:  docker compose up -d --build
+# Local/build machine:  bash deploy/package-offline.sh
 # Server (lần đầu):
 #   sudo bash deploy/setup-admin-env.sh    # tạo deploy/env.server + mật khẩu
-#   bash deploy/docker-up.sh --build
+#   bash deploy/docker-up.sh
 # Hoặc: sudo bash deploy/server-up.sh
 
+name: trienlam-lanhdao2
+
 services:
-  lanhdao:
-    build:
-      context: ${APP_ROOT:-.}
-      dockerfile: Dockerfile
-    container_name: trienlam-lanhdao
+  lanhdao2:
+    image: ${APP_IMAGE:-trienlam-lanhdao2:latest}
+    container_name: trienlam-lanhdao2
     restart: unless-stopped
     ports:
-      - "127.0.0.1:${APP_PORT:-5006}:3000"
+      - "127.0.0.1:${APP_PORT:-5007}:3000"
     env_file:
       - ${APP_ROOT:-.}/deploy/env.server
     environment:

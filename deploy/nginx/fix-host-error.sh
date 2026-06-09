@@ -3,8 +3,11 @@
 set -euo pipefail
 
 APP_ROOT="/opt/TrienLam_LanhDao"
+DOMAIN="lanhdao2.gamegiaoduc.co"
+OLD_DOMAIN="lanhdao.gamegiaoduc.co"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CERT="/etc/letsencrypt/live/lanhdao.gamegiaoduc.co/fullchain.pem"
+SITE_CONF="$DOMAIN.conf"
+CERT="/etc/letsencrypt/live/$DOMAIN/fullchain.pem"
 
 echo "=== Docker ==="
 curl -sf http://127.0.0.1:5006/api/health || { echo "Lỗi: Docker chưa chạy"; exit 1; }
@@ -18,14 +21,14 @@ cp "$SCRIPT_DIR/snippets/lanhdao-proxy.conf" /etc/nginx/snippets/lanhdao-proxy.c
 cp "$SCRIPT_DIR/snippets/lanhdao-locations.conf" /etc/nginx/snippets/lanhdao-locations.conf
 
 if [[ "$HAS_SSL" -eq 1 ]]; then
-  cp "$SCRIPT_DIR/lanhdao.gamegiaoduc.co.conf" /etc/nginx/sites-available/lanhdao.gamegiaoduc.co.conf
+  cp "$SCRIPT_DIR/$DOMAIN.conf" "/etc/nginx/sites-available/$SITE_CONF"
 else
-  cp "$SCRIPT_DIR/lanhdao.gamegiaoduc.co.bootstrap.conf" /etc/nginx/sites-available/lanhdao.gamegiaoduc.co.conf
+  cp "$SCRIPT_DIR/$DOMAIN.bootstrap.conf" "/etc/nginx/sites-available/$SITE_CONF"
 fi
 
-ln -sf /etc/nginx/sites-available/lanhdao.gamegiaoduc.co.conf /etc/nginx/sites-enabled/
-rm -f /etc/nginx/sites-enabled/admin.lanhdao.gamegiaoduc.co.conf 2>/dev/null || true
+ln -sf "/etc/nginx/sites-available/$SITE_CONF" "/etc/nginx/sites-enabled/$SITE_CONF"
+rm -f "/etc/nginx/sites-enabled/$OLD_DOMAIN.conf" "/etc/nginx/sites-enabled/admin.$OLD_DOMAIN.conf" 2>/dev/null || true
 
 nginx -t && systemctl reload nginx
 
-echo "OK — https://lanhdao.gamegiaoduc.co/admin1111/login"
+echo "OK — https://$DOMAIN/admin1111/login"
