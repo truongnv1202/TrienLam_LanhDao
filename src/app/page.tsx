@@ -51,7 +51,7 @@ export default function HomePage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedLeader, setSelectedLeader] = useState<Leader | null>(null);
   const [activeTabId, setActiveTabId] = useState<ExhibitionTabId>(DEFAULT_TAB_ID);
-  const idleTimerRef = useRef<ReturnType<typeof window.setTimeout> | null>(null);
+  const idleTimerRef = useRef<number | null>(null);
 
   const fetchLeaders = useCallback(async () => {
     setLoading(true);
