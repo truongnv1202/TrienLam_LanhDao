@@ -31,6 +31,7 @@ export default function LeaderCard({ leader, onClick }: LeaderCardProps) {
           fill
           sizes="324px"
           className="leader-portrait-image"
+          unoptimized
           priority={isTopTier}
         />
       </div>

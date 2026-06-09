@@ -8,6 +8,19 @@ const nextConfig: NextConfig = {
       { source: "/admin/:path*", destination: "/admin1111/:path*", permanent: true },
     ];
   },
+  async headers() {
+    return [
+      {
+        source: "/uploads/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, no-cache, must-revalidate, proxy-revalidate",
+          },
+        ],
+      },
+    ];
+  },
   images: {
     localPatterns: [
       {

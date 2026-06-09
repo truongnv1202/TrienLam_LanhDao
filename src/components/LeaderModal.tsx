@@ -76,6 +76,7 @@ export default function LeaderModal({ leader, onClose }: LeaderModalProps) {
                 fill
                 className="leader-detail-portrait-image"
                 sizes="15.4167vw"
+                unoptimized
                 priority
               />
             </div>
